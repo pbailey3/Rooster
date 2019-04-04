@@ -1,0 +1,103 @@
+﻿@using WebUI.Common;
+@model IEnumerable<WebUI.DTOs.TimesheetDTO>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+
+        <div class="nav-tools pull-right">
+            @*@Ajax.RawActionLink("<span class='icon-broadcast'></span><h3><small>Broadcast</small></h3>", "RosterBroadcast", "Roster", new { businessId = ViewBag.BusinessId, businessLocationId = ViewBag.SelectedBusinessLocationId, monthDate = ((DateTime)ViewBag.SelectedMonth).Month, yearDate = ((DateTime)ViewBag.SelectedMonth).Year }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })*@
+        </div>
+        <div class="nav-tools">
+            @Ajax.RawActionLink("<i class='glyphicon glyphicon-circle-arrow-left'></i><span class='sr-only'>Previous</span>", "Index", "Timesheet", new { businessid = ViewBag.BusinessId, month = ((DateTime)ViewBag.SelectedMonth).AddMonths(-1).Month, year = ((DateTime)ViewBag.SelectedMonth).AddMonths(-1).Year, businessLocationId = ViewBag.SelectedBusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+            <h3>@(((DateTime)ViewBag.SelectedMonth).ToString("MMMM yyyy")) <small>Month View</small></h3>
+            @Ajax.RawActionLink("<i class='glyphicon glyphicon-circle-arrow-right'></i><span class='sr-only'>Next</span>", "Index", "Timesheet", new { businessid = ViewBag.BusinessId, month = ((DateTime)ViewBag.SelectedMonth).AddMonths(1).Month, year = ((DateTime)ViewBag.SelectedMonth).AddMonths(1).Year, businessLocationId = ViewBag.SelectedBusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    @*@Ajax.RawActionLink("<span class='icon-add'></span>", "RosterCreate", "Roster", new { businessId = ViewBag.BusinessId, businessLocationId = ViewBag.SelectedBusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "add" })*@
+    @if (Model.Count() == 0)
+    {
+        <div class="row-fluid">
+            <div class="col-md-12">
+                <p>
+                    <h4>No timesheets. You must first create a roster.</h4>
+                </p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row-fluid">
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.WeekStartDate)
+                        </th>
+                        <th>
+                            Week end
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TotalHours)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TotalCost)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AverageWage)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Approved)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model.OrderBy(s => s.WeekStartDate))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.WeekStartDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.WeekEndDate)
+                            </td>
+                            <td>
+                                @String.Format("{0:n1}", item.TotalHours)
+                            </td>
+                            <td>
+                                @String.Format(WebUI.Common.Constants.FormatCurrency, item.TotalCost)
+                            </td>
+                            <td>
+                                @String.Format(WebUI.Common.Constants.FormatCurrency, item.AverageWage)
+                            </td>
+                            <td class="center-block">
+                                @if (item.TotalTimeSheetEntries > 0)
+                                {
+                                    if (item.Approved)
+                                    {
+                                        <i class="glyphicon glyphicon-ok-sign"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="glyphicon glyphicon-remove-sign"></i>
+                                    }
+                                }
+                            </td>
+                            <td class="text-right">
+                                @Ajax.ActionLink("Review", "WeekView", new { timeSheetId = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "btn btn-default btn-xs" })
+                            </td>
+
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+
+    }
+</div>
+</div>

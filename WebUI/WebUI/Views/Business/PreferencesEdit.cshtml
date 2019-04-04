@@ -1,0 +1,62 @@
+﻿@model WebUI.DTOs.BusinessPreferencesDTO
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Edit preferences</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady", OnFailure = "HandleError" }))
+            {
+                <br />
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+
+
+                    @Html.ValidationSummary(true)
+
+
+                    @Html.HiddenFor(model => model.Id)
+
+                    @Html.HiddenFor(model => model.BusinessId)
+                    @Html.HiddenFor(model => model.BusinessLocationId)
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CancelShiftAllowed, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CancelShiftAllowed)
+                            @Html.ValidationMessageFor(model => model.CancelShiftAllowed)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CancelShiftTimeframe, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CancelShiftTimeframe, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CancelShiftTimeframe)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div>
+                @Ajax.ActionLink("< Back to preferences", "PreferencesDetails", new { businesslocationid = Model.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn  btn-outline btn-primary btn-sm" })
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,144 @@
+﻿@model IEnumerable<WebUI.DTOs.ScheduleDTO>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Unavailability schedule</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+                 @Ajax.RawActionLink("<span class='icon-add'></span>", "CreateSchedule", "Calendar", null, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "Schedule_DocumentReady" }, new { @class = "add" })
+
+            <br/>
+            @*<p>
+                @Ajax.ActionLink("Create new", "CreateSchedule", null, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "Schedule_DocumentReady" }, new { @class = "btn btn-primary btn-md" })
+            </p>*@
+            @if (Model.Count() > 0)
+            {
+
+
+                <table class="table table-striped">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Frequency)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DaysOfWeek)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.StartDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.StartTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.EndTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.EndDate)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td>
+                                @switch (item.FrequencyChoice)
+                                {
+                                    case 0:
+                                        <text>Once</text>
+                                        break;
+                                    case 1:
+                                    <text>Daily</text>
+                                        break;
+                                    case 2:
+                                    <text>Weekly</text>
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            </td>
+
+                            <td>
+                                @if (item.FrequencyChoice == 2)
+                                {
+                                    if (item.IsMondaySelected)
+                                    {
+                                        <text>Mon</text>
+                                    }
+                                    if (item.IsTuesdaySelected)
+                                    {
+                                        <text>Tue</text>
+                                    }
+                                    if (item.IsWednesdaySelected)
+                                    {
+                                        <text>Wed</text>
+                                    }
+                                    if (item.IsThursdaySelected)
+                                    {
+                                        <text>Thu</text>
+                                    }
+                                    if (item.IsFridaySelected)
+                                    {
+                                        <text>Fri</text>
+                                    }
+                                    if (item.IsSaturdaySelected)
+                                    {
+                                        <text>Sat</text>
+                                    }
+                                    if (item.IsSundaySelected)
+                                    {
+                                        <text>Sun</text>
+                                    }
+                                }
+
+                            </td>
+                            <td>
+                                @item.StartDate.ToString(Common.GetLocaleDateDisplayFormat())
+                            </td>
+                            <td>
+                                @item.StartTime.ToString(@"hh\:mm")
+                            </td>
+                            <td>
+                                @item.EndTime.ToString(@"hh\:mm")
+                            </td>
+                            <td>
+                                @if (item.EndDate.HasValue)
+                                {
+                                    @item.EndDate.Value.ToString(Common.GetLocaleDateDisplayFormat())
+                                }
+                                
+                            </td>
+                            <td>
+                                @Ajax.ActionLink("Edit", "EditSchedule", new { id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "Schedule_EditLoad", OnFailure="HandleError" }, new { @class = "btn btn-default btn-xs" }) |
+                                @Ajax.ActionLink("Delete", "DeleteSchedule", new { id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnFailure = "HandleError" }, new { @class = "btn btn-danger btn-xs" })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <h4>No unavailability exists</h4>
+            }
+            <br />
+            <p>
+                @Ajax.ActionLink("< Back to my rosters", "FullCalendar", "EmployeeRoster", null, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "btn btn-primary btn-md" })
+            </p>
+        </div>
+    </div>
+</div>

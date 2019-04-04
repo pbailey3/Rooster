@@ -1,0 +1,332 @@
+﻿@model WebUI.DTOs.OpenShiftDTO
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Open Shift Page</h3>
+        </div>
+    </div>
+</nav>
+<link href="~/Content/style.css" rel="stylesheet" />
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <div class="top_sec">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-11 col-sm-11 col-xs-12">
+                            <div class="about_us">
+                                <div class="row">
+                                    @{
+                                        if (Model.IsExternalandEmp == true)
+                                        {
+                                            @Html.Label("EnterAddress", "", new { @class = "control-label" })
+                                            <div class="col-md-4">
+                                                <h4>Enter address</h4>
+                                                <div class="input-group">
+                                                    <input id="addrAuto" placeholder="Enter your address" class="form-control"
+                                                           onfocus="geolocate()" type="text" autocomplete="off" />
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" style="padding:8px;" id="addrLocation" type="button">Go!</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <table id="address" hidden="hidden">
+                                                <tr>
+                                                    <td class="label">Street address</td>
+                                                    <td class="slimField">
+                                                        <input class="field" id="subpremise"
+                                                               disabled="true" />
+                                                        <input class="field" id="street_number"
+                                                               disabled="true" />
+                                                    </td>
+                                                    <td class="wideField" colspan="2">
+                                                        <input class="field" id="route"
+                                                               disabled="true" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">City</td>
+                                                    <td class="wideField" colspan="3">
+                                                        <input class="field" id="locality"
+                                                               disabled="true" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">State</td>
+                                                    <td class="slimField">
+                                                        <input class="field"
+                                                               id="administrative_area_level_1" disabled="true" />
+                                                    </td>
+                                                    <td class="label">Zip code</td>
+                                                    <td class="wideField">
+                                                        <input class="field" id="postal_code"
+                                                               disabled="true" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">Country</td>
+                                                    <td class="wideField" colspan="3">
+                                                        <input class="field"
+                                                               id="country" disabled="true" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                            <div hidden="true">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(m => m.Address.Line1, new { @class = "col-md-2 control-label" })
+                                                    <div class="col-md-10">
+                                                        @Html.TextBoxFor(m => m.Address.Line1, new { @class = "form-control", @readonly = true })
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    @Html.LabelFor(m => m.Address.Line2, new { @class = "col-md-2 control-label" })
+                                                    <div class="col-md-10">
+                                                        @Html.TextBoxFor(m => m.Address.Line2, new { @class = "form-control", @readonly = true })
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    @Html.LabelFor(m => m.Address.Suburb, new { @class = "col-md-2 control-label" })
+                                                    <div class="col-md-10">
+                                                        @Html.TextBoxFor(m => m.Address.Suburb, new { @class = "form-control", @readonly = true })
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    @Html.LabelFor(m => m.Address.State, new { @class = "col-md-2 control-label" })
+                                                    <div class="col-md-10">
+                                                        @Html.TextBoxFor(m => m.Address.State, new { @class = "form-control", @readonly = true })
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    @Html.LabelFor(m => m.Address.Postcode, new { @class = "col-md-2 control-label" })
+                                                    <div class="col-md-10">
+                                                        @Html.TextBoxFor(m => m.Address.Postcode, new { @class = "form-control", @readonly = true })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @Html.HiddenFor(m => m.Address.PlaceLatitude)
+                                            @Html.HiddenFor(m => m.Address.PlaceLongitude)
+                                            @Html.HiddenFor(m => m.Address.PlaceId)
+
+                                            <div class="col-md-4 col-sm-4 col-xs-12"> <span><h4>Radius</h4></span>@Html.DropDownListFor(model => Model.DistanceID, new SelectList(Model.Distance, "Value", "Text"), null, new { @id = "LocationRange", @class = "form-control" }) </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-12"> <span><h4>Sort By</h4></span>@Html.DropDownListFor(model => Model.FilterID, new SelectList(Model.Filter, "Value", "Text"), null, new { @id = "FilterChoice", @class = "form-control" }) </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-4 col-sm-4 col-xs-12"> <span><h4>Sort By</h4></span>@Html.DropDownListFor(model => Model.FilterID, new SelectList(Model.Filter, "Value", "Text"), null, new { @id = "FilterChoice", @class = "form-control" }) </div>
+                                        }
+                                    }
+
+
+                                </div>
+                            </div>
+
+                            <div class="about_us">
+                                <h2>Open Shift</h2>
+                                <div class="border-box" id="dvOpenshifts">
+
+                                </div>
+                            </div>
+                            <div class="about_us">
+                                <div class="button-sec row">
+                                    @Ajax.ActionLink("Back to list", "SearchExterna", null, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-outline btn-primary btn-sm" })
+                                    @*<button id="approve_@Model.ExternalshfitRequestID" class="btn btn-sm btn-primary" onclick="javascript:$('#reqId').val('@Model.ExternalshfitRequestID');$('#externalShiftId').val('@Model.ExternalShiftBroadCastID');$('#isRecurring').val(false); $('#isOpenShift').val(true);$('#modalApprove').modal('show');return false;">Award shift</button>*@
+                                </div>
+                            </div>
+                            @* /*********** Begin: POPUP dialog ****************/*@
+                            <input type="hidden" name="userId" id="userId" value="" />
+                            <!--The Modal box defined using class modal-->
+                            <div id="modalRequestShift" class="modal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1>Request open shift</h1>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you wish to request this open shift?
+                                            <p>All requests will be sent to location manager to approve.</p>
+                                            <input type="hidden" name="shiftId" id="shiftId" value="" />
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button class="btn btn-primary" onclick="javascript: RequestShift();">Request</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end here-->
+                            <!--The Modal box defined using class modal-->
+                            <div id="modalRequestExternalShift" class="modal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1>Request external shift</h1>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you wish to request this External Broadcast shift?
+                                            <p>All requests will be sent to location manager to approve.</p>
+                                            <div id="ExternlShift">
+
+                                            </div>
+                                            <input type="hidden" name="ExternalshiftId" id="ExternalshiftId" value="" />
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button type="button" onclick="RequestExternalShift()" id="btn_Save" class="btn btn-primary">Request</button>
+                                            <button type="submit" onclick="SendExternalShiftMessage()" id="btn_Save_message" class="btn btn-primary">Send a message</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/bd-googlemaps.js")
+
+@*<script src="~/Scripts/bd-googlemaps1.js"></script>*@
+
+<script>
+
+    function GetJson() {
+        var JsonResult = JSON.stringify({
+            Address: {
+                Line1: $('#Address_Line1').val(),
+                Line2: $('#Address_Line2').val(),
+                Suburb: $('#Address_Suburb').val(),
+                State: $('#Address_State').val(),
+                Postcode: $('#Address_Postcode').val(),
+                PlaceLatitude: $('#Address_PlaceLatitude').val(),
+                PlaceLongitude: $('#Address_PlaceLongitude').val(),
+                PlaceId: $('#Address_PlaceId').val()
+            }
+        });
+        return JsonResult;
+    };
+
+    $(document).ready(function () {
+
+        initialize();
+        //Get Default Filter
+        var FilterChoice = $("#FilterChoice option:selected").val();
+        //Get Default Location
+        var JsonResult = GetJson();
+        //Get Default Distance selected
+        var locationRange = $("#LocationRange option:selected").text().split(/ +/);
+        var kmOnly = locationRange[0];
+        ;
+        GetFilteredOpenShifts(JsonResult, kmOnly, FilterChoice)
+    });
+
+    //Select Location to search the specifice location.
+    $("#addrLocation").click(function () {
+        ;
+        var locationName = $("#addrAuto").val();
+        //Get Default Filter
+        var FilterChoice = $("#FilterChoice option:selected").val();
+        //Get Default Location
+        var JsonResult = GetJson();
+        //Get Default Distance selected
+        var locationRange = $("#LocationRange option:selected").text().split(/ +/);
+        var kmOnly = locationRange[0];
+        GetFilteredOpenShifts(JsonResult, kmOnly, FilterChoice)
+    });
+
+    //change the radius for preferd location   for radius change(Kms)..
+    $("#LocationRange").change(function () {
+        ;
+        //Get Default Filter
+        var FilterChoice = $("#FilterChoice option:selected").val();
+        //Get Default Location
+        var JsonResult = GetJson();
+        //Get Default Distance selected
+        var locationRange = $("#LocationRange option:selected").text().split(/ +/);
+        var kmOnly = locationRange[0];
+        GetFilteredOpenShifts(JsonResult, kmOnly, FilterChoice)
+
+    });
+
+
+    $("#FilterChoice").change(function () {
+        ;
+        //Get Default Filter
+        var FilterChoice = $("#FilterChoice option:selected").val();
+        //Get Default Location
+        var JsonResult = GetJson();
+        //Get Default Distance selected
+        var locationRange = $("#LocationRange option:selected").text().split(/ +/);
+        var kmOnly = locationRange[0];
+        GetFilteredOpenShifts(JsonResult, kmOnly, FilterChoice)
+    });
+
+    function GetFilteredOpenShifts(JsonResult, Distance, FilterChoice) {
+        ;
+        $.ajax({
+            url: '@Url.Action("GetFilteredOpenShifts", "Roster")',
+            type: "POST",
+            data: { JsonResult: JsonResult, Distance: Distance, FilterChoice: FilterChoice },
+            datatype: "json",
+            beforeSend: function (xhr) {
+                //display spinner
+
+                $("#dvOpenshifts").empty().append('<img src="/images/ajax-loader.gif" alt="Wait" />');
+            },
+            success: function (data) {
+                $("#dvOpenshifts").empty().append(data);
+            },
+            error: function (jqXHR, exception) {
+                ErrorBlock(jqXHR, exception);
+            }
+        })
+    }
+    //-------------------------------------
+    // Error Block
+    ///-------------------------------------
+    function ErrorBlock(jqXHR, exception) {
+        if (jqXHR.status === 0) {
+            alert('Not connect.\n Verify Network.');
+        } else if (jqXHR.status == 404) {
+            alert('Requested page not found. [404]');
+        } else if (jqXHR.status == 500) {
+            alert('Internal Server Error [500].');
+        } else if (exception === 'parsererror') {
+            alert('Requested JSON parse failed.');
+        } else if (exception === 'timeout') {
+            alert('Time out error.');
+        } else if (exception === 'abort') {
+            alert('Ajax request aborted.');
+        } else {
+            alert('Uncaught Error.\n' + jqXHR.responseText);
+        }
+    }
+
+    //The script read the modalbox element and define the
+    //modal on it using modal method and calls its "show state"
+    $(function () {
+        var modalRequestShift = function () {
+            
+            $("#modalRequestShift").modal("show");
+        };
+        $(document).on("click", ".open-RequestShiftDialog", function () {
+            ;
+            var shiftId = $(this).data('id');
+            $(".modal-body #shiftId").val(shiftId);
+            modalRequestShift();
+        });
+    });
+
+</script>
+
+

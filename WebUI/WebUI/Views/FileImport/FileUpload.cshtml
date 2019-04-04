@@ -1,0 +1,144 @@
+﻿@model WebUI.DTOs.FileImportDTO
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>File Upload</h3>
+        </div>
+    </div>
+</nav>
+
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @using (Html.BeginForm("FileUpload", "FileImport", FormMethod.Post, new { @id = "UploadFileForm", @class = "dropzone", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(model => model.BusinessId)
+                @Html.HiddenFor(model => model.BusinessLocationId)
+
+                <div class="form-horizontal" id="formFileUpload">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DataType, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EnumDropDownListFor(model => model.DataType, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DataType)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FileType, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EnumDropDownListFor(model => model.FileType, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.FileType)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FileUpload, new { @class = "control-label col-md-2" })
+                        <div class="col-md-5">
+                            @Html.Partial("_TemplateFileUpload")
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            @Ajax.ActionLink("< Employee list", "Index", "Employee", new { businesslocationid = Model.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-outline btn-primary btn-sm" })
+                            <input type="submit" value="Upload" class="btn btn-primary btn-sm" id="UploadButtonSubmit" />
+                        </div>
+                    </div>
+                    <div class="form-horizontal" id="formInstructions">
+                        <div class="form-group">
+                            <div class="col-md-10 col-md-offset-2">
+
+                                <h4>Instructions</h4>
+                                <p>
+                                    <br />
+                                    @Html.ActionLink("Download example CSV file", "ExampleEmployeeCsv")
+                                </p>
+                                You must upload a csv file with the following mandatory headings:
+                                <ul>
+                                    <li><b>FirstName</b></li>
+                                    <li><b>LastName</b></li>
+                                    <li><b>Mobile</b></li>
+                                    <li><b>Email</b></li>
+                                    <li><b>Type</b></li>
+                                    <li><b>Admin</b></li>
+                                    <li><b>Roles</b></li>
+                                </ul>
+                                <p>
+                                    All column headings are mandatory for the CSV file to be valid, however only the 'FirstName' and 'Type' columns are mandatory details for each data row.
+                                </p>
+                                <b>Type</b>: must be one of the following:
+                                <ul>
+                                    <li>Full_Time</li>
+                                    <li>Part_Time</li>
+                                    <li>Casual</li>
+                                </ul>
+                                <b>Admin</b>: must be "true" or "false", if empty default to false.<br />
+                                <b>Roles</b>: Roles can be made up of a list of strings which are comma seperated. If the roles do not exist for the business then they will be added. For example the following is a valid entry "Cook,Cleaner".
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal" id="resultsFileUpload" style="display:none;">
+                    <div class="form-group">
+                        <div class="col-md-offset-1 col-md-10">
+                            <div class="panel panel-default">
+                                <div class="panel panel-heading">Results</div>
+                                <table class="table">
+                                    <tr>
+                                        <td><span class="glyphicon glyphicon-search"></span></td>
+                                        <td>Lines read (inc header row)</td>
+                                        <td id="resultsLinesRead">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="glyphicon glyphicon-ok-sign"></span></td>
+                                        <td>Valid lines (exc header row)</td>
+                                        <td id="resultsValidLines">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="glyphicon glyphicon-remove"></span></td>
+                                        <td>Invalid lines</td>
+                                        <td id="resultsInvalidLines">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="glyphicon glyphicon-upload"></span></td>
+                                        <td>Loaded succesfully</td>
+                                        <td id="resultsLoadSuccess">0</td>
+                                    </tr>
+                                </table>
+                                <div id="accMoreInfoFileUp">
+                                    <h3 class="panel-footer">More Info</h3>
+                                    <div id="content-accMoreInfoFileUp">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-1 col-md-11">
+                            @Ajax.ActionLink("Employee list", "Index", "Employee", new { businesslocationid = Model.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-outline btn-primary btn-sm" })
+                            @Ajax.ActionLink("Bulk upload", "FileUpload", "FileImport", new { businessLocationId = Model.BusinessLocationId, businessId = Model.BusinessId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary btn-sm" })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    ConfigureDropZone();
+</script>

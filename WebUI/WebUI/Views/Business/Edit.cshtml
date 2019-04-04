@@ -1,0 +1,96 @@
+﻿@model WebUI.DTOs.BusinessDetailsDTO
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Edit business</h3>
+        </div>
+    </div>
+</nav>
+
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @using (Ajax.BeginForm("Edit", "Business", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnSuccess = "CreateBusinessDocumentReady", OnFailure = "HandleError" }, new { @class = "form-horizontal", role = "form" }))
+            {
+                <br/>
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, new { @class = "col-md-2 control-label" })
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", id = "Name", onfocusout = "javascript: $('#BusinessLocationName').val($('#Name').val());" } })
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TypeIndustry, new { @class = "col-md-2 control-label" })
+
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(
+                     x => x.TypeIndustry,
+                     new SelectList(ViewBag.Industries),
+                     "-- SELECT --",
+                     new { @class = "form-control", onchange = "javascript: TypeIndustryDDL_OnChange();" }
+                 )
+                        @Html.ValidationMessageFor(x => x.TypeIndustry)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TypeDetail, new { @class = "col-md-2 control-label" })
+
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(
+                     x => x.TypeId,
+                     new SelectList(ViewBag.BusinesTypeDetails, "Id", "Detail"),
+                     "-- SELECT --",
+                     new { @class = "form-control" }
+                     )
+                        @Html.ValidationMessageFor(x => x.TypeId)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Do you manage more than one location?", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(modelItem => modelItem.HasMultiBusLocations)
+                        @Html.HiddenFor(modelItem => modelItem.HasMultiBusLocations)
+                        @*@Html.RadioButtonFor(model => model.HasMultiBusLocations, true, new { @id = "rbHasMultiBusLocationsYes", onclick = "javascript: $('#btnAddAnotherLocation').show('fast'); $('#submit').hide('fast'); $('#fgBusLocationName').show('fast'); $('#BusinessLocationName').val('');" }) Yes
+                        @Html.RadioButtonFor(model => model.HasMultiBusLocations, false, new { @id = "rbHasMultiBusLocationsNo", onclick = "javascript: $('#btnAddAnotherLocation').hide('fast'); $('#submit').show('fast'); $('#fgBusLocationName').hide('fast');$('#BusinessLocationName').val($('#Name').val());" }) No
+                        &nbsp;
+                        @Html.Partial("_HelpBusLocsPartial")*@
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Do you create multiple rosters in one location?", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(modelItem => modelItem.HasMultiInternalLocations)
+                        @Html.HiddenFor(modelItem => modelItem.HasMultiInternalLocations)
+
+                        @*@Html.RadioButtonFor(model => model.HasMultiInternalLocations, true, new { @id = "rbHasMultiInternalLocationsYes", onclick = "javascript:  $('#sectionInternalLocations').show('fast');" }) Yes
+                        @Html.RadioButtonFor(model => model.HasMultiInternalLocations, false, new { @id = "rbHasMultiInternalLocationsNo", onclick = "javascript: $('#sectionInternalLocations').hide('fast');" }) No
+                        &nbsp;
+                        @Html.Partial("_HelpIntLocsPartial")*@
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @Ajax.ActionLink("Cancel", "Details", new { Id = Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, null)
+| <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+            }
+
+
+            </div>
+        </div>
+    </div>

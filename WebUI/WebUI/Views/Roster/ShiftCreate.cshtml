@@ -1,0 +1,226 @@
+﻿@using WebUI.Common
+@using FeatureToggle
+@model WebUI.DTOs.ShiftDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Add shift</h3>
+        </div>
+    </div>
+</nav>
+
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-6">
+            <h3>Enter shift details</h3>
+            <br />
+            @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnFailure = "HandleError", OnComplete = "DocumentReady" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true)
+                    @Html.Hidden("ReturnView", (string)ViewBag.ReturnView)
+                    @Html.Hidden("MinDate", ((DateTime)ViewBag.MinDate))
+                    @Html.HiddenFor(model => model.RosterId)
+                    @Html.HiddenFor(model => model.BusinessLocationId)
+                    @Html.HiddenFor(model => model.BusinessId)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RoleId, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(
+                        model => model.RoleId,
+                        new SelectList(((List<WebUI.DTOs.RoleDTO>)ViewBag.Roles).OrderBy(n => n.Name), "Id", "Name"),
+                        "-- SELECT --",
+                         new
+                         {
+                             id = "roleDd",
+                             @class = "form-control",
+                             onchange = "javascript: ShiftCreate_RoleDDChanged();"
+                         }
+                    )
+                            @Html.ValidationMessageFor(model => model.RoleId)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmployeeId, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(
+                        model => model.EmployeeId,
+                        new SelectList(((List<WebUI.DTOs.EmployeeRoleSummaryDTO>)ViewBag.Employees).OrderBy(n => n.FullName), "Id", "FullName"),
+                        "-- SELECT --",
+                         new
+                         {
+                             id = "employeeDd",
+                             @class = "form-control",
+                             onchange = "javascript:ShiftCreate_EmployeeDDChanged();"
+                         }
+                    )
+                            @Html.ValidationMessageFor(model => model.EmployeeId)
+                        
+                        </div>
+                        
+                    </div>
+                    <span id="timeSection">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.StartDay, new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.StartDay, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   data_date_start_date = (((DateTime)ViewBag.MinDate).ToString(Common.GetLocaleDateDisplayFormat())),
+                                   data_date_end_date = (((DateTime)ViewBag.MaxDate).ToString(Common.GetLocaleDateDisplayFormat()))
+                               }
+                           })
+                                @Html.ValidationMessageFor(model => model.StartDay)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.StartTime, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.StartTime)
+                                @Html.ValidationMessageFor(model => model.StartTime)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FinishDay, new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.FinishDay, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   data_date_start_date = (((DateTime)ViewBag.MinDate).ToString(Common.GetLocaleDateDisplayFormat())),
+                                   data_date_end_date = (((DateTime)ViewBag.MaxDate).AddDays(1).ToString(Common.GetLocaleDateDisplayFormat()))
+                               }
+                           })
+                                @Html.ValidationMessageFor(model => model.FinishDay)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FinishTime, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.FinishTime)
+                                @Html.ValidationMessageFor(model => model.FinishTime)
+                            </div>
+                        </div>
+                    </span>
+                    @if ((bool)ViewBag.HasInternalLocations)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InternalLocationId, new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(
+                                x => x.InternalLocationId,
+                                new SelectList(ViewBag.BusinessInternalLocations, "Id", "Name"),
+                                "-- SELECT --",
+                  new
+                  {
+                      @class = "form-control"
+                  }
+                            )
+                                @Html.ValidationMessageFor(model => model.InternalLocationId)
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        @Html.Hidden("InternalLocationId", ((List<WebUI.DTOs.InternalLocationDTO>)ViewBag.BusinessInternalLocations)[0].Id.ToString())
+                    }
+                    @if (Is<ShiftBlockFeature>.Enabled)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SaveAsShiftBlock, new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-10">
+                                @Html.CheckBoxFor(model => model.SaveAsShiftBlock)
+                                &nbsp;
+                                @Html.Partial("_HelpShiftBlockPartial")
+                            </div>
+                        </div>
+                    }
+                   
+
+                </div>
+
+           
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-5">
+                        <input type="button" id="checkUnavailability" value="Check availability" class="btn btn-default" onclick="javacsript: ShiftCreate_CheckUnavailability();" />
+
+                    </div>
+                </div>
+                <br />
+                    <div class="row">
+                        <div class="col-md-8">
+                            @if ((string)ViewBag.ReturnView == "WeekView")
+                            {
+                                @Ajax.ActionLink("< Back to week view", "WeekView", new { rosterId = @Model.RosterId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "btn btn-outline btn-primary btn-sm" })
+                            }
+                            @if ((string)ViewBag.ReturnView == "DayView")
+                            {
+                                @Ajax.ActionLink("< Back to day view", "DayView", new { businessId = @Model.BusinessId, businessLocationId = @Model.BusinessLocationId, date = @Model.StartDateTime, returnView = "", rosterid = @Model.RosterId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "btn btn-outline btn-primary btn-sm" })
+                            }
+                            <input type="submit" id="submit" value="Create" class="btn btn-primary pull-right" onclick="javascript: return ShiftCreate_Submit();" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+                @if (Is<ShiftBlockFeature>.Enabled)
+                {
+                    <div class="col-md-6" id="shiftBlockDiv">
+                        <h3>or Use shift block</h3>
+                        <br />
+                        @if (ViewBag.ShiftBlocks.Count > 0)
+                        {
+                            <table class="table table-striped table-bordered table-hover">
+                                @foreach (var shiftBlock in ((List<WebUI.DTOs.ShiftBlockDTO>)ViewBag.ShiftBlocks).OrderBy(s => s.StartTime))
+                    {
+                        var st = @Convert.ToDateTime(shiftBlock.StartTime.ToString());
+                        var ft = @Convert.ToDateTime(shiftBlock.FinishTime.ToString());
+                                    <tr>
+                                        <td>
+
+                                            <div style="cursor: pointer;" onclick="javascript: ShiftCreate_ShiftBlockClick('@st.ToString("HH:mm")','@ft.ToString("HH:mm")','@shiftBlock.FinishNextDay.ToString()','@shiftBlock.RoleId','@ViewBag.MinDate.ToString("yyyy-MM-dd")','@(((DateTime)ViewBag.MinDate).AddDays(1).ToString("yyyy-MM-dd"))')">
+                                                @st.ToString("t")
+                                                -
+                                                @ft.ToString("t")
+                                                @if (shiftBlock.FinishNextDay)
+                                                {
+                                                    <text>(+1 Day)</text>
+                                                }
+                                                <br />
+                                                @shiftBlock.RoleName
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        }
+                        else
+                        {
+                            <h4>No shift blocks available</h4>
+                        }
+                    </div>
+                }
+            </div>
+
+
+
+        </div>
+
+
+

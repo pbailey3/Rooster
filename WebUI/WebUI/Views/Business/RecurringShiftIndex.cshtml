@@ -1,0 +1,145 @@
+﻿@model IEnumerable<WebUI.DTOs.ShiftTemplateDTO>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Recurring shifts</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @Ajax.RawActionLink("<span class='icon-add'></span>", "RecurringShiftCreate", "Business", new { businessLocationId = ViewBag.BusinessLocationId, businessId = ViewBag.BusinessId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "add" })
+
+            @if (Model.Where(m => m.Enabled).Count() > 0)
+            {
+                <table class="table table-striped">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.EmployeeFullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RoleName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.StartTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FinishTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Frequency)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Monday)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tuesday)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Wednesday)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Thursday)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Friday)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Saturday)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Sunday)
+                        </th>
+                        
+                        @if ((bool)ViewBag.HasInternalLocations)
+                        {
+                            <th>
+                                @Html.DisplayNameFor(model => model.InternalLocationName)
+                            </th>
+                        }
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model.Where(m => m.Enabled))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EmployeeFullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RoleName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StartTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FinishTime)
+                                @if (item.FinishNextDay)
+                                {
+                                    <text>(+1 day)</text>
+                                }
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Frequency)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Monday)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tuesday)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Wednesday)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Thursday)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Friday)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Saturday)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Sunday)
+                            </td>
+                           
+                            @if ((bool)ViewBag.HasInternalLocations)
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InternalLocationName)
+                                </td>
+                            }
+                            <td>
+                                @Ajax.ActionLink("Edit", "RecurringShiftEdit", new { id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete="EditRecurringShift_DocumentReady()" }, new { @class = "btn btn-default btn-xs" }) |
+                                @Ajax.ActionLink("Delete", "RecurringShiftDelete", new { id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-danger btn-xs" })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <p>
+                    <h4>No recurring shifts</h4>
+                </p>
+            }
+            <div class="form-horizontal">
+                <div class="form-group">
+                     <div class="col-md-12">
+                        <div class="pull-right">
+                            @Ajax.ActionLink("Next create a roster >", "RosterCreate", "Roster", new { businessLocationId = ViewBag.BusinessLocationId, businessId = ViewBag.BusinessId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary btn-sm" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿@model WebUI.DTOs.BusinessPreferencesDTO
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Preferences</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @Html.HiddenFor(model => model.BusinessId)
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.CancelShiftAllowed)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.CancelShiftAllowed)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CancelShiftTimeframe)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.CancelShiftTimeframe)
+                </dd>
+            </dl>
+            <p>
+                @Ajax.ActionLink("Edit", "PreferencesEdit", new { id = Model.Id, businesslocationId = Model.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary" })
+            </p>
+           
+        </div>
+    </div>
+</div>

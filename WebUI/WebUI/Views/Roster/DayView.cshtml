@@ -1,0 +1,109 @@
+﻿@model IEnumerable<WebUI.DTOs.ShiftDTO>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            @Ajax.RawActionLink("<i class='glyphicon glyphicon-circle-arrow-left'></i><span class='sr-only'>Previous</span>", "DayView", "Roster", new { businessId = ViewBag.BusinessId, businessLocationId = ViewBag.BusinessLocationId,rosterId = ViewBag.RosterId, date = ((DateTime)ViewBag.Date).AddDays(-1), returnView = ViewBag.ReturnView }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnFailure="HandleError" }, new { })
+            <h3>Day view <small>@(((DateTime)ViewBag.Date).ToString(Common.GetLocaleDateDisplayFormat()))</small></h3>
+            @Ajax.RawActionLink("<i class='glyphicon glyphicon-circle-arrow-right'></i><span class='sr-only'>Next</span>", "DayView", "Roster", new { businessId = ViewBag.BusinessId, businessLocationId = ViewBag.BusinessLocationId,rosterId = ViewBag.RosterId, date = ((DateTime)ViewBag.Date).AddDays(1), returnView = ViewBag.ReturnView }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnFailure = "HandleError" }, new { })
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    @Ajax.RawActionLink("<span class='icon-add'></span>", "ShiftCreate", "Roster", new { businessLocationId = ViewBag.BusinessLocationId, startDate = ViewBag.Date, returnView = "DayView", rosterId = ViewBag.RosterId, DayOfWeek = ((DateTime)ViewBag.Date).DayOfWeek }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "add" })
+    <div>
+        @if (Model.Count() > 0)
+        {
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmployeeId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StartTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FinishTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RoleName)
+                    </th>
+                    @if ((bool)ViewBag.HasInternalLocations)
+                {
+                        <th>
+                            @Html.DisplayNameFor(model => model.InternalLocationName)
+                        </th>
+                    }
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsPublished)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ShiftLength)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model.OrderBy(s => s.StartTime))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmployeeFirstName) @Html.DisplayFor(modelItem => item.EmployeeLastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FinishTime)
+                            @if (item.FinishDay.DayOfYear > item.StartDay.DayOfYear)
+                            {
+                                <text>(+1 day)</text>
+                            }
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RoleName)
+                        </td>
+
+                        @if ((bool)ViewBag.HasInternalLocations)
+                    {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.InternalLocationName)
+                            </td>
+                        }
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsPublished)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ShiftLength)
+                        </td>
+                        <td>
+                            @Ajax.ActionLink("Edit", "ShiftEdit", new { id = item.Id, businessLocationId = ViewBag.BusinessLocationId, returnView = "DayView" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "btn btn-default btn-xs" }) |
+                            @Ajax.ActionLink("Delete", "ShiftDelete", new { id = item.Id, returnView = "DayView" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-danger btn-xs" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <div class="row-fluid">
+                <div class="col-md-12">
+                    <p>
+                        <h4>No shifts added yet for current day</h4>
+                    </p>
+                </div>
+            </div>
+        }
+        <div class="row-fluid">
+            <div class="col-md-12">
+                <div>
+                    @Ajax.ActionLink("< Back to month view", "Index", new { businessid = ViewBag.BusinessId, month = ((DateTime)ViewBag.Date).Month, year = ((DateTime)ViewBag.Date).Year, businesslocationid = ViewBag.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-outline btn-primary btn-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    

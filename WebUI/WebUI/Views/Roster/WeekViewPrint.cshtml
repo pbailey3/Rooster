@@ -1,0 +1,94 @@
+﻿@model WebUI.DTOs.RosterDTO
+
+@{
+    ViewBag.Title = "WeekViewPrint";
+}
+
+@Styles.Render("~/Content/printcss")
+
+<div class="form-group" id="divPrintButtons">
+    <input type="button" value="Print" onclick="window.print(); window.close()" class="btn btn-primary">
+    <input type="button" value="Close" onclick="window.close();" class="btn btn-default">
+</div>
+
+<h2>Week view - @Model.WeekStartDate.ToShortDateString()</h2>
+<div class="form-horizontal" id="printSection">
+    <div class="form-group">
+        <div class="col-md-12">
+            <hr />
+            <table class="table table-bordered">
+                <tr class="active">
+                    <th>
+                        @Model.WeekStartDate.ToString("dddd dd/MM")
+                    </th>
+                    <th>
+                        @Model.WeekStartDate.AddDays(1).ToString("dddd dd/MM")
+                    </th>
+                    <th>
+                        @Model.WeekStartDate.AddDays(2).ToString("dddd dd/MM")
+                    </th>
+                    <th>
+                        @Model.WeekStartDate.AddDays(3).ToString("dddd dd/MM")
+                    </th>
+                    <th>
+                        @Model.WeekStartDate.AddDays(4).ToString("dddd dd/MM")
+                    </th>
+                    <th>
+                        @Model.WeekStartDate.AddDays(5).ToString("dddd dd/MM")
+                    </th>
+                    <th>
+                        @Model.WeekStartDate.AddDays(6).ToString("dddd dd/MM")
+                    </th>
+                </tr>
+
+                <tr>
+                    <td>
+                        @{
+                            Html.ViewData["DayOfWeek"] = DayOfWeek.Monday;
+                            Html.RenderPartial("_RosterWeekPartial", @Model, Html.ViewData);
+                        }
+                    </td>
+                    <td>
+                        @{
+                            Html.ViewData["DayOfWeek"] = DayOfWeek.Tuesday;
+                            Html.RenderPartial("_RosterWeekPartial", @Model, Html.ViewData);
+                        }
+                    </td>
+                    <td>
+                        @{
+                            Html.ViewData["DayOfWeek"] = DayOfWeek.Wednesday;
+                            Html.RenderPartial("_RosterWeekPartial", @Model, Html.ViewData);
+                        }
+                    </td>
+                    <td>
+                        @{
+                            Html.ViewData["DayOfWeek"] = DayOfWeek.Thursday;
+                            Html.RenderPartial("_RosterWeekPartial", @Model, Html.ViewData);
+                        }
+                    </td>
+                    <td>
+                        @{
+                            Html.ViewData["DayOfWeek"] = DayOfWeek.Friday;
+                            Html.RenderPartial("_RosterWeekPartial", @Model, Html.ViewData);
+                        }
+                    </td>
+                    <td>
+                        @{
+                            Html.ViewData["DayOfWeek"] = DayOfWeek.Saturday;
+                            Html.RenderPartial("_RosterWeekPartial", @Model, Html.ViewData);
+                        }
+                    </td>
+                    <td>
+                        @{
+                            Html.ViewData["DayOfWeek"] = DayOfWeek.Sunday;
+                            Html.RenderPartial("_RosterWeekPartial", @Model, Html.ViewData);
+                        }
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+
+</div>

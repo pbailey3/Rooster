@@ -1,0 +1,87 @@
+﻿@model IEnumerable<WebUI.DTOs.EmployeeDTO>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Employees</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @Ajax.RawActionLink("<span class='icon-add'></span>", "Create", "Employee", new { businessLocationId = ViewBag.BusinessLocationId, businessId = ViewBag.BusinessId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "CreateEmployee_DocumentReady" }, new { @class = "add" })
+            <table class="table table-striped">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MobilePhone)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsAdmin)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model.OrderBy(n=>n.LastName).ThenBy(m=>m.FirstName))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MobilePhone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsAdmin)
+                        </td>
+                        <td class="text-right">
+                           @if (HttpContext.Current.IsDebuggingEnabled)
+                           { 
+                               <button onclick="javascript: EmployeeIndex_Punchclock('@item.Id', '@ViewBag.BusinessLocationId');" class="btn btn-default btn-xs" >PunchClock</button>
+                               <input id="@item.Id dtTimePunchTest" type="datetime-local" value="@DateTime.Now.ToString("dd/MM/yyyy HH:mm")">
+                           }
+                           @Ajax.ActionLink("Edit", "Edit", new { id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "btn btn-default btn-xs" })
+                            @Ajax.ActionLink("Details", "Details", new { id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-default btn-xs" })
+                            @Ajax.ActionLink("Delete", "Delete", new { id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-danger btn-xs" })
+
+                        </td>
+
+                    </tr>
+                }
+            </table>
+            <div class="form-horizontal">
+                <div class="form-group">
+                    
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            @Ajax.ActionLink("Next add recurring shifts >", "RecurringShiftCreate", "Business", new { businessLocationId = ViewBag.BusinessLocationId, businessId = ViewBag.BusinessId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "btn btn-primary btn-sm" })
+                        </div>
+                        <div class="pull-left">
+                            @Ajax.ActionLink("Bulk upload", "FileUpload", "FileImport", new { businessLocationId = ViewBag.BusinessLocationId, businessId = ViewBag.BusinessId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary btn-sm" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

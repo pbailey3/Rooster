@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="99270480b2264e15a85d6d4ecf8c51e9" Name="Diagram1" ZoomLevel="74" >
+        <EntityTypeShape EntityType="DataModel.BusinessLocation" PointX="14.875" PointY="23.625" Width="1.625" />
+        <EntityTypeShape EntityType="DataModel.BusinessType" PointX="19.75" PointY="35.875" Width="1.5" />
+        <EntityTypeShape EntityType="DataModel.Employee" PointX="9.375" PointY="22.75" Width="2" />
+        <EntityTypeShape EntityType="DataModel.Role" PointX="25" PointY="28.5" Width="1.5" />
+        <AssociationConnector Association="DataModel.EmployeeRole"></AssociationConnector>
+        <EntityTypeShape EntityType="DataModel.UserProfile" PointX="3.875" PointY="23.5" Width="1.5" />
+        <EntityTypeShape EntityType="DataModel.security_Membership" PointX="0.75" PointY="19.5" Width="2.375" />
+        <AssociationConnector Association="DataModel.MembershipUserProfile" />
+        <EntityTypeShape EntityType="DataModel.security_Role" PointX="6.125" PointY="33.75" Width="1.5" />
+        <AssociationConnector Association="DataModel.security_UsersInRole" />
+        <AssociationConnector Association="DataModel.UserProfileEmployee" />
+        <EntityTypeShape EntityType="DataModel.EmployerRequest" PointX="11.875" PointY="24.5" Width="1.625" />
+        <AssociationConnector Association="DataModel.UserProfileEmployerRequest" />
+        <AssociationConnector ManuallyRouted="false" Association="DataModel.EmployeeEmployerRequest">
+        </AssociationConnector>
+        <AssociationConnector ManuallyRouted="false" Association="DataModel.ManagerEmployerRequest">
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DataModel.InternalLocation" PointX="24" PointY="24.625" Width="1.625" />
+        <AssociationConnector Association="DataModel.BusinessLocationInternalLocation" />
+        <EntityTypeShape EntityType="DataModel.ShiftTemplate" PointX="21.75" PointY="23.375" Width="1.5" />
+        <AssociationConnector Association="DataModel.BusinessLocationShiftTemplate" />
+        <AssociationConnector Association="DataModel.ShiftTemplateRole" />
+        <AssociationConnector Association="DataModel.ShiftTemplateInternalLocation" />
+        <AssociationConnector Association="DataModel.ShiftTemplateEmployee" />
+        <EntityTypeShape EntityType="DataModel.Roster" PointX="17.25" PointY="24.625" Width="1.5" />
+        <EntityTypeShape EntityType="DataModel.Shift" PointX="19.5" PointY="24.25" Width="1.5" />
+        <AssociationConnector Association="DataModel.RosterShift" />
+        <AssociationConnector Association="DataModel.EmployeeShift" />
+        <AssociationConnector Association="DataModel.RoleShift" />
+        <AssociationConnector Association="DataModel.InternalLocationShift" />
+        <EntityTypeShape EntityType="DataModel.BusinessPreferences" PointX="17.25" PointY="32.125" Width="2" />
+        <AssociationConnector Association="DataModel.BusinessBusinessPreferences" />
+        <EntityTypeShape EntityType="DataModel.ShiftChangeRequest" PointX="21.125" PointY="30.5" Width="1.875" />
+        <AssociationConnector Association="DataModel.ShiftShiftChangeRequest" />
+        <AssociationConnector Association="DataModel.ShiftChangeRequestEmployee" />
+        <EntityTypeShape EntityType="DataModel.Schedule" PointX="6.125" PointY="37.875" Width="1.875" />
+        <AssociationConnector Association="DataModel.UserProfileRecurringCalendarEvent" />
+        <EntityTypeShape EntityType="DataModel.EmployeeRequest" PointX="17.25" PointY="21.625" Width="1.5" />
+        <AssociationConnector Association="DataModel.EmployeeEmployeeRequest" />
+        <AssociationConnector Association="DataModel.EmployeeRequestUserProfile" />
+        <EntityTypeShape EntityType="DataModel.ShiftBlock" PointX="17.25" PointY="34.75" Width="1.5" />
+        <AssociationConnector ManuallyRouted="false" Association="DataModel.ShiftBlockRole">
+        </AssociationConnector>
+        <AssociationConnector Association="DataModel.BusinessShiftBlock" />
+        <EntityTypeShape EntityType="DataModel.UserPreferences" PointX="6.125" PointY="29" Width="1.875" />
+        <AssociationConnector Association="DataModel.UserProfileUserPreferences" />
+        <EntityTypeShape EntityType="DataModel.Business" PointX="22" PointY="35.625" Width="2.25" />
+        <AssociationConnector Association="DataModel.BusinessBusinessLocation" />
+        <AssociationConnector Association="DataModel.BusinessTypeBusiness" />
+        <AssociationConnector Association="DataModel.BusinessRole" />
+        <AssociationConnector Association="DataModel.BusinessLocationEmployerRequest" />
+        <AssociationConnector Association="DataModel.BusinessLocationEmployee" />
+        <AssociationConnector Association="DataModel.BusinessLocationEmployeeRequest" />
+        <AssociationConnector Association="DataModel.ManagerBusinessLocation" />
+        <AssociationConnector Association="DataModel.BusinessLocationRoster" />
+        <EntityTypeShape EntityType="DataModel.RecurringShiftChangeRequest" PointX="27" PointY="24.25" Width="2.125" />
+        <AssociationConnector Association="DataModel.ShiftTemplateRecurringShiftChangeRequest" />
+        <AssociationConnector Association="DataModel.EmployeeRecurringShiftChangeRequest" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="DataModel.ShiftChangeRequestEmployee1"></AssociationConnector>
+        <AssociationConnector Association="DataModel.ShiftShiftTemplate" />
+        <EntityTypeShape EntityType="DataModel.security_OAuthMembership" PointX="6.125" PointY="36.125" Width="3" />
+        <AssociationConnector Association="DataModel.UserProfilewebpages_OAuthMembership" />
+        <EntityTypeShape EntityType="DataModel.PaymentDetails" PointX="17.25" PointY="27.75" Width="1.5" />
+        <AssociationConnector Association="DataModel.EmployeePaymentDetails" />
+        <AssociationConnector Association="DataModel.BusinessLocationPaymentDetails" />
+        <EntityTypeShape EntityType="DataModel.TimeCard" PointX="6.875" PointY="24.125" Width="1.5" />
+        <AssociationConnector ManuallyRouted="false" Association="DataModel.EmployeeTimeCard">
+        </AssociationConnector>
+        <AssociationConnector Association="DataModel.BusinessLocationTimeCard" />
+        <AssociationConnector Association="DataModel.EmployeeTimeCard1" />
+        <AssociationConnector Association="DataModel.ShiftTimeCard" />
+        <EntityTypeShape EntityType="DataModel.Timesheet" PointX="1.625" PointY="28" Width="1.5" />
+        <AssociationConnector Association="DataModel.TimesheetUserProfile" />
+        <AssociationConnector Association="DataModel.TimesheetRoster" />
+        <EntityTypeShape EntityType="DataModel.TimesheetEntry" PointX="1.625" PointY="24.625" Width="1.5" />
+        <AssociationConnector Association="DataModel.TimesheetEntryUserProfile" />
+        <AssociationConnector Association="DataModel.TimesheetEntryTimeCard" />
+        <AssociationConnector Association="DataModel.RosterTimeCard" />
+        <EntityTypeShape EntityType="DataModel.IndustryTypes" Width="1.5" PointX="8.25" PointY="30" IsExpanded="true" />
+        <AssociationConnector Association="DataModel.IndustryTypesUserProfile" />
+        <EntityTypeShape EntityType="DataModel.WorkHistory" Width="1.5" PointX="6.125" PointY="20" />
+        <AssociationConnector Association="DataModel.UserProfileWorkHistory" />
+        <EntityTypeShape EntityType="DataModel.Qualificationslookup" Width="2.25" PointX="3.375" PointY="18.5" />
+        <AssociationConnector Association="DataModel.IndustryTypestblQualificationslookup" />
+        <EntityTypeShape EntityType="DataModel.UserQualification" Width="2" PointX="2.25" PointY="15.75" />
+        <AssociationConnector Association="DataModel.tblQualificationslookuptblUserQualification" />
+        <AssociationConnector Association="DataModel.UserProfiletblUserQualification" />
+        <EntityTypeShape EntityType="DataModel.OtherQualification" Width="1.5" PointX="9.375" PointY="17.875" />
+        <AssociationConnector Association="DataModel.UserProfileOtherQualification" />
+        <EntityTypeShape EntityType="DataModel.IndustrySkills" Width="1.5" PointX="11.875" PointY="17.75" />
+        <AssociationConnector Association="DataModel.IndustryTypesIndustrialSkills" />
+        <EntityTypeShape EntityType="DataModel.UserSkills" Width="1.5" PointX="13.875" PointY="17.75" />
+        <AssociationConnector Association="DataModel.UserProfileUserSkills" />
+        <AssociationConnector Association="DataModel.IndustrySkillsUserSkills" />
+        <EntityTypeShape EntityType="DataModel.ExternalShiftBroadcast" Width="2" PointX="6.75" PointY="16.875" />
+        <EntityTypeShape EntityType="DataModel.ExternalShiftQualification" Width="2.5" PointX="7.625" PointY="14.375" IsExpanded="true" />
+        <AssociationConnector Association="DataModel.QualificationslookupShiftQualification" />
+        <EntityTypeShape EntityType="DataModel.ExternalShiftSkills" Width="1.5" PointX="11.25" PointY="14.25" />
+        <AssociationConnector Association="DataModel.ExternalShiftBroadcastShift" />
+        <AssociationConnector Association="DataModel.ExternalShiftBroadcastShiftQualification" />
+        <AssociationConnector Association="DataModel.ExternalShiftBroadcastShiftSkills" />
+        <AssociationConnector Association="DataModel.IndustrySkillsShiftSkills" />
+        <EntityTypeShape EntityType="DataModel.ExternalShiftRequest" Width="1.625" PointX="14.5" PointY="14.25" />
+        <AssociationConnector Association="DataModel.ExternalShiftRequestEmployee1" />
+        <AssociationConnector Association="DataModel.ExternalShiftRequestExternalShiftBroadcast" />
+        <AssociationConnector Association="DataModel.UserProfileExternalShiftRequest" />
+        <AssociationConnector Association="DataModel.IndustryTypesBusinessType" />
+        <EntityTypeShape EntityType="DataModel.UserRecommendations" Width="1.5" PointX="10.875" PointY="11.125" />
+        <AssociationConnector Association="DataModel.UserRecommendationsUserProfile_UserRecommendedBy" />
+        <AssociationConnector Association="DataModel.UserRecommendationsUserProfile_UserRecommended" />
+        <EntityTypeShape EntityType="DataModel.UserSkillEndorsements" Width="1.5" PointX="13.125" PointY="11.25" />
+        <AssociationConnector Association="DataModel.UserSkillEndorsementsUserSkills" />
+        <AssociationConnector Association="DataModel.UserSkillEndorsementsUserProfile_UserRecommendedBY" />
+        <AssociationConnector Association="DataModel.UserSkillEndorsementsUserProfile_UserBeingRecommended" />
+        <EntityTypeShape EntityType="DataModel.Messages" Width="1.5" PointX="16.75" PointY="11.625" />
+        <AssociationConnector Association="DataModel.MessagesUserProfile_MessagesFrom" />
+        <AssociationConnector Association="DataModel.MessagesUserProfile_MessagesTo" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

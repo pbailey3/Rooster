@@ -1,0 +1,53 @@
+﻿@model WebUI.DTOs.RosterDTO
+
+@{ 
+    var internalLocations = Model.Shifts.OrderBy(s => s.InternalLocationName).Select(s => s.InternalLocationName).Distinct();
+    var businessLocations = Model.Shifts.OrderBy(s => s.BusinessLocationName).Select(s => s.BusinessLocationName).Distinct();
+
+    int daysToAdd = (int)@ViewBag.DayOfWeek - 1;
+        
+    if ((DayOfWeek)@ViewBag.DayOfWeek == DayOfWeek.Sunday)
+        daysToAdd = 6;
+}  
+<div class="cal-month-day">
+    <div class="cal-shift">
+            <a href='@Url.Action("DayView", "Roster", new { businessId = @Model.BusinessId, businessLocationId = @Model.BusinessLocationId, date = @Model.WeekStartDate.AddDays(daysToAdd), rosterId = @Model.Id })' class=" cal-shift-link" data-ajax-update="#body" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-loading="#divLoading" data-ajax="true" data-ajax-complete="DocumentReady">
+                @{
+
+                    foreach (var busLocation in businessLocations)
+                    {
+                        foreach (var location in internalLocations)
+                        {
+                            if ((bool)ViewBag.HasInternalLocations)
+                            {
+                                <h5 class="shift-staff">
+                                    @if (location != null)
+                                    {
+                                        @location;
+                                    }
+                                    else
+                                    {
+                                        <text>No Location</text>
+                                    }
+                                </h5>
+                            }
+                            var shifts = @Model.Shifts.Where(s => s.InternalLocationName == location && s.BusinessLocationName == busLocation && s.StartDay.DayOfWeek == (DayOfWeek)@ViewBag.DayOfWeek);
+                            <text>@shifts.Count() Shift(s)</text>
+                        }
+                    }
+                    <p class="shift-location">
+                        <em>
+                            @{
+                                var shiftsForDay = @Model.Shifts.Where(s => s.StartDay.DayOfWeek == (DayOfWeek)@ViewBag.DayOfWeek);
+                                <text>@shiftsForDay.Count(s => s.IsPublished == true)/@shiftsForDay.Count() Published</text>
+                                <br />
+                                <text>@shiftsForDay.Count(s => s.EmployeeId.HasValue == false) Open shifts</text>
+                            }
+                        </em>
+                    </p>
+                }
+            </a>
+</div>
+</div>
+
+  

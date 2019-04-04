@@ -1,0 +1,19 @@
+﻿@model WebUI.DTOs.AddressModelDTO
+
+@Html.DisplayFor(model => model.Line1)
+@if(!String.IsNullOrEmpty(Model.Line2))
+{
+<text>,&nbsp;</text>@Html.DisplayFor(model => model.Line2)
+}
+@if (!String.IsNullOrEmpty(Model.Suburb))
+{
+<text>,&nbsp;</text>@Html.DisplayFor(model => model.Suburb)
+}
+@if (!String.IsNullOrEmpty(Model.State))
+{
+    <text>,&nbsp;</text>@Html.DisplayFor(model => model.State)
+}
+@if (!String.IsNullOrEmpty(Model.Postcode))
+{
+    <text>,&nbsp;</text>@Html.DisplayFor(model => model.Postcode)
+}

@@ -1,0 +1,382 @@
+﻿@model WebUI.DTOs.ExternalBroadcastDTO
+<link href="~/Content/select2-bootstrap.css" rel="stylesheet" />
+<link href="~/Content/select2.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+<style>
+    .error {
+        color: red;
+    }
+</style>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Edit shift broadcast</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @using (Ajax.BeginForm("ShiftSetUp", "Roster", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnFailure = "HandleError" }, new { id = "ShiftSetUpForm" }))
+            {
+                <div class="form-body">
+                    <div class="form-group">
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.HiddenFor(m => m.RosterId)
+                        <label>Job Description</label>
+                        @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(a => a.Description)
+                        @Html.ValidationSummary(true)
+                    </div>
+                    <div id="IndustryQualification" class="form-group">
+                        <label>Qualification</label>
+                        <div class="mt-checkbox-list">
+                            @foreach (var QualificationItem in Model.Qualification)
+                            {
+
+                                <p><input type="checkbox" value="@QualificationItem.ValueGuid" />&nbsp;&nbsp;@QualificationItem.Text</p>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Skills</label>
+                        <br />
+                        @Html.DropDownListFor(x => x.Skill, Model.Skills.Select(m => new SelectListItem { Text = m.Text, Value = Convert.ToString(m.ValueGuid) }), new { @class = "form-control select2-selection select2-selection--multiple", @multiple = "multiple" })
+                    </div>
+                    <div class="form-group">
+                        <label>Job Wage</label>
+                        @Html.TextBoxFor(m => m.Wage, new { @style = "width:50px" }) <label>Per hour</label>
+                        @Html.ValidationMessageFor(a => a.Wage)
+                    </div>
+                    <div class="form-group">
+                        <table id="tbl_BroadcastedOpenShiftList" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Start</th>
+                                    <th>Finish</th>
+                                    <th style="display:none">BroadcastedOpenShiftId</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.BroadcastedOpenShiftList != null)
+                                {
+                                    foreach (var item in Model.BroadcastedOpenShiftList)
+                                    {
+                                        <tr id="wrkhistory_">
+                                            <td>@item.Start.ToString(Common.GetLocaleDateDisplayFormat())</td>
+                                            <td>@item.Start.ToString(Constants.DisplayFormatTime)</td>
+                                            <td>@item.Finish.ToString(Constants.DisplayFormatTime)</td>
+                                            <td style="display:none">@item.BroadcastedOpenShiftId</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                            @*<tfoot>
+                                    <tr>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+                                </tfoot>*@
+                        </table>
+                        <br />
+                        <div class="form-actions right1">
+                            <a id="AddUpdateHistory" onclick="GetData();" class="btn btn-primary pull-right"><span style="font-weight:bold;">+</span> Add</a>
+                        </div>
+                        <br />
+                        <div class="form-group" id="dvOtherOpenShifts" style="display:none">
+                            <table id="tbodyshifts" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Start</th>
+                                        <th>Finish</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyaddshift"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions right1">
+                    <button type="button" class="btn default">Cancel</button>
+                    <button type="button" onclick="BroadCastShift()" id="btn_Save" class="btn btn-primary">Post Job</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@*<script src="~/Scripts/bootbox.min.js"></script>*@
+
+
+<script src="~/Scripts/jquery.tabletojson.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#Skill").select2();
+        //$("#Skill").select2({
+        //    placeholder: "Select Skills"
+        //});
+
+    });
+
+    function BroadCastShift() {
+        $("#ShiftSetUpForm").validate({
+            rules: {
+                Description: "required",
+                Wage: "required"
+            },
+            messages: {
+                Description: "Discription is required.",
+                Wage: "Wage is required."
+            },
+            errormessages: function (label, element) {
+                label.addclass("error");
+            }
+
+        })
+        //$("#form_ExternalJobPosting")[0].submit();
+        var IndustryQualificationItem = [];
+        var Skills = [];
+
+        $('#IndustryQualification input:checked').each(function () {
+            var items = {};
+            items["ValueGuid"] = this.value;
+            IndustryQualificationItem.push(items);
+        });
+
+        var skill = $("#Skill").val();
+
+        $.each(skill, function (key, value) {
+            var items = {};
+            items["ValueGuid"] = value;
+            Skills.push(items);
+        });
+
+
+        var Shifts = $("#tbl_BroadcastedOpenShiftList").tableToJSON();
+        var description = $("#Description").val();
+        var Wage = $("#Wage").val();
+        if (Wage == "0.0") {
+            alert("Please enter Valid Wage.")
+            return true;
+        }
+        $.ajax({
+            url: '@Url.Action("ExternalShiftSetUpSave", "Roster")',
+            type: "POST",
+            data: {
+                Qualification: IndustryQualificationItem,
+                Skills: Skills,
+                Description: description,
+                Wage: Wage,
+                BroadcastedOpenShiftList: Shifts
+            },
+            datatype: "json",
+            success: function (data) {
+                if (data.Success) {
+                    $("#ShiftSetUpForm").submit();
+                }
+                else {
+                    alert("An error occurred!");
+                }
+            },
+            error: function (jqXHR, exception) {
+                ErrorBlock(jqXHR, exception);
+            }
+        })
+    };
+
+    //-------------------------------------
+    // Error Block
+    ///-------------------------------------
+    function ErrorBlock(jqXHR, exception) {
+        if (jqXHR.status === 0) {
+            alert('Not connect.\n Verify Network.');
+        } else if (jqXHR.status == 404) {
+            alert('Requested page not found. [404]');
+        } else if (jqXHR.status == 500) {
+            alert('Internal Server Error [500].');
+        } else if (exception === 'parsererror') {
+            alert('Requested JSON parse failed.');
+        } else if (exception === 'timeout') {
+            alert('Time out error.');
+        } else if (exception === 'abort') {
+            alert('Ajax request aborted.');
+        } else {
+            alert('Uncaught Error.\n' + jqXHR.responseText);
+        }
+    }
+
+    ///--------------------------
+    // Add/Update Work History
+    ///--------------------------
+    function GetData() {
+        $("#AddUpdateHistory").hide('1000');
+        var ShiftID = $("#Id").val();
+        var rosterID = $("#RosterId").val();
+        $.ajax({
+            url: "@Url.Action("GetShifts", "Roster")",
+            type: "POST",
+            data: { ID: ShiftID, RosterID: rosterID, newRow: false },
+            success: function (data) {
+                var AppendHtml = "";
+
+                $.each(data.shifts, function (index, value) {
+
+                    var iD = value.BroadcastedOpenShiftId;
+                    var StartDate = parseJsonDate(value.Start);
+                    var StartTime = parseJsonTime(value.Start);
+                    var FinishDate = parseJsonTime(value.Finish);
+
+                    //var newRowContent = "<tr><td>" + StartDate + "</td><td>" + StartTime + "</td><td>" + FinishDate + "</td><td><input type='button' id='btnadd' class='testclass' value='Add this shift' /></td></tr>";
+                    //
+                    //$("#tbodyshifts tbody").append(newRowContent);
+
+
+
+                    var table = document.getElementById("tbodyaddshift");
+
+                    var rowCount = table.rows.length;
+                    var row = table.insertRow(rowCount);
+
+
+                    var cell1 = row.insertCell(0);
+                    cell1.innerHTML = StartDate;
+
+                    var cell2 = row.insertCell(1);
+                    cell2.innerHTML = StartTime;
+
+                    var cell3 = row.insertCell(2);
+                    cell3.innerHTML = FinishDate;
+
+                    var cell4 = row.insertCell(3);
+                    var button = document.createElement('button');
+                    button.innerHTML = '+ Add this shift';
+                    button.id = iD;
+                    button.className = "btn btn-primary pull-left";
+                    button.onclick = function () {
+                        deleteRow(this.id);
+                        return false;
+                    };
+                    cell4.appendChild(button);
+
+                    rowCount + 1;
+                });
+
+                $("#dvOtherOpenShifts").show('1000');
+            },
+            error: function (jqXHR, exception) {
+                alert(exception);
+            }
+        })
+
+        function deleteRow(ID) {
+            var rosterID = $("#RosterId").val();
+            try {
+                $.ajax({
+                    url: "@Url.Action("GetShifts", "Roster")",
+                    type: "POST",
+                    data: { ID: ID, RosterID: rosterID, newRow: true },
+                    success: function (data) {
+
+                        $.each(data.shifts, function (index, value) {
+
+                            var iD = value.BroadcastedOpenShiftId;
+                            var StartDate = parseJsonDate(value.Start);
+                            var StartTime = parseJsonTime(value.Start);
+                            var FinishDate = parseJsonTime(value.Finish);
+
+                            var table = document.getElementById("tbodyaddshift");
+                            var rowCount = table.rows.length;
+
+                            for (var i = 0; i < rowCount; i++) {
+                                var row = table.rows[i];
+                                var btn = row.cells[3].childNodes[0];
+                                if (null != btn && btn.id == ID) {
+                                    table.deleteRow(i);
+                                    rowCount--;
+                                    i--;
+                                }
+                            }
+
+                            var newRowContent = "<tr><td>" + StartDate + "</td><td>" + StartTime + "</td><td>" + FinishDate + "</td><td style='display:none'>" + iD + "</td></tr>";
+                            $("#tbl_BroadcastedOpenShiftList tbody").append(newRowContent);
+
+                            if (rowCount == 0) {
+                                $("#AddUpdateHistory").hide('1000');
+                                $("#dvOtherOpenShifts").hide('1000');
+                            }
+
+
+                        })
+                    },
+                    error: function (jqXHR, exception) {
+                        alert(exception);
+                    }
+                });
+            } catch (e) {
+                alert(e);
+            }
+        }
+
+        @*$.ajax({
+            url: '@Url.Action("AddBroadcastedOpenShift", "ExternalBroadcastShift")',
+            type: "POST",
+            data: {
+                StartDate: $("#txt_BroadcastedOpenShiftStartDate").val(),
+                Start: $("#txt_BroadcastedOpenShiftStart").val(),
+                Finish: $("#txt_BroadcastedOpenShiftFinish").val(),
+            },
+            datatype: "json",
+            success: function (data) {
+                var StartDate = parseJsonDate(data.StartDate);
+                var StartTime = parseJsonTime(data.Start);
+                var FinishDate = parseJsonDate(data.FinishDate);
+
+                var AppendHtml = '<tr id="wrkhistory_">' +
+                        '<td>' + StartDate + '</td>' +
+                        '<td>' + StartTime + '</td>' +
+                        '<td> ' + FinishTime + '</td>' +
+                        '<td></td>' +
+                    '</tr>';
+                $('#tbl_BroadcastedOpenShiftList').append(AppendHtml);
+                $("#txt_BroadcastedOpenShiftStartDate").val('');
+                $("#txt_BroadcastedOpenShiftStart").val('');
+                $("#txt_BroadcastedOpenShiftFinish").val('');
+            },
+            error: function (jqXHR, exception) {
+                alert(exception);
+            }
+        });*@
+    }
+
+    ///-------------------------------------
+    // Parse Date from JSON Date to Format
+    ///-------------------------------------
+    function parseJsonDate(jsonDate) {
+        var fullDate = new Date(parseInt(jsonDate.substr(6)));
+        var twoDigitMonth = (fullDate.getMonth() + 1) + ""; if (twoDigitMonth.length == 1) twoDigitMonth = "0" + twoDigitMonth;
+        var twoDigitDate = fullDate.getDate() + ""; if (twoDigitDate.length == 1) twoDigitDate = "0" + twoDigitDate;
+        var currentDate = twoDigitDate + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+        return currentDate;
+    };
+
+    ///-------------------------------------
+    // Parse Time from JSON Time to Format
+    ///-------------------------------------
+    function parseJsonTime(jsonDate) {
+        var fullTime = new Date(parseInt(jsonDate.substr(6)));
+        var formatHour = (fullTime.getHours() > 12) ? parseInt(fullTime.getHours()) - 12 : fullTime.getHours();
+        var hours = (formatHour < 10) ? "0" + formatHour : formatHour;
+        var minutes = (fullTime.getMinutes() < 10) ? "0" + fullTime.getMinutes() : fullTime.getMinutes();
+        var AMPM = (fullTime.getHours() > 12) ? "PM" : "AM"
+        var formattedTime = hours + ":" + minutes + " " + AMPM;
+        return formattedTime;
+    };
+
+</script>

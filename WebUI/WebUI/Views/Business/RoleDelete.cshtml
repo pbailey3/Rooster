@@ -1,0 +1,29 @@
+﻿@model WebUI.DTOs.RoleDTO
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete Role</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<dl class="dl-horizontal">
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Name)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Name)
+    </dd>
+
+</dl>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    
+     <div class="form-actions no-color">
+         @Html.ActionLink("< Back to list", "RoleIndex", new { businessid = ViewBag.BusinessId }, new { @class = "btn btn-primary btn-md" }) | 
+         <input type="submit" value="Delete" class="btn btn-danger" />
+           
+        </div>
+  
+}

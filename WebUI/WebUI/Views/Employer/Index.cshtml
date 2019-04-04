@@ -1,0 +1,160 @@
+﻿@model WebUI.DTOs.EmployerSummaryDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Employer home</h3>
+        </div>
+    </div>
+</nav>
+
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+       
+        <div class="col-md-12">
+            <section id="mainContent">
+
+                <h3>Linked employers</h3>
+                @if (Model.Employers.Count > 0)
+                {
+
+                    <table class="table table-striped">
+                        <tr>
+                            <th>
+                                Business
+                            </th>
+                            <th>
+                                Location(s)
+                            </th>
+                            <th></th>
+                        </tr>
+                        @foreach (var employer in Model.Employers.Select(o => o.BusinessName).Distinct().OrderBy(s => s))
+                        {
+                            <tr>
+                                <td>
+                                    @employer
+                                </td>
+                                <td>
+                                    <table>
+                                        @foreach (var locationName in Model.Employers.Where(w => w.BusinessName == employer).Select(o => o.Name).OrderBy(s => s))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @locationName
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </td>
+                                <td>
+                                @foreach (var location in Model.Employers.Where(w => w.BusinessName == employer))
+                                {
+                                    if (WebUI.Common.ClaimsHelper.IsLocationManager(HttpContext.Current, location.Id))
+                                    {
+                                        @Ajax.ActionLink("Edit", "Details", "Business", new { id = location.BusinessId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-sm btn-default" })
+
+                                        break;
+                                    }
+                                }</td>
+                              
+
+                                    </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <p> No linked employers</p>
+                }
+
+                <h3>Pending employer requests</h3>
+                @if (Model.EmployeeRequests.Count > 0)
+                {
+                    <text>The following businesses have nominated you as an employee. Please select the ones you would like to add to as your workplaces:</text>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>
+                                Business
+                            </th>
+                            <th>
+                                Location
+                            </th>
+                            <th></th>
+                       </tr>
+                        @foreach (var employeeReq in Model.EmployeeRequests.OrderBy(e => e.BusinessLocation_Name))
+                        {
+                            <tr>
+                                <td>
+                                    @employeeReq.BusinessLocation_Business_Name
+                                </td>
+                                <td>
+                                    @employeeReq.BusinessLocation_Name
+                                </td>
+                                <td>
+                                    <div id="requestWait_@employeeReq.Id"></div>
+                                    <div id="requestBtns_@employeeReq.Id">
+                                        <button id="approve_@employeeReq.Id" onclick="javascript:$('#reqId').val('@employeeReq.Id');$('#modalApprove').modal('show');return false;" class="btn btn-sm btn-primary">Approve</button> |
+                                        <button id="reject_@employeeReq.Id" onclick="javascript:$('#reqId').val('@employeeReq.Id');$('#modalReject').modal('show');return false;" class="btn btn-sm btn-danger">Reject</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+
+                    @* /*********** Begin: POPUP dialog ****************/*@
+                    <input type="hidden" name="reqId" id="reqId" value="" />
+                    <div id="modalApprove" class="modal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1>Approve Request</h1>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Approving the request will create a link to your profile for the requesting company</p>
+                                    <p>Are you sure you wish to continue?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-primary" onclick="javascript: Employee_ApproveRequest(); return false;">Yes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="modalReject" class="modal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1>Reject Request</h1>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you wish to reject this employer request?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-primary" onclick="javascript: Employee_RejectRequest(); return false;">Yes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @* /*********** End: POPUP dialog ****************/*@
+                }
+                else
+                {
+                    <p> No pending requests</p>
+                }
+
+            </section>
+          
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+               @Ajax.ActionLink("Find a Business", "Search", "Employer", null, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary btn-md" }) <input type="button" id="btnAddAnotherLocation" style="display: none;" class="btn btn-primary" value="Add another business location >" onclick="javascript:$('#addNext').val('true'); $('#submit').click();" /> | 
+                @Ajax.ActionLink("Register a Business", "Create", "Business", null, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnSuccess = "CreateBusinessDocumentReady" }, new { @class = "btn btn-primary btn-md" })
+            </div>
+        </div>
+
+    </div>
+</div>

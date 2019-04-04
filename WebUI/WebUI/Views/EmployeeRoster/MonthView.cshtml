@@ -1,0 +1,309 @@
+﻿@model IEnumerable<WebUI.DTOs.ShiftDTO>
+
+@{
+    ViewBag.Title = "Index";
+    
+    //Start date parameter must be set to a monday for the view to render correctly
+    if(((DateTime)ViewBag.StartDate).DayOfWeek != DayOfWeek.Monday)
+    {
+        throw new Exception("Start date must be a monday");
+
+    }
+}
+
+<h2>Employee Rosters Index</h2>
+
+<p>
+    Currently display rosters between @(((DateTime)ViewBag.StartDate).ToShortDateString()) and @(((DateTime)ViewBag.EndDate).ToShortDateString())
+    <br />
+    @Html.ActionLink("Show All", "Index", new { id=ViewBag.BusinessId, startDate=DateTime.MinValue, endDate=DateTime.MaxValue }, null) |
+    @Html.ActionLink("Show Current Month", "MonthView") 
+</p>
+
+
+@*Attempt a basic month view*@
+<table class="CalendarTable">
+    <tr>
+        <th>
+            Monday
+        </th>
+        <th>
+            Tuesday
+        </th>
+        <th>
+            Wednesday
+        </th>
+        <th>
+            Thursday
+        </th>
+        <th>
+            Friday
+        </th>
+        <th>
+            Saturday
+        </th>
+        <th>
+            Sunday
+        </th>
+        <th></th>
+    </tr>
+    @{
+        var length = ((DateTime)ViewBag.EndDate) - ((DateTime)ViewBag.StartDate);
+        
+        for(int weekNum = 0; weekNum < length.TotalDays/7; weekNum++)
+        {
+            //var internalLocations = Model.OrderBy(s => s.InternalLocationName).Select(s => s.InternalLocationName).Distinct();
+    <tr>
+         <td>
+            @{
+                Html.ViewData["DayOfWeek"] = DayOfWeek.Monday;
+                Html.ViewData["WeekNum"] = weekNum;
+                Html.RenderPartial("_EmployeeRosterMonthPartial",Model, Html.ViewData);
+             }
+        </td>
+        <td>
+            @{
+                Html.ViewData["DayOfWeek"] = DayOfWeek.Tuesday;
+                Html.ViewData["WeekNum"] = weekNum;
+                Html.RenderPartial("_EmployeeRosterMonthPartial",Model, Html.ViewData);
+             }
+        </td>
+        <td>
+             @{
+                Html.ViewData["DayOfWeek"] = DayOfWeek.Wednesday;
+                Html.ViewData["WeekNum"] = weekNum;
+                Html.RenderPartial("_EmployeeRosterMonthPartial",Model, Html.ViewData);
+             }
+        </td>
+        <td>
+             @{
+                Html.ViewData["DayOfWeek"] = DayOfWeek.Thursday;
+                Html.ViewData["WeekNum"] = weekNum;
+                Html.RenderPartial("_EmployeeRosterMonthPartial",Model, Html.ViewData);
+             }
+        </td>
+        <td>
+            @{
+                Html.ViewData["DayOfWeek"] = DayOfWeek.Friday;
+                Html.ViewData["WeekNum"] = weekNum;
+                Html.RenderPartial("_EmployeeRosterMonthPartial",Model, Html.ViewData);
+             }
+        </td>
+        <td>
+           @{
+                Html.ViewData["DayOfWeek"] = DayOfWeek.Saturday;
+                Html.ViewData["WeekNum"] = weekNum;
+                Html.RenderPartial("_EmployeeRosterMonthPartial",Model, Html.ViewData);
+             }
+        </td>
+        <td>
+             @{
+                Html.ViewData["DayOfWeek"] = DayOfWeek.Sunday;
+                Html.ViewData["WeekNum"] = weekNum;
+                Html.RenderPartial("_EmployeeRosterMonthPartial",Model, Html.ViewData);
+             }
+        </td>
+        <td>
+           
+        </td>
+    </tr>
+        }
+        
+    }
+
+</table>
+
+
+                    @* /*********** Begin: POPUP dialogs ****************/*@
+                        <div id='dialogShiftDetails' class='modal hide fade in' title="Shift Details">
+                            <p>Shift Time: <label id="dlgSDShiftTime"></label></p>
+                            <p>Shift Length: <label id="dlgSDShiftLength"></label></p>
+                            <p>Location: <label id="dlgSDShiftLocation"></label></p>
+                            <p>Working with: <label id="dlgSDWorkingWith"></label></p>
+                        </div>
+                         <div id='dialogShiftCancelAllowed' class='modal hide fade in' title="Shift Cancellation">
+                            <label for="txtCancelReason">Cancelling a shift required manager approval. Please enter reason for cancellation below:</label>
+                            <textarea id="txtCancelReason" name="ShiftCancelReason" maxlength="400" required></textarea>
+                         </div>
+                         <div id='dialogShiftCancelNotAllowed' class='modal hide fade in' title="Shift Cancellation">
+                            <div>
+                                Sorry, cancelling a shift within <span id="divCancelShiftTimeframe"></span> hours of the shift is not allowed.
+                               </div> 
+                             <p>
+                                Please call your manager.
+                            </p>
+                             <div id="dvMgrDetails"></div>
+                         </div>
+                          @* /*********** END: POPUP dialogs ****************/*@
+@section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+            @Scripts.Render("~/bundles/jqueryui")
+           <script>
+               var startTime = null;
+               var finishTime = null;
+               var hoursTillShiftStart = null;
+
+               $("#dialogShiftDetails").dialog({
+                   open: function () {
+                       startTime = $(this).data('Start');
+                       finishTime = $(this).data('Finish');
+                       hoursTillShiftStart = $(this).data('HoursToStart');
+                       $('#dlgSDShiftTime').text(startTime + ' - ' + finishTime);
+                       $('#dlgSDShiftLength').text($(this).data('Length'));
+                       $('#dlgSDShiftLocation').text($(this).data('Location'));
+                       getWorkingWithDetails($(this).data('Id'));
+                       },
+                   autoOpen: false,
+                   height: 300,
+                   width: 350,
+                   modal: true,
+                   buttons: {
+                       'Swap Shift': function () {
+                           alert('TODO');
+                       },
+                       'Cancel Shift': function () {
+                          //If preferences permit then allow cancellation
+                           //Get the business preferences
+                           var busId = $(this).data('BusinessId');
+                           var busPrefs = getBusinessPreferences(busId);
+                         
+                          if (busPrefs != null
+                              && busPrefs.CancelShiftAllowed == true
+                              && ((busPrefs.CancelShiftTimeframe == 0) || (busPrefs.CancelShiftTimeframe == null)
+                                   || (busPrefs.CancelShiftTimeframe < hoursTillShiftStart))) //Check if shift is outside allowable range to cancel
+                          {
+                              $(this).dialog("close");
+                              $('#dialogShiftCancelAllowed').dialog('open').data('Id', $(this).data('Id'));
+                          }
+                          else {
+                              $(this).dialog("close");
+                              $('#divCancelShiftTimeframe').text(busPrefs.CancelShiftTimeframe);
+                              $('#dialogShiftCancelNotAllowed').data('BusinessId', busId).dialog('open');
+                          }
+                       },
+                      Close: function () {
+                           $(this).dialog("close");
+                       }
+                   }
+               });
+               $("#dialogShiftCancelNotAllowed").dialog({
+                   open: function () {
+                       getBusinessMgrSummary($(this).data('BusinessId'));
+                   },
+                   autoOpen: false,
+                   height: 300,
+                   width: 350,
+                   modal: true,
+                   buttons: {
+                       Close: function () {
+                           $(this).dialog("close");
+                       }
+                   }
+               });
+               $("#dialogShiftCancelAllowed").dialog({
+                   autoOpen: false,
+                   height: 300,
+                   width: 350,
+                   modal: true,
+                   buttons: {
+                       'Send Request': function () {
+                           if ($('#txtCancelReason').val() == "") {
+                               alert("Error: reason must be entered");
+                           }
+                           else {
+                               //step1: Submit request to server
+                               $.ajax({
+                                   url: "/EmployeeRoster/CancelShiftRequest",
+                                   type: 'POST',
+                                   headers: { '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                                   contentType: 'application/json',
+                                   data: JSON.stringify({ shiftId: $(this).data('Id'), reason: $('#txtCancelReason').val() }),
+                                   success: function (msg) {
+                                       //step2: On Success reload the parent page
+                                       alert("Success: Shift cancellation requested");
+                                       location.reload(true);
+                                   },
+                                   error: function (jqXHR, textStatus, errorThrown) {
+                                       alert("Error: " + jqXHR.responseText);
+                                   },
+                                   statusCode: {
+                                       404: function () {
+                                           alert("Error: 404 page not found");
+                                       }
+                                   }
+                               })
+                              
+                           }
+                       }
+                   }
+               });
+
+               function getWorkingWithDetails(shiftId) {
+                   $.ajax({
+                       url: "/EmployeeRoster/GetShiftWorkingWithDetails/" + shiftId,
+                       type: 'GET',
+                       headers: { '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                       contentType: 'application/json',
+                       success: function (msg) {
+                           var obj = JSON && JSON.parse(msg) || $.parseJSON(msg);
+                           obj.forEach(function (entry) {
+                               $('#dlgSDWorkingWith').append(entry);
+                               $('#dlgSDWorkingWith').append('<br/>');
+                           });
+                       },
+                       error: function (jqXHR, textStatus, errorThrown) {
+                           alert("Error: " + jqXHR.responseText);
+                       },
+                       statusCode: {
+                           404: function () {
+                               alert("Error sending email: 404 page not found");
+                           }
+                       }
+                   })
+               }
+               function getBusinessMgrSummary(businessId) {
+                   $.ajax({
+                       url: "/EmployeeRoster/GetBusinessManagerDetails/" + businessId,
+                       type: 'GET',
+                       async: false,
+                       headers: { '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                       contentType: 'application/json',
+                       success: function (msg) {
+                           var obj = JSON && JSON.parse(msg) || $.parseJSON(msg);
+                           obj.forEach(function (entry) {
+                               $('#dvMgrDetails').text(entry.FullName);
+                               $('#dvMgrDetails').append(" <a href='tel:" + entry.MobilePhone + "'>" + entry.MobilePhone+ "</a>");
+                               $('#dvMgrDetails').append('<br/>');
+                           });
+                       },
+                       error: function (jqXHR, textStatus, errorThrown) {
+                           alert("Error: " + jqXHR.responseText);
+                       },
+                       statusCode: {
+                           404: function () {
+                               alert("Error sending email: 404 page not found");
+                           }
+                       }
+                   })
+               }
+               function getBusinessPreferences(businessId) {
+                   var busPrefs = null;
+                    $.ajax({
+                       url: "/EmployeeRoster/GetBusinessPreferences/" + businessId,
+                       type: 'GET',
+                       async: false,
+                       cache: false,
+                       headers: { '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                       contentType: 'application/json',
+                       success: function (msg) {
+                          busPrefs = JSON.parse(msg);
+                       },
+                       error: function (jqXHR, textStatus, errorThrown) {
+                           alert("Error: " + jqXHR.responseText);
+                       },
+                    })
+                    return busPrefs;
+               }
+           </script>
+        }
+                    

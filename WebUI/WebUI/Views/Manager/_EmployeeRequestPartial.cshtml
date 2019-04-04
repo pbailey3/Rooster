@@ -1,0 +1,100 @@
+﻿@model IEnumerable<WebUI.DTOs.EmployerRequestDTO>
+
+
+
+                <p>
+                    <h2>Pending Employee Requests</h2>
+                </p>
+                @if (Model.Count() > 0)
+                {
+                    <table class="table table-striped">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreatedDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Business_Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Location_Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Requester_Name)
+                            </th>
+                            <th></th>
+
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Business_Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Location_Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Requester_Name)
+                                </td>
+                                <td>
+                                    <div id="requestWait_@item.Id"></div>
+                                    <div id="requestBtns_@item.Id">
+                                        <button id="approve_@item.Id" class="btn btn-success btn-xs" onclick="javascript:$('#empReqId').val('@item.Id');$('#empModalApprove').modal('show');return false;">Approve</button>
+                                        <button id="reject_@item.Id" class="btn btn-danger btn-xs" onclick="javascript:$('#empReqId').val('@item.Id');$('#empModalReject').modal('show');return false;">Reject</button>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </table>
+
+                    @* /*********** Begin: POPUP dialog ****************/*@
+
+                    <input type="hidden" name="empReqId" id="empReqId" value="" />
+                    <div id="empModalApprove" class="modal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1>Approve request</h1>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Approving the request will create a link to your company for the requestor</p>
+                                    <p>Are you sure you wish to continue?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-primary" onclick="javascript: StaffRequest_ApproveRequest(); return false;">Yes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="empModalReject" class="modal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1>Reject request</h1>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you wish to reject this employee request?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-primary" onclick="javascript: StaffRequest_RejectRequest(); return false;">Yes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* /*********** End: POPUP dialog ****************/*@
+
+                }
+                else
+                {
+                    <h3>No pending requests</h3>
+                }
+          

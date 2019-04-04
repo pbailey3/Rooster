@@ -1,0 +1,63 @@
+﻿@model WebUI.DTOs.RoleDTO
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Add new role</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnFailure = "HandleError" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <br />
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(model => model.BusinessId, new { Value = ViewBag.BusinessId })
+                    @Html.HiddenFor(model => model.Name, new { Value = "PLACEHOLDER" })
+                    @if (((List<WebUI.DTOs.RoleDTO>)ViewBag.Roles).Count > 0)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(
+                        x => x.Id,
+                        new SelectList(ViewBag.Roles, "Id", "Name"),
+                        "-- SELECT --",
+               new { @class = "form-control", onchange = "javascript:  $('#Name').val($('option:selected', $(this)).text());" }
+                    )
+                                @Html.ValidationMessageFor(x => x.Name)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Add Role" class="btn btn-primary" />
+                            </div>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <p>
+                            <h4>No more roles available to choose from</h4>
+                        </p>
+                    }
+
+
+                </div>
+            }
+
+            <div>
+                @Ajax.ActionLink("< Back to list", "RoleIndex",new { employeeId = ViewBag.EmployeeId },new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary btn-outline btn-sm" })
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,107 @@
+﻿@model WebUI.DTOs.ShiftDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Delete shift</h3>
+        </div>
+    </div>
+</nav>
+
+
+
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-6">
+            <h4>Are you sure you want to delete this?</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.EmployeeFirstName)
+                </dt>
+                <dd>
+                    @if (!String.IsNullOrEmpty(Model.EmployeeFirstName))
+                    {
+                        @Html.DisplayFor(model => model.EmployeeFirstName)
+                    }
+                    else
+                    {
+                        <text>OPEN ROLE</text>
+                    }
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.EmployeeLastName)
+                </dt>
+                <dd>
+                    @if (!String.IsNullOrEmpty(Model.EmployeeLastName))
+                    {
+                        @Html.DisplayFor(model => model.EmployeeLastName)
+                    }
+                    else
+                    {
+                        <text>OPEN ROLE</text>
+                    }
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.StartTime)
+                </dt>
+                <dd>
+                    @Model.StartDateTime.ToString(Common.GetLocaleDateTimeDisplayFormat(HttpContext.Current.Request.UserLanguages.FirstOrDefault()))
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.FinishTime)
+                </dt>
+                <dd>
+                    @Model.FinishDateTime.ToString(Common.GetLocaleDateTimeDisplayFormat(HttpContext.Current.Request.UserLanguages.FirstOrDefault()))
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.RoleName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.RoleName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.InternalLocationName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.InternalLocationName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ShiftLength)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ShiftLength)
+                </dd>
+            </dl>
+
+            @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnFailure = "HandleError", OnComplete = "DocumentReady" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("ReturnView", (string)ViewBag.ReturnView)
+                @Html.Hidden("RosterId", @Model.RosterId)
+                <div class="form-actions no-color">
+                    @if ((string)ViewBag.ReturnView == "WeekView")
+                    {
+                        @Ajax.ActionLink("< Back to week view", "WeekView", new { rosterId = @Model.RosterId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "btn btn-outline btn-primary btn-sm" })
+                    }
+                    else if ((string)ViewBag.ReturnView == "DayView")
+                    {
+                        @Ajax.ActionLink("< Back to day view", "DayView", new { businessId = @Model.BusinessId, businessLocationId = @Model.BusinessLocationId, date = @Model.StartTime, returnView = ViewBag.ReturnView, rosterId = @Model.RosterId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "btn btn-outline btn-primary btn-sm" })
+
+                    }
+                    |
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,10 @@
+﻿@{
+    var attribs = new Dictionary<string, object>();
+
+    var htmlAttributes = HtmlHelper.AnonymousObjectToHtmlAttributes(ViewData["htmlAttributes"]);
+    htmlAttributes["class"] += "bd-time form-control";
+}
+
+
+@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, htmlAttributes)
+ 

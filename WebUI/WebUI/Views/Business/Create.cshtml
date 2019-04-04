@@ -1,0 +1,230 @@
+﻿@model WebUI.DTOs.BusinessDetailsDTO
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Register a new business</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @using (Ajax.BeginForm("Create", "Business", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnSuccess = "CreateBusinessDocumentReady", OnFailure = "HandleError" }, new { @class = "form-horizontal", role = "form", autocomplete = "off" }))
+            {
+
+                @Html.AntiForgeryToken()
+                <h3>Register a new business</h3>
+                <hr />
+                @Html.ValidationSummary()
+                @Html.Hidden("returnUrl", Request.UrlReferrer.ToString())
+                @Html.Hidden("addNext", false)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, new { @class = "col-md-2 control-label" })
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", id = "Name", onfocusout = "javascript: $('#BusinessLocationName').val($('#Name').val());" } })
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TypeIndustry, new { @class = "col-md-2 control-label" })
+
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(
+                        x => x.TypeIndustry,
+                        new SelectList(ViewBag.Industries),
+                        "-- SELECT --",
+                        new { @class = "form-control", onchange="javascript: TypeIndustryDDL_OnChange();" }
+                    )
+                        @Html.ValidationMessageFor(x => x.TypeIndustry)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TypeDetail, new { @class = "col-md-2 control-label" })
+
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(
+                        x => x.TypeId,
+                        new SelectList(ViewBag.BusinesTypeDetails, "Id", "Detail"),
+                        "-- SELECT --",
+                        new { @class = "form-control" }
+                        )
+                        @Html.ValidationMessageFor(x => x.TypeId)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Do you manage more than one location?", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.RadioButtonFor(model => model.HasMultiBusLocations, true, new { @id = "rbHasMultiBusLocationsYes", onclick = "javascript: $('#btnAddAnotherLocation').show('fast'); $('#submit').hide('fast'); $('#fgBusLocationName').show('fast'); $('#BusinessLocationName').val('');" }) Yes
+                        @Html.RadioButtonFor(model => model.HasMultiBusLocations, false, new { @id = "rbHasMultiBusLocationsNo", onclick = "javascript: $('#btnAddAnotherLocation').hide('fast'); $('#submit').show('fast'); $('#fgBusLocationName').hide('fast');$('#BusinessLocationName').val($('#Name').val());" }) No
+                        &nbsp;
+                        @Html.Partial("_HelpBusLocsPartial")
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Do you create multiple rosters in one location?", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.RadioButtonFor(model => model.HasMultiInternalLocations, true, new { @id = "rbHasMultiInternalLocationsYes", onclick = "javascript:  $('#sectionInternalLocations').show('fast');" }) Yes
+                        @Html.RadioButtonFor(model => model.HasMultiInternalLocations, false, new { @id = "rbHasMultiInternalLocationsNo", onclick = "javascript: $('#sectionInternalLocations').hide('fast');" }) No
+                        &nbsp;
+                        @Html.Partial("_HelpIntLocsPartial")
+                    </div>
+                </div>
+                <hr />
+                <h4>Business location details</h4>
+                <div class="form-group" id="fgBusLocationName" style="display: none;">
+                    @Html.LabelFor(model => model.BusinessLocation.Name, new { @class = "col-md-2 control-label" })
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.BusinessLocation.Name, new { htmlAttributes = new { @class = "form-control", id = "BusinessLocationName" } })
+                        @Html.ValidationMessageFor(model => model.BusinessLocation.Name)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BusinessLocation.Phone, new { @class = "col-md-2 control-label" })
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.BusinessLocation.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.BusinessLocation.Phone)
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    @Html.Label("EnterAddress", "Enter address", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        <input id="addrAuto" placeholder="Enter your address" class="form-control"
+                               onfocus="geolocate()" type="text" autocomplete="off" />
+                    </div>
+                    <table id="address" hidden="hidden">
+                        <tr>
+                            <td class="label">Street address</td>
+                            <td class="slimField">
+                                <input class="field" id="subpremise"
+                                       disabled="true" />
+                                <input class="field" id="street_number"
+                                       disabled="true" />
+                            </td>
+                            <td class="wideField" colspan="2">
+                                <input class="field" id="route"
+                                       disabled="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">City</td>
+                            <td class="wideField" colspan="3">
+                                <input class="field" id="locality"
+                                       disabled="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">State</td>
+                            <td class="slimField">
+                                <input class="field"
+                                       id="administrative_area_level_1" disabled="true" />
+                            </td>
+                            <td class="label">Zip code</td>
+                            <td class="wideField">
+                                <input class="field" id="postal_code"
+                                       disabled="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">Country</td>
+                            <td class="wideField" colspan="3">
+                                <input class="field"
+                                       id="country" disabled="true" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div hidden="hidden">
+                    <hr />
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.BusinessLocation.Address.Line1, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.BusinessLocation.Address.Line1, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.BusinessLocation.Address.Line2, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.BusinessLocation.Address.Line2, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.BusinessLocation.Address.Suburb, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.BusinessLocation.Address.Suburb, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.BusinessLocation.Address.State, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(
+                        x => x.BusinessLocation.Address.State,
+                       new SelectList(ViewBag.StatesList, "StateValue", "StateName"),
+                        "-- SELECT --",
+                     new { @class = "form-control", @readonly = true }
+                    )
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.BusinessLocation.Address.Postcode, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.BusinessLocation.Address.Postcode, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+                    @Html.HiddenFor(m => m.BusinessLocation.Address.Lat)
+                    @Html.HiddenFor(m => m.BusinessLocation.Address.Long)
+                    @Html.HiddenFor(m => m.BusinessLocation.Address.PlaceId)
+
+                    <div id="sectionInternalLocations" style="display: none;">
+
+                        <div id="internalLocations">
+                            <hr />
+                            <h4>Internal Locations</h4>
+
+                            @for (int i = 0; i < Model.BusinessLocation.InternalLocations.Count; i++)
+                            {
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.BusinessLocation.InternalLocations[i].Name, new { @class = "col-md-2 control-label" })
+
+
+                                    <div class="col-md-10">
+                                        @Html.HiddenFor(model => model.BusinessLocation.InternalLocations[i].Id, new { @class = "iHidden" })
+                                        @Html.TextBoxFor(model => model.BusinessLocation.InternalLocations[i].Name, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="button" id="btnAdd" value="Add another internal location" class="btn btn-default" onclick="javascript: RegisterBusiness_ClickAdd(event);" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            @Ajax.ActionLink("Cancel", "Index", "Employer", new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }) | <input type="submit" class="btn btn-primary" id="submit" value="Next add roles >" />
+                            <input type="button" id="btnAddAnotherLocation" style="display: none;" class="btn btn-primary" value="Add another business location >" onclick="javascript:$('#addNext').val('true'); $('#submit').click();" />
+                        </div>
+                    </div>
+                    }
+                </div>
+    </div>
+</div>
+ 
+

@@ -1,0 +1,86 @@
+﻿@model WebUI.DTOs.RosterCreateDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Create roster</h3>
+        </div>
+    </div>
+</nav>
+
+
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-6">
+            @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnFailure = "HandleError" }))
+            {
+                //Html.BeginForm()) {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                   @Html.ValidationSummary(true)
+                    <br/>
+                    @Html.Hidden("BusinessId", (Guid)ViewBag.BusinessId)
+
+                    <div class="form-group" hidden>
+                        @Html.LabelFor(model => model.BusinessLocationId, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.BusinessLocationId,
+                                        (SelectList)ViewBag.BusinessLocations,
+                                        "-- Choose Location --",
+                                        new
+                                        {
+                                            id = "busLocDd",
+                                            @class = "form-control",
+                                            onchange = "javascript:RosterCreate_BusLocDDChanged();"
+                                        }
+                                 )
+                            @Html.ValidationMessageFor(model => model.BusinessLocationId)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.WeekStartDate, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.Hidden("WeekStartDate", (DateTime)ViewBag.FirstRosterDate, new { id = "WeekStartDate" })
+                            @Html.Label("Week Starting", ((DateTime)ViewBag.FirstRosterDate).ToShortDateString(), new { id = "Week_Starting",@class = "control-label" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RostersToCreate, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.RostersToCreate, Enum.GetNames(typeof(WebUI.DTOs.RosterToCreateEnum)).Select(name => new SelectListItem()
+                {
+                    Text = name,
+                    Value = name
+                }), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.RostersToCreate)
+                        </div>
+                    </div>
+                    @Html.HiddenFor(model => model.UseShiftTemplates)
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.UseShiftTemplates, new { @class = "control-label col-md-2" })
+
+                           <div class="col-md-10">
+                                @Html.CheckBoxFor(model => model.UseShiftTemplates, new { @checked = "checked" })
+                                @Html.ValidationMessageFor(model => model.UseShiftTemplates)
+                            </div>
+                        </div>*@
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Ajax.ActionLink("< Back to rosters", "Index", "Roster", new { businessid = ViewBag.BusinessId, month = ((DateTime)ViewBag.FirstRosterDate).Month, year = ((DateTime)ViewBag.FirstRosterDate).Year, businesslocationid = ViewBag.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-outline btn-primary btn-sm" })
+                           <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+

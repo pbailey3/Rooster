@@ -1,0 +1,15 @@
+﻿#UploadFileForm {
+    border: none;
+}
+
+#previewsFileUpload {
+    border: 2px dashed rgb(3, 215, 140);
+    border-radius: 5px;
+    background: white;
+    padding: 10px;
+}
+
+
+#resultsFileUpload .panel-heading {
+    background-color: #1EC1A0;
+}

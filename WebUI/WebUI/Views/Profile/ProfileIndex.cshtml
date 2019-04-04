@@ -1,0 +1,627 @@
+﻿@model WebUI.DTOs.UserProfilesDTO
+<nav class="navbar navbar-dashboard navbar-fixed-top">
+    <div class="text-center">
+        <h3>Profile Setup</h3>
+    </div>
+</nav>
+<style>
+    .title-header-page {
+        margin-top: 10px;
+    }
+
+        .title-header-page h3 span {
+            font-size: 16px;
+            font-weight: 500;
+        }
+</style>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <section id="mainContent">
+                <div class="title-header-page">
+                    <h3>
+                        @Model.FirstName @Model.LastName <span>
+                            @{
+                                var Age = "";
+                                if (Model.DateofBirth != null)
+                                {
+                                    Age = DateTime.Now.Year - Model.DateofBirth.Value.Year - (Model.DateofBirth.Value.DayOfYear < DateTime.Now.DayOfYear ? 0 : 1) + " Years Old,";
+                                }
+                            }
+                            - @Age
+                            @{
+                                Model.Line1 = Model.Line1 != null && Model.Line1 != String.Empty ? Model.Line1 + ", " : "";
+                                Model.Line2 = Model.Line2 != null && Model.Line2 != String.Empty ? Model.Line2 + ", " : "";
+                                Model.Suburb = Model.Suburb != null && Model.Suburb != String.Empty ? Model.Suburb + ", " : "";
+                                var Location = Model.Line1 + Model.Line2 + Model.Suburb + Model.State;
+                            }
+                            @Location
+                        </span>
+                    </h3>
+                </div>
+
+                <div id="ProfileSetupeWizard" class="rootwizard-ProfileSetup-Wizrad margin-top-20">
+                    <div class="navbar" style="display:none;">
+                        <div class="navbar-inner">
+                            <ul>
+                                <li><a href="#tab1" data-toggle="tab">Profile Picture</a></li>
+                                <li><a href="#tab2" data-toggle="tab">About Me</a></li>
+                                <li><a href="#tab3" data-toggle="tab">Work History</a></li>
+                                <li><a href="#tab4" data-toggle="tab">Qualification</a></li>
+                                <li><a href="#tab5" data-toggle="tab">Skills</a></li>
+                                <li><a href="#tab6" data-toggle="tab">Message</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    @*<div id="bar" class="progress progress-striped active">
+                            <div class="bar"></div>
+                        </div>*@
+                    <div class="tab-content">
+                        <div class="tab-pane" id="tab1">
+                            <p class="ErrorWizardMessage"></p>
+                            <div class="form-group">
+                                <div class="img-responsive">
+                                    @if (!string.IsNullOrEmpty(Convert.ToBase64String(Model.ImageData)))
+                                    {
+                                        <img id="profilePictureImage" src="data:image;base64,@Convert.ToBase64String(Model.ImageData)" />
+                                    }
+                                    else
+                                    {
+                                        <img id="profilePictureImage" src="~/Images/person-placeholder.jpg" />
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <p id="UploadMessage" style="color:black; font-weight:bold;"></p>
+                                <a href="javascript:void(0);" id="ImageUploadClick" class="btn btn-default">Upload</a>
+                                <input type="file" id="imageUpload" name="imageUpload" onchange="UplaodImage(event)" accept="image/jpg,image/png,image/jpeg,image/gif" style="display:none;" />
+                                <input type="hidden" id="imageUrl" name="imageUrl" />
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab2">
+                            <p class="ErrorWizardMessage"></p>
+                            <div class="form-group">
+                                <label>About Me:</label>
+                                @Html.TextAreaFor(x => x.AboutMe, new { @class = "form-control", @placeholder = "Insert Short Description About Yourself Here..." })
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab3">
+                            <p class="ErrorWizardMessage"></p>
+                            <div class="table-responsive">
+                                <table id="WorkHistoryTable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Work History</th>
+                                            <th>Start</th>
+                                            <th>End</th>
+                                            <th>Role</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            foreach (var item in Model.WorkHistoryList)
+                                            {
+                                                <tr id="wrkhistory_@item.workId">
+                                                    <td>@item.workCompanyName</td>
+                                                    <td>@item.workStartDate.ToShortDateString()</td>
+                                                    <td>@item.workEndDate.ToShortDateString()</td>
+                                                    <td>@item.UserRole</td>
+                                                    <td>
+                                                        <a href="javascript:void(0);" onclick="editWorkHistory('@item.workId')">Edit</a> | <a href="javascript:void(0);" onclick="DeleteWorkHistory('@item.workId')">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td>
+                                                @Html.HiddenFor(x => x.WorkHistory.workId)
+                                                @Html.TextBoxFor(x => x.WorkHistory.workCompanyName, new { @class = "form-control", @id = "WorkHistory_workCompanyName" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(x => x.WorkHistory.workStartDate, new { @class = "form-control", @id = "WorkHistory_workStartDate" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(x => x.WorkHistory.workEndDate, new { @class = "form-control", @id = "WorkHistory_workEndDate" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(x => x.WorkHistory.UserRole, new { @class = "form-control", @id = "WorkHistory_UserRole" })
+                                            </td>
+                                            <td class="text-center">
+                                                <a id="AddUpdateHistory" onclick="GetData();" class="btn btn-primary pull-right"><span style="font-weight:bold;">+</span> Add</a>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab4">
+                            <p class="ErrorWizardMessage"></p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div id="IndustryQualification" class="form-group">
+                                        <label>Qualifications</label>
+                                        @{
+                                            foreach (var QualificationItem in Model.QualificationsList)
+                                            {
+                                                <p><input type="checkbox" value="@QualificationItem.ValueGuid" />&nbsp;&nbsp;@QualificationItem.Text</p>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                @*<div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Custom Qualifications</label>
+                                            <p>Cert. IV Hospitality Management.</p>
+                                        </div>
+                                    </div>*@
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Other Skills</label>
+                                        <table class="table" id="listOtherSkills">
+                                            <thead>
+                                                <tr>
+                                                    <td>
+                                                        <input id="otherQualification_otherQualificationId" type="hidden" value="" />
+                                                        <input id="otherQualification" type="text" class="form-control" />
+                                                    </td>
+                                                    <td><a id="addOtherQualification" href="javascript:void(0);" class="btn btn-primary">Add</a></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="otherSkillsContainer">
+                                                @{
+                                                    foreach (var itemOtherQual in Model.OtherQualificationsList)
+                                                    {
+                                                        <tr id="otherQualif_@itemOtherQual.Id">
+                                                            <td>@itemOtherQual.Name</td>
+                                                            <td><a href="javascript:void(0);" onclick="EditOtherQualification('@itemOtherQual.Id')">Edit</a> | <a href="javascript:void(0);" onclick="DeleteOtherQualification('@itemOtherQual.Id')">Delete</a></td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab5">
+                            <p class="ErrorWizardMessage"></p>
+                            <div id="IndustrySkills" class="form-group">
+                                <label>Skills</label>
+                                @{
+                                    foreach (var Skillitem in Model.SkillsList)
+                                    {
+                                        <p><input type="checkbox" value="@Skillitem.ValueGuid" />&nbsp;&nbsp; @Skillitem.Text</p>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab6">
+                            <h3 class="profile-tabmsg-sucess">Thanks for creating your profile. You will be notified when shifts become available.</h3>
+                        </div>
+                        <ul class="pager wizard">
+                            <li class="previous first" style="display:none;"><a class="btn btn-primary" href="#">First</a></li>
+                            <li class="previous"><a class="btn btn-primary" href="#">Previous</a></li>
+                            <li class="next last" style="display:none;"><a class="btn btn-primary" href="#">Last</a></li>
+                            <li class="next"><a class="btn btn-primary" href="#">Next</a></li>
+                            <li class="next finish"><a class="btn btn-primary" href="/">Finish</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </section>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+        ///--------------------------
+        // Upload Image on Click
+        ///--------------------------
+        $("#ImageUploadClick").click(function () {
+            $('#imageUpload').click()
+        });
+
+        ///----------------------------
+        // To Save Image to Database
+        ///----------------------------
+        function UplaodImage(e) {
+            $("#UploadMessage").empty().append("Loading...");
+            if (window.FileReader) {
+                var FR = new FileReader();
+                FR.onload = function (e) {
+                    Base64Image = e.target.result;
+                    var filestringsplit = Base64Image.substr(Base64Image.indexOf("base64,") + 7);
+                    var fileUploadContainer = $("#imageUpload");
+                    var size = fileUploadContainer[0].files[0].size;
+                    if (size > 500000) //500KB max size
+                    {
+                        alert("File too large, maximum file size 500KB");
+                        $("#UploadMessage").empty();
+                    }
+                    else {
+                        var FileType = fileUploadContainer[0].files[0].type;
+                        switch (FileType) {
+                            case 'image/pjpeg':
+                            case 'image/jpeg':
+                            case 'image/png':
+                            case 'image/gif':
+                                if (fileUploadContainer.length > 0) {
+                                    $.ajax({
+                                        url: '@Url.Action("UploadProfileImage", "Profile")',
+                                        type: "POST",
+                                        cache: false,
+                                        data: { UploadedFile: filestringsplit, FileType: FileType },
+                                        datatype: "json",
+                                        success: function (data) {
+                                            $("#profilePictureImage").attr('src', data.FileName);
+                                            $("#UploadMessage").empty();
+                                            $(".ErrorWizardMessage").fadeOut().empty();
+                                        },
+                                        error: function (jqXHR, exception) {
+                                            if (jqXHR.responseText.indexOf("Maximum request length exceeded") >= 0) {
+                                                alert("File is too large!");
+                                            }
+                                            else {
+                                                alert(exception);
+                                            }
+                                            $("#UploadMessage").empty();
+                                        }
+                                    });
+                                }
+                                else {
+                                    $("#UploadMessage").empty();
+                                }
+                                break;
+                            default:
+                                $("#UploadMessage").empty();
+                                $(".ErrorWizardMessage").fadeIn().empty().append('This is not an allowed file type.');
+                        }
+                    }
+
+                };
+                FR.readAsDataURL(e.target.files[0]);
+            }
+        }
+
+        ///--------------------------
+        // Update About Me
+        ///--------------------------
+        function UpdateAboutMe() {
+            $.ajax({
+                url: '@Url.Action("UpdateAboutMe", "Profile")',
+                type: "POST",
+                data: { AboutMe: $("#AboutMe").val() },
+                datatype: "json",
+                success: function (data) {
+                    $("#AboutMe").val(data.AboutMe);
+                },
+                error: function (jqXHR, exception) {
+                    alert(exception);
+                }
+            });
+        }
+
+        ///--------------------------
+        // Add/Update Work History
+        ///--------------------------
+        function GetData() {
+            if (!$('#WorkHistory_workCompanyName').val()) {
+                $(".ErrorWizardMessage").fadeIn().empty().append('Name Required.');
+                $('#WorkHistory_workCompanyName').focus();
+                return false;
+            } else if (!$('#WorkHistory_workStartDate').val()) {
+                $(".ErrorWizardMessage").fadeIn().empty().append('Start Date Required.');
+                $('#WorkHistory_workStartDate').focus();
+                return false;
+            } else if (!$('#WorkHistory_workEndDate').val()) {
+                $(".ErrorWizardMessage").fadeIn().empty().append('End Date Required.');
+                $('#WorkHistory_workEndDate').focus();
+                return false;
+            } else if (!$('#WorkHistory_UserRole').val()) {
+                $(".ErrorWizardMessage").fadeIn().empty().append('Role Required.');
+                $('#WorkHistory_UserRole').focus();
+                return false;
+            } else {
+
+                $.ajax({
+                    url: '@Url.Action("AddWorkHistory", "Profile")',
+                    type: "POST",
+                    data: {
+                        workId: $("#WorkHistory_workId").val(),
+                        workCompanyName: $("#WorkHistory_workCompanyName").val(),
+                        workStartDate: $("#WorkHistory_workStartDate").val(),
+                        workEndDate: $("#WorkHistory_workEndDate").val(),
+                        UserRole: $("#WorkHistory_UserRole").val()
+                    },
+                    datatype: "json",
+                    success: function (data) {
+                        var StartDateFormat = parseJsonDate(data.workHistory.workStartDate);
+                        var EndDateFormat = parseJsonDate(data.workHistory.workEndDate);
+                        var WorkIDForm = $("#WorkHistory_workId").val();
+                        var AppendHtml = '<tr id="wrkhistory_' + data.workHistory.workId + '">' +
+                                '<td>' + data.workHistory.workCompanyName + '</td>' +
+                                '<td>' + StartDateFormat + '</td>' +
+                                '<td> ' + EndDateFormat + '</td>' +
+                                '<td>' + data.workHistory.UserRole + '</td>' +
+                                '<td><a href="javascript:void(0);" onclick="editWorkHistory(\'' + data.workHistory.workId + '\')" >Edit</a> | <a href="javascript:void(0);" onclick="DeleteWorkHistory(\'' + data.workHistory.workId + '\')" >Delete</a></td>' +
+                            '</tr>';
+
+                        if (WorkIDForm == null || WorkIDForm == "") {
+                            $('#WorkHistoryTable').append(AppendHtml);
+                        }
+                        else {
+                            $('#WorkHistoryTable #wrkhistory_' + data.workHistory.workId).replaceWith(AppendHtml);
+                        }
+
+                        $('#WorkHistoryTable input[type=text],#WorkHistoryTable input[type=hidden]').val('');
+                        $("#AddUpdateHistory").empty().append('<span style="font-weight:bold;">+</span> Add');
+                    },
+                    error: function (jqXHR, exception) {
+                        alert(exception);
+                    }
+                });
+            }
+        }
+
+        ///-------------------------------------
+        // To Delete the WOrk History
+        ///-------------------------------------
+        function DeleteWorkHistory(workId) {
+            $.ajax({
+                url: '@Url.Action("DeleteWorkHistory", "Profile")',
+                type: "POST",
+                data: { workID: workId },
+                datatype: "json",
+                success: function (data) {
+                    $("#wrkhistory_" + data.workID).remove();
+                    $('#WorkHistoryTable input[type=text],#WorkHistoryTable input[type=hidden]').val('');
+                    $("#AddUpdateHistory").empty().append('<span style="font-weight:bold;">+</span> Add');
+                },
+                error: function (jqXHR, exception) {
+                    alert(exception);
+                }
+            });
+        }
+
+        ///-------------------------------------
+        // To Edit the WOrk History
+        ///-------------------------------------
+        function editWorkHistory(workId) {
+
+            $.ajax({
+                url: '@Url.Action("EditWorkHistory", "Profile")',
+                type: "POST",
+                data: { workID: workId },
+                datatype: "json",
+                success: function (data) {
+                    $("#WorkHistory_workId").val(data.workHistory.workId);
+                    $("#WorkHistory_workCompanyName").val(data.workHistory.workCompanyName);
+                    $("#WorkHistory_workStartDate").val(parseJsonDate(data.workHistory.workStartDate));
+                    $("#WorkHistory_workEndDate").val(parseJsonDate(data.workHistory.workEndDate));
+                    $("#WorkHistory_UserRole").val(data.workHistory.UserRole);
+                    $("#AddUpdateHistory").empty().append('<span style="font-weight:bold;">+</span> Update');
+                },
+                error: function (jqXHR, exception) {
+                    alert(exception);
+                }
+            });
+        }
+
+        ///-----------------------------------
+        // Get the saved Qualification Lists
+        ///-----------------------------------
+        function GetSavedQualification() {
+            $.ajax({
+                url: '@Url.Action("GetSavedQualification", "Profile")',
+                type: "POST",
+                data: {},
+                datatype: "json",
+                success: function (data) {
+                    for (var i = 0; i < data.Qualification.length; i++) {
+                        $("#IndustryQualification input[type=checkbox][value='" + data.Qualification[i].QualificationslookupQualificationId + "']").attr("checked", "checked");
+                    }
+
+                    for (var i = 0; i < data.Skills.length; i++) {
+                        $("#IndustrySkills input[type=checkbox][value='" + data.Skills[i].IndustrySkillsId + "']").attr("checked", "checked");
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    alert(exception);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+            $('#ProfileSetupeWizard').bootstrapWizard({
+                onNext: function (tab, navigation, index) {
+                    $(".ErrorWizardMessage").fadeOut().empty();
+                    if (index == 2) {
+                        // Make sure we entered the name
+                        if (!$('#AboutMe').val()) {
+                            $(".ErrorWizardMessage").fadeIn().empty().append('Please Enter About Yourself.');
+                            $('#AboutMe').focus();
+                            return false;
+                        }
+                        UpdateAboutMe();
+                    }
+
+                    if (index == 4) {
+                        var QualificationList = [];
+                        $('#IndustryQualification input:checked').each(function () {
+                            QualificationList.push(this.value);
+                        });
+
+                        if (QualificationList.length > 0) {
+                            $(".ErrorWizardMessage").fadeOut();
+                            $.ajax({
+                                url: '@Url.Action("AddQualification", "Profile")',
+                                type: "POST",
+                                data: { QualificationList: QualificationList },
+                                datatype: "json",
+                                success: function (data) {
+                                },
+                                error: function (jqXHR, exception) {
+                                    alert(exception);
+                                }
+                            });
+                        }
+                        else {
+                            $(".ErrorWizardMessage").fadeIn().empty().append('Please Select at Least one Qualification from List.');
+                            return false;
+                        }
+                    }
+
+                    if (index == 5) {
+                        var SkillList = [];
+                        $('#IndustrySkills input:checked').each(function () {
+                            SkillList.push(this.value);
+                        });
+
+                        if (SkillList.length > 0) {
+                            $(".ErrorWizardMessage").fadeOut();
+                            $.ajax({
+                                url: '@Url.Action("AddSkills", "Profile")',
+                                type: "POST",
+                                data: { SkillsList: SkillList },
+                                datatype: "json",
+                                success: function (data) {
+                                },
+                                error: function (jqXHR, exception) {
+                                    alert(exception);
+                                }
+                            });
+                        }
+                        else {
+                            $(".ErrorWizardMessage").fadeIn().empty().append('Please Select at Least one Skill from List.');
+                            return false;
+                        }
+                    }
+
+                }, onTabShow: function (tab, navigation, index) {
+                    var $total = navigation.find('li').length;
+                    var $current = index + 1;
+                    var $percent = ($current / $total) * 100;
+
+                    // If it's the last tab then hide the last button and show the finish instead
+                    if($current >= $total) {
+                        $('#ProfileSetupeWizard').find('.pager .next').hide();
+                        $('#ProfileSetupeWizard').find('.pager .finish').show();
+                        $('#ProfileSetupeWizard').find('.pager .finish').removeClass('disabled');
+                    }
+                }
+            });
+
+            $("#WorkHistory_workStartDate").datepicker({
+                format: getLocaleDateString()
+            });
+
+            $("#WorkHistory_workEndDate").datepicker({
+                format: getLocaleDateString()
+            });
+
+            GetSavedQualification();
+        });
+
+        ///-------------------------------------
+        // Parse Date from JSON Date to Format
+        ///-------------------------------------
+        function parseJsonDate(jsonDate) {
+            var fullDate = new Date(parseInt(jsonDate.substr(6)));
+            var twoDigitMonth = (fullDate.getMonth() + 1) + ""; if (twoDigitMonth.length == 1) twoDigitMonth = "0" + twoDigitMonth;
+            var twoDigitDate = fullDate.getDate() + ""; if (twoDigitDate.length == 1) twoDigitDate = "0" + twoDigitDate;
+            var currentDate = fullDate.toLocaleDateString();
+            return currentDate;
+        };
+
+        $("#addOtherQualification").click(function () {
+            if (!$('#otherQualification').val()) {
+                $(".ErrorWizardMessage").fadeIn().empty().append('Please Fill Other Qualification Field.');
+                $('#otherQualification').focus();
+                return false;
+            }
+            else {
+                $(".ErrorWizardMessage").fadeOut();
+                $.ajax({
+                    url: '@Url.Action("AddOtherQualification", "Profile")',
+                    type: "POST",
+                    data: {
+                        Id: $("#otherQualification_otherQualificationId").val(),
+                        Name: $("#otherQualification").val()
+                    },
+                    datatype: "json",
+                    success: function (data) {
+                        var AppendHtml = '<tr id="otherQualif_' + data.OtherQualification.Id + '">' +
+                                '<td>' + data.OtherQualification.Name + '</td>' +
+                                '<td><a href="javascript:void(0);" onclick="EditOtherQualification(\'' + data.OtherQualification.Id + '\')">Edit</a> | <a href="javascript:void(0);" onclick="DeleteOtherQualification(\'' + data.OtherQualification.Id + '\')" >Delete</a></td>' +
+                            '</tr>';
+                        if ($("#otherQualification_otherQualificationId").val() == null || $("#otherQualification_otherQualificationId").val() == "") {
+                            $("#otherSkillsContainer").append(AppendHtml);
+                        }
+                        else {
+                            $('#otherSkillsContainer #otherQualif_' + data.OtherQualification.Id).replaceWith(AppendHtml);
+                        }
+
+                        $("#otherQualification, #otherQualification_otherQualificationId").val('');
+                        $("#addOtherQualification").empty().append('Add');
+                    },
+                    error: function (jqXHR, exception) {
+                        alert(exception);
+                    }
+                });
+            }
+        });
+
+        ///-------------------------------------
+        // To Delete the Other Qualification
+        ///-------------------------------------
+        function DeleteOtherQualification(qualificationId) {
+            $.ajax({
+                url: '@Url.Action("DeleteOtherQualification", "Profile")',
+                type: "POST",
+                data: { qualificationId: qualificationId },
+                datatype: "json",
+                success: function (data) {
+                    $("#otherQualif_" + data.qualificationId).remove();
+                    $("#otherQualification, #otherQualification_otherQualificationId").val('');
+                    $("#addOtherQualification").empty().append('Add');
+                },
+                error: function (jqXHR, exception) {
+                    alert(exception);
+                }
+            });
+        }
+
+        ///-------------------------------------
+        // To Edit the Other Qualification
+        ///-------------------------------------
+        function EditOtherQualification(qualificationId) {
+
+            $.ajax({
+                url: '@Url.Action("EditOtherQualification", "Profile")',
+                type: "POST",
+                data: { qualificationId: qualificationId },
+                datatype: "json",
+                success: function (data) {
+                    $("#otherQualification_otherQualificationId").val(data.OtherQualification.Id);
+                    $("#otherQualification").val(data.OtherQualification.Name);
+                    $("#addOtherQualification").empty().append('Update');
+                },
+                error: function (jqXHR, exception) {
+                    alert(exception);
+                }
+            });
+        }
+    </script>
+}
+

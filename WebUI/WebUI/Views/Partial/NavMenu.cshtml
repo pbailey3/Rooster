@@ -1,0 +1,103 @@
+﻿@using WebUI.Common
+@using FeatureToggle
+@model WebUI.DTOs.HomeSummaryDTO
+@{
+    var businessIds = Model.Employers.OrderBy(e => e.BusinessName).Select(s => s.BusinessId).Distinct();
+
+}
+<section id="leftMenu">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav" id="menu">
+            <li class="sidebar-brand">
+                <a href="#menu-toggle" id="menu-toggle"><span class="icon-hamburger"></span></a>
+                <a href="/" class="logo"><img src="~/Content/img/rooster-logo.png" alt="rooster-logo" width="125" height="40" class="img-responsive"></a>
+            </li>
+            <li class="active">
+                <a href="/">
+                    <span class="icon-dashboard"></span> Dashboard
+                </a>
+            </li>
+            <li>
+                @Ajax.RawActionLink("<span class='icon-calender'></span> My Roster", "FullCalendar", "EmployeeRoster", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { })
+            </li>
+            @if (Is<SearchExternalFeature>.Enabled)
+            {
+                <li>
+                    @Ajax.RawActionLink("<span class='icon-message-star'></span>Search External <span class='badge' id='SeachExternal'></span>", "SearchExternal", "Roster", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnSuccess = "DocumentReady" }, new { })
+                </li>
+            }
+            <li>
+                @Ajax.RawActionLink("<span class='icon-message-star'></span>Open Shift <span class='badge' id='OpenShiftPage'></span>", "OpenShiftPage", "Roster", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnSuccess = "DocumentReady" }, new { })
+            </li>
+            @if (ClaimsHelper.IsInRole(HttpContext.Current, Constants.RoleBusinessLocationManager))
+            {
+                <li>
+                    @Ajax.RawActionLink("<span class='icon-message-star'></span> Requests <span class='badge' id='totalRequestsBadge'></span>", "AllRequestIndex", "Manager", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "updateTotalRequestCount", OnSuccess = "DocumentReady" }, new { })
+                </li>
+            foreach (var businessId in businessIds)
+            {
+                var business = Model.Employers.Where(b => b.BusinessId == businessId).Select(s => s.BusinessName).First();
+
+                var businessLocations = Model.Employers.OrderBy(e => e.Name).Where(e => e.BusinessId == businessId).Distinct();
+
+
+                if (WebUI.Common.ClaimsHelper.IsBusinesssManager(HttpContext.Current, Model.Employers.Where(b => b.BusinessId == businessId).ToList()))
+                {
+                        <li class="nav-level1">
+                            <a href="#">
+                                <span class="icon-business"></span> @business
+                            </a>
+                            @if (businessLocations.Count() > 1)
+                            {
+                                <ul class="nav-level2">
+                            
+                                @foreach (var businessLocation in businessLocations)
+                                {
+
+                                    <li>
+                                        <a href="#"><em>@businessLocation.Name</em></a>
+                                         @{
+                                            Html.RenderPartial("_BusinessLocationMenuPartial", businessLocation, Html.ViewData);
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                            }
+                            else //Hide a menu level as there is only one location to show
+                            {
+
+                                Html.RenderPartial("_BusinessLocationMenuPartial", @businessLocations.First(), Html.ViewData);
+                            }
+
+                        </li>
+                                            }
+                                        }
+                                    }
+            <li class="nav-level1">
+                <a href="#">
+                    <span class="icon-settings"></span>Settings <span class='badge' id='settingsBadge'></span>
+                </a>
+                <ul class="nav-level2">
+                    <li>
+                        @Ajax.RawActionLink("<em>User preferences</em>", "UserPreferencesDetails", "Account", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+                    </li>
+                    <li>
+                        @Ajax.RawActionLink("<em>Employers</em> <span class='badge' id='employeeRequestBadge'></span>", "Index", "Employer", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+                    </li>
+                </ul>
+            </li>
+            <li>
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <a href="javascript:document.getElementById('logoutForm').submit()">
+                        <span class="icon-cross"></span>Log off
+                    </a>
+                }
+            </li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+</section>
+fs

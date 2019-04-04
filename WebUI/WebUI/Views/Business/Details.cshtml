@@ -1,0 +1,117 @@
+﻿@model WebUI.DTOs.BusinessDTO
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Business edit</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @Ajax.RawActionLink("<span class='icon-add'></span>", "BusinessLocationCreate", "Business", new { businessid = Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "CreateBusinessDocumentReady" }, new { @class = "add" })
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 col-md-offset-3">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.TypeIndustry)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.TypeIndustry)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.TypeDetail)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.TypeDetail)
+                    </dd>
+
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.HasMultiBusLocations)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.HasMultiBusLocations)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.HasMultiInternalLocations)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.HasMultiInternalLocations)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-5 col-md-offset-1">
+                @{
+                    var isAdminForAll = true;
+                    foreach (var item in Model.BusinessLocations)
+                    {
+                        if (!WebUI.Common.ClaimsHelper.IsLocationManager(HttpContext.Current, item.Id))
+                        {
+                            isAdminForAll = false;
+                        }
+                    }
+                    if (isAdminForAll)
+                    {
+                        @Ajax.ActionLink("Edit", "Edit", new { id = Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnSuccess = "CreateBusinessDocumentReady" }, new { @class = "btn btn-default btn-xs" })
+                    }
+              }
+
+            </div>
+            </div>
+            <table class="table table-striped">
+                <tr>
+                    <th>
+                        Location
+                    </th>
+                    <th>
+                        Address
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.BusinessLocations)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            <form class="form-inline pull-left">
+                                <div class="form-group" id="edit_@item.Id">
+                                    @if (WebUI.Common.ClaimsHelper.IsLocationManager(HttpContext.Current, item.Id))
+
+                                    {
+                                        @Ajax.ActionLink("Edit", "BusinessLocationEdit", new { businesslocationid = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnSuccess = "CreateBusinessDocumentReady" }, new { @class = "btn btn-default btn-xs" })
+                                    }
+                                </div>
+
+                            </form>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+
+        </div>
+            </div>

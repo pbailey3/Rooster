@@ -1,0 +1,1034 @@
+﻿@model WebUI.DTOs.HomeSummaryDTO
+@{
+    var weekStart = WebUI.Common.Common.GetStartOfWeek(WebUI.Common.Common.DateTimeNowLocal(), DayOfWeek.Monday);
+    var bookedShiftsCount = 0;
+    if (Model.UpcomingShifts.Count > 0)
+    {
+        //Add up number of hours for each day to be displayed on the graph
+        foreach (var obj in Model.UpcomingShifts)
+        {
+            int shiftDayOfYear = ((DateTime)obj.StartDate).DayOfYear;
+            if (weekStart.DayOfYear <= shiftDayOfYear && shiftDayOfYear <= weekStart.AddDays(7).DayOfYear)
+            {
+                bookedShiftsCount++;
+            }
+        }
+    }
+}
+@Html.AntiForgeryToken()
+<nav class="navbar navbar-dashboard navbar-fixed-top">
+    <div class="text-center search_box_top">
+        <h3>
+            Dashboard
+            <div class="input-group">
+                <input type="text" id="txtsitesearch" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                    @Ajax.ActionLink("Go!", "SearchError", "Home", new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-default", id = "EditUserButton" })
+
+                    @*<button class="btn btn-default" id="btnSiteSearch" type="button">Go!</button>*@
+                </span>
+            </div>
+        </h3>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid panel-dashboard">
+    @Html.HiddenFor(model => model.HasViewedWizard)
+
+    <div class="row-fluid">
+        <div class="col-sm-9">
+            <div class="row-fluid">
+                <div class="col-sm-12 chart-view">
+                    <div class="panel panel-primary hidden-xs">
+                        <div class="panel-heading">
+                            <div class="row-fluid clearfix">
+                                <div class="col-md-4">
+                                    <h3>This week</h3>
+                                </div>
+                                <div class="col-md-8 text-right">
+                                    <h3><span class="icon-id"></span> <em>Booked shifts</em> @bookedShiftsCount</h3>
+                                </div>
+                                @*<div class="col-md-4 text-right">
+                                        <h3><span class="icon-star"></span> <em>Open shifts</em> ??</h3>
+                                    </div>*@
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="chart">
+                                <canvas id="thisWeek" height="40"></canvas>
+                            </div>
+                            <div id="weekcalendar" class="cal-context">
+                                <div class="cal-month-box">
+                                    <div class="cal-row-fluid cal-before-eventlist">
+
+                                        <div class="cal-cell1 cal-cell" data-cal-row="-day1">
+                                            <div class="cal-head">@weekStart.ToString("ddd dd")</div>
+                                        </div>
+                                        <div class="cal-cell1 cal-cell" data-cal-row="-day2">
+                                            <div class="cal-head">@weekStart.AddDays(1).ToString("ddd dd")</div>
+                                        </div>
+                                        <div class="cal-cell1 cal-cell" data-cal-row="-day3">
+                                            <div class="cal-head">@weekStart.AddDays(2).ToString("ddd dd")</div>
+                                        </div>
+                                        <div class="cal-cell1 cal-cell" data-cal-row="-day4">
+                                            <div class="cal-head">@weekStart.AddDays(3).ToString("ddd dd")</div>
+                                        </div>
+                                        <div class="cal-cell1 cal-cell" data-cal-row="-day5">
+                                            <div class="cal-head">@weekStart.AddDays(4).ToString("ddd dd")</div>
+                                        </div>
+                                        <div class="cal-cell1 cal-cell" data-cal-row="-day6">
+                                            <div class="cal-head">@weekStart.AddDays(5).ToString("ddd dd")</div>
+                                        </div>
+                                        <div class="cal-cell1 cal-cell" data-cal-row="-day7">
+                                            <div class="cal-head">@weekStart.AddDays(6).ToString("ddd dd")</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="col-sm-6">
+                    <!-- Upcoming Shifts -->
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3>Upcoming shifts</h3>
+                        </div>
+                        <div class="panel-body">
+                            @if (Model.UpcomingShifts.Count > 0)
+                            {
+                                //Add up number of hours for each day to be displayed on the graph
+                                var chartData = new List<double>();
+                                double monHours = 0.0, tuesHours = 0.0, wedHours = 0.0, thurHours = 0.0, friHours = 0.0, satHours = 0.0, sunHours = 0.0;
+
+                                foreach (var obj in Model.UpcomingShifts)
+                                {
+                                    double shiftHours = ((DateTime)obj.FinishDate - (DateTime)obj.StartDate).TotalHours;
+                                    int shiftDayOfYear = ((DateTime)obj.StartDate).DayOfYear;
+                                    if (shiftDayOfYear == weekStart.DayOfYear)
+                                    {
+                                        monHours += shiftHours;
+                                    }
+                                    else if (shiftDayOfYear == weekStart.AddDays(1).DayOfYear)
+                                    {
+                                        tuesHours += shiftHours;
+                                    }
+                                    else if (shiftDayOfYear == weekStart.AddDays(2).DayOfYear)
+                                    {
+                                        wedHours += shiftHours;
+                                    }
+                                    else if (shiftDayOfYear == weekStart.AddDays(3).DayOfYear)
+                                    {
+                                        thurHours += shiftHours;
+                                    }
+                                    else if (shiftDayOfYear == weekStart.AddDays(4).DayOfYear)
+                                    {
+                                        friHours += shiftHours;
+                                    }
+                                    else if (shiftDayOfYear == weekStart.AddDays(5).DayOfYear)
+                                    {
+                                        satHours += shiftHours;
+                                    }
+                                    else if (shiftDayOfYear == weekStart.AddDays(6).DayOfYear)
+                                    {
+                                        sunHours += shiftHours;
+                                    }
+                                    <div class="cal-shift">
+                                        <div class="cal-shift-link">
+                                            <h5 class="shift-location">@obj.Role @@ @obj.BusinessLocationName</h5>
+                                            <p class="shift-time"><b>@obj.StartDate.ToString("dddd")</b>@obj.StartDate.ToString(" dd MMMM yyyy") <b>@obj.StartDate.ToString("hh:mm")</b> @obj.StartDate.ToString("tt") - <b>@obj.FinishDate.ToString("hh:mm")</b> @obj.FinishDate.ToString("tt")</p>
+                                        </div>
+                                    </div>
+                                }
+
+                                <script type="text/javascript">
+                                    //global variable, used in bootstap-theme.js to populate the chart data
+                                    var chartData = [@monHours, @tuesHours, @wedHours, @thurHours, @friHours, @satHours, @sunHours];
+                                </script>
+                            }
+                            else
+                            {
+                                <i>You have no shifts in the next 7 days</i>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <!-- Open Shifts -->
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3>Open shifts</h3>
+                        </div>
+                        <div class="panel-body">
+                            @if (Model.OpenShiftsEmployee.OpenShifts.Count() > 0)
+                            {
+                                foreach (var obj in Model.OpenShiftsEmployee.OpenShifts.OrderBy(s => s.StartDateTime))
+                                {
+                                    <!-- Shift -->
+                                    <div class="cal-shift">
+                                        <div class="cal-shift-link">
+                                            <div class="actions pull-right">
+                                                <div id="requestWait_@obj.Id">
+                                                    @if (Model.OpenShiftsEmployee.OpenShiftRequests.Contains(obj.Id))
+                                                    {
+                                                        <p>Requested!</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="@obj.Id" type="button" onclick="AcceptExternalshift()" data-toggle="modal" data-id="@obj.Id" value="Apply" class="open-RequestShiftDialog btn btn-primary" />
+                                                    }
+                                                </div>
+                                            </div>
+                                            @if (!string.IsNullOrEmpty(obj.RoleName))
+                                            {
+                                                <h5 class="shift-location">@obj.RoleName @@ @obj.BusinessLocationName</h5>
+                                            }
+                                            else
+                                            {
+                                                <h5 class="shift-location">@obj.BusinessLocationName</h5>
+                                            }
+                                            <p class="shift-time"><b>@obj.StartDateTime.ToString("dddd")</b>@obj.StartDateTime.ToString(" dd MMMM yyyy") <b>@obj.StartDateTime.ToString("hh:mm")</b> @obj.StartDateTime.ToString("tt") - <b>@obj.FinishDateTime.ToString("hh:mm")</b> @obj.FinishDateTime.ToString("tt")</p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <i>There are currently no open shifts</i>
+                            }
+                            <!--The Modal box defined using class modal-->
+                            <div id="modalRequestShift" class="modal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1>Request open shift</h1>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you wish to request this open shift?
+                                            <p>All requests will be sent to location manager to approve.</p>
+                                            <input type="hidden" name="shiftId" id="shiftId" value="" />
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button class="btn btn-primary" onclick="javascript: RequestShift();">Request</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end here-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="col-sm-6">
+                    <!-- ExternalBroadCast Shifts -->
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3>External shifts</h3>
+                        </div>
+                        <div class="panel-body">
+                            @if (Model.ExternalShiftBroadCastEmpoyee.ExternalShits.Count() > 0)
+                            {
+                                foreach (var obj in Model.ExternalShiftBroadCastEmpoyee.ExternalShits.OrderBy(a => a.StartDate))
+                                {
+                                    <!-- Shift -->
+                                    <div class="cal-shift">
+                                        <div class="cal-shift-link">
+                                            <div class="actions pull-right">
+                                                <div id="requestWait_@obj.Id">
+                                                    @if (Model.ExternalShiftBroadCastEmpoyee.ExternalShiftRequests.Contains(obj.Id))
+                                                    {
+                                                        <p>Requested!</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="@obj.Id" type="button" data-toggle="modal" data-id="@obj.Id" value="View" class="open-RequestExternalShiftDialog btn btn-primary" />
+                                                        @*@Ajax.ActionLink("Apply", "EmployeeExternal", "Roster", new { externalShiftID = obj.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", }, new { @class = "btn btn-primary" })*@
+                                                    }
+                                                </div>
+                                            </div>
+                                            <h5 class="shift-location">@obj.Description</h5>
+
+                                            @*<p class="shift-time"><b>@obj.StartDateTime.ToString("dddd")</b>@obj.StartDateTime.ToString(" dd MMMM yyyy") <b>@obj.StartDateTime.ToString("hh:mm")</b> @obj.StartDateTime.ToString("tt") - <b>@obj.FinishDateTime.ToString("hh:mm")</b> @obj.FinishDateTime.ToString("tt")</p>*@
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <i>There are currently no open shifts</i>
+                            }
+                            <!--The Modal box defined using class modal-->
+                            <div id="modalRequestExternalShift" class="modal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1>Request external shift</h1>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you wish to request this External Broadcast shift?
+                                            <p>All requests will be sent to location manager to approve.</p>
+                                            <div id="ExternlShift">
+
+                                            </div>
+                                            <input type="hidden" name="ExternalshiftId" id="ExternalshiftId" value="" />
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button type="button" onclick="RequestExternalShift()" id="btn_Save" class="btn btn-primary">Request</button>
+                                            <button type="submit" onclick="SendExternalShiftMessage()" id="btn_Save_message" class="btn btn-primary">Send a message</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end here-->
+                            <!--The Modal box defined using class modal-->
+                            <div id="modalRequestConfirmation" class="modal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        @*<div class="modal-header">
+                                                <h1>Request External Broadcast shift</h1>
+                                            </div>*@
+                                        <div class="modal-body">
+                                            @*Are you sure you wish to request this External Broadcast shift?
+                                                <p>All requests will be sent to location manager to approve.</p>*@
+                                            <div id="ConfirmRequest">
+
+                                            </div>
+                                            <input type="hidden" name="ExternalshiftId" id="ExternalshiftId" value="" />
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="ConfirmationSent" class="btn btn-default" data-dismiss="modal">OK</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end here-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="col-sm-3">
+                    <p>
+                        <input type="button" onclick="javascript: $('#modalWizard').modal('show');" class="btn btn-primary btn-xs" value="View help wizard" />
+                    </p>
+                    <p>
+                        <input type="button" onclick="javascript: $('#modalFeedback').modal('show');" class="btn btn-primary btn-xs" value="Send Feedback" />
+                        </p>
+                        <!--The Modal box defined using class modal-->
+                        <div id="modalFeedback" class="modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1>Send us feedback</h1>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <label for="txtFeedback">
+<p>Please enter feedback below:</p></label>
+                                    <p>
+                                        <textarea id="txtFeedback" name="txtFeedback" maxlength="400" required style="width:100%"></textarea>
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-default" data-dismiss="modal" onclick="javascript:  $('#txtFeedback').val('');">Cancel</button>
+                                    <button class="btn btn-primary" id ="btnSendFeedback" onclick="javascript: SendFeedback();">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end here-->
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 notifications-view">
+            <h3>Notifications</h3>
+            <input type="hidden" name="reqId" id="reqId" value="" />
+            <ul class="list-unstyled list-notifications" id="notifications"></ul>
+        </div>
+    </div>
+</div>
+<!--The Modal box defined using class modal-->
+<div id="modalWizard" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Welcome to the Rooster wizard!</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row text-center">
+                    <button type="button" class="btn btn-primary" id="btnWizardRegBus">Register a business</button>
+                </div>
+                <div class="row text-center">
+                    or
+                </div>
+                <div class="row text-center">
+                    @*@Ajax.ActionLink("Find my workplace", "Search", "Employer", null, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary btn-md", onclick = "javascript: $('#modalWizard').modal('hide');" })*@
+                    @Ajax.ActionLink("Register as an Employee", "#", null, null, null, new { @class = "btn btn-primary btn-md", onclick = "javascript: $('#modalWizard').modal('hide'); $('#modalRoosterEmployment').modal('show');" })
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal" onclick="javascript: SkipWizard(); return false;">Skip</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end here-->
+<!--The Modal box defined using class modal-->
+<div class="modal" id="modalRegisterBus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title">Register a business</h3>
+            </div>
+            <div class="modal-body">
+                <div id="rootwizard" class="tabbable tabs-left">
+                    <ul>
+                        <li><a href="#tab1" data-toggle="tab">Step 1 - Register your business</a></li>
+                        <li><a href="#tab2" data-toggle="tab">Step 2 - Add roles</a></li>
+                        <li><a href="#tab3" data-toggle="tab">Step 3 - Add employees</a></li>
+                        <li><a href="#tab4" data-toggle="tab">Step 4 - Create shifts</a></li>
+                        <li><a href="#tab5" data-toggle="tab">Step 5 - Ready to schedule</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane row text-center" id="tab1">
+                            <br />
+                            <img src="~/Images/WizardRegBusStep1_2.jpg" />
+                        </div>
+                        <div class="tab-pane row text-center" id="tab2">
+                            <br />
+                            <p>
+                                <em>
+                                    <b>
+                                        This step allows you to create roles for your business. You will allocate these to employee later.
+                                    </b>
+                                </em>
+                            </p>
+                            <img src="~/Images/WizardRegBusStep2_1.jpg" />
+                        </div>
+                        <div class="tab-pane row text-center" id="tab3">
+                            <br />
+                            <img src="~/Images/WizardRegBusStep3_1.jpg" />
+                        </div>
+                        <div class="tab-pane row text-center" id="tab4">
+                            <br />
+                            <p>
+                                <em>
+                                    <b>
+                                        First, start by adding in any recurring shifts that you have. When you create a new roster, these shifts will automatically populate<br />
+                                    </b>
+                                </em>
+                            </p>
+                            <img src="~/Images/WizardRegBusStep4_2.jpg" />
+                        </div>
+                        <div class="tab-pane row text-center" id="tab5">
+                            <br />
+                            <h4 class="text-center">Now  let’s finish your schedule..</h4>
+                            <p class="text-center">
+                                We’re here to help but you should be right to complete
+                                and publish your first schedule from here..
+                            </p>
+                            @Ajax.ActionLink("Get started!", "Create", "Business", null, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnSuccess = "CreateBusinessDocumentReady" }, new { @class = "btn btn-primary btn-md", onclick = "javascript: $('#modalWizard').modal('hide'); $('#modalRegisterBus').modal('hide');" })
+                        </div>
+                        <ul class="pager wizard">
+                            <li class="previous first" style="display:none;"><a href="#">First</a></li>
+                            <li class="previous"><a href="#">Previous</a></li>
+                            <li class="next last" style="display:none;"><a href="#">Last</a></li>
+                            <li class="next"><a href="#">Next</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@* /*********** Begin: POPUP dialog ****************/*@
+<div id="modalReassign" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>Open shift</h1>
+            </div>
+            <div class="modal-body">
+                <p>Would you like to reassign the shift now?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a id="btnYesModal" href='@Url.Action("ShiftEdit", "Roster", new { id = "param-id", businessLocationId = "param-buss", returnView = "WeekView" })' class="btn btn-primary" data-ajax-update="#body" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-loading="#divLoading" data-ajax="true" data-ajax-complete="DocumentReady" onclick="javascript: $('#modalReassign').modal('hide'); return false;">Yes</a>
+            </div>
+        </div>
+    </div>
+</div>
+@* /*********** End: POPUP dialog ****************/*@
+
+@* /*********** Begin: Rooster Employment POPUP dialog ****************/*@
+<div id="modalRoosterEmployment" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Rooster Employment</h3>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Would you like to register for Rooster
+                    Employment? Rooster employment will notify you of available
+                    shifts within your area so you can find extra work if you like!
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0);" class="btn btn-primary btn-md" onclick="ShowModalRoosterEmployment()">Yes</a>
+                @Ajax.ActionLink("No", "", "Employer", null, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-default", onclick = "javascript: $('#modalRoosterEmployment').modal('hide');" })
+            </div>
+        </div>
+    </div>
+</div>
+@* /*********** End:  Rooster Employment POPUP dialog ****************/*@
+<style>
+    .pac-container {
+        z-index: 1051 !important;
+    }
+</style>
+@* /*********** Begin: Rooster POPUP dialog ****************/*@
+<div id="modalRooster" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Rooster Employment</h3>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Find work within <span id="LocationRangeSpan"></span> of <a href="javascript:void(0);" id="LocationRoosterSpan"></a>. 
+                </p>
+                <div class="form-groupRequest external shift">
+                    <label>Distance Range</label>
+                    @Html.DropDownListFor(model => Model.Address.Distance, new SelectList(Model.LocationRange, "Value", "Text"), null, new { @id = "LocationRange", @class = "form-control" })
+                </div>
+                <div id="ProfileAddress" class="form-group" style="display:none;">
+                    <label>Location</label> <!--LocationRooster-->
+                    @{
+                        Model.Address.Line1 = Model.Address.Line1 != null && Model.Address.Line1 != String.Empty ? Model.Address.Line1 + ", " : "";
+                        Model.Address.Line2 = Model.Address.Line2 != null && Model.Address.Line2 != String.Empty ? Model.Address.Line2 + ", " : "";
+                        Model.Address.Suburb = Model.Address.Suburb != null && Model.Address.Suburb != String.Empty ? Model.Address.Suburb + ", " : "";
+                        var Location = Model.Address.Line1 + Model.Address.Line2 + Model.Address.Suburb + Model.Address.State;
+                    }
+
+                    <div class="input-group">
+                        <input id="addrAuto" placeholder="Enter your address" class="form-control" onfocus="geolocate()" type="text" autocomplete="off" value="@Location" />
+                        <span class="input-group-btn" style="left: -242px;">
+                            <button class="btn btn-primary" style="padding:8px;" type="button" onclick="UpdateLocationData()">Go!</button>
+                        </span>
+                    </div>
+                    <table id="address" hidden="hidden">
+                        <tr>
+                            <td class="label">Street address</td>
+                            <td class="slimField">
+                                <input class="field" id="subpremise"
+                                       disabled="true" />
+                                <input class="field" id="street_number"
+                                       disabled="true" />
+                            </td>
+                            <td class="wideField" colspan="2">
+                                <input class="field" id="route"
+                                       disabled="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">City</td>
+                            <td class="wideField" colspan="3">
+                                <input class="field" id="locality"
+                                       disabled="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">State</td>
+                            <td class="slimField">
+                                <input class="field"
+                                       id="administrative_area_level_1" disabled="true" />
+                            </td>
+                            <td class="label">Zip code</td>
+                            <td class="wideField">
+                                <input class="field" id="postal_code"
+                                       disabled="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">Country</td>
+                            <td class="wideField" colspan="3">
+                                <input class="field"
+                                       id="country" disabled="true" />
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div hidden="true">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Address.Line1, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.Address.Line1, new { @class = "form-control", @readonly = true })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Address.Line2, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.Address.Line2, new { @class = "form-control", @readonly = true })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Address.Suburb, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.Address.Suburb, new { @class = "form-control", @readonly = true })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Address.State, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.Address.State, new { @class = "form-control", @readonly = true })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Address.Postcode, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.Address.Postcode, new { @class = "form-control", @readonly = true })
+                            </div>
+                        </div>
+                    </div>
+                    @Html.HiddenFor(m => m.Address.PlaceLatitude)
+                    @Html.HiddenFor(m => m.Address.PlaceLongitude)
+                    @Html.HiddenFor(m => m.Address.PlaceId)
+
+                </div>
+                <div class="form-group">
+                    <label>Business Type</label>
+                    @Html.DropDownListFor(model => Model.Address.IndustryTypeId, new SelectList(Model.IndustryType, "Value", "Text"), null, new { @id = "IndustryType", @class = "form-control" })
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0);" class="btn btn-primary btn-md" onclick="UpdateRangeData()">OK</a>
+            </div>
+        </div>
+    </div>
+</div>
+@* /*********** End: Rooster POPUP dialog ****************/*@
+
+<!--end here-->
+@section Scripts {
+    @Scripts.Render("~/Scripts/bd-googlemaps.js")
+    <script>
+
+        $(document).ready(function () {
+            DocumentReady();
+            Notifications_GetAllRequest();
+            updateEmployeeRequestCount();
+            updateShiftRequestCount();
+            updateExternalShiftRequestCount();
+            updateEmployerRequestCount();
+
+            $('#rootwizard').bootstrapWizard({ 'tabClass': 'nav nav-tabs' });
+            FillLocationHeader();
+            $("#LocationRangeSpan").empty().append($("#LocationRange").find(':selected').text());
+            var valU = $("#HasViewedWizard");
+            if (valU.val() == "False") {
+                ShowWizard();
+            }
+
+            $("#txtsitesearch").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Home/GetSiteSearch",
+                        type: "POST",
+                        dataType: "json",
+                        data: { Prefix: request.term },
+                        success: function (data) {
+                            debugger;
+                            $('#btnGO').html('GO!');
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.Text,
+                                    value: item.Text,
+                                    id: item.ValueGuid
+                                };
+                            }))
+                        },
+                        error: function () {
+                            debugger;
+                            response([]); // send no results to the widget.
+                            alert("an error occurred!");
+                        }
+                    })
+                },
+                select: function (event, ui) {
+                    $.ajax({
+                        url: "/Home/GetSearchType",
+                        type: "POST",
+                        dataType: "json",
+                        data: { id: ui.item.id },
+                        success: function (IsBusiness) {
+
+                            if (IsBusiness === "true") {
+                                $('#EditUserButton').attr('href', "/Home/GetSearchResult?id=" + ui.item.id + "&Name=" + ui.item.value + "&SearchType=" + "BusinessSearch");
+                            } else {
+                                $('#EditUserButton').attr('href', "/Home/GetSearchResult?id=" + ui.item.id + "&Name=" + ui.item.value + "&SearchType=" + "UserSearch");
+                            }
+                        }
+                    })
+                }
+            });
+
+        });
+        function ShowModalRoosterEmployment() {
+            $('#modalRoosterEmployment').modal('hide');
+            $('#modalRooster').modal('show');
+            initialize();
+        }
+
+        function ShowWizard() {
+            $("#modalWizard").modal("show");
+        };
+
+        $('#btnWizardRegBus').click(function () {
+            $("#modalRegisterBus").modal("show");
+            $("#modalWizard").modal("hide");
+
+        });
+
+        function FillLocationHeader() {
+            $("#LocationRoosterSpan").empty().append($("#addrAuto").val());
+        }
+
+        ///------------------------------------
+        // To Update Location on Clikc of GO!
+        ///------------------------------------
+        function UpdateLocationData() {
+
+            var JsonResult = JSON.stringify({
+                userLocation: {
+                    Line1: $('#Address_Line1').val(),
+                    Line2: $('#Address_Line2').val(),
+                    Suburb: $('#Address_Suburb').val(),
+                    State: $('#Address_State').val(),
+                    Postcode: $('#Address_Postcode').val(),
+                    PlaceLatitude: $('#Address_PlaceLatitude').val(),
+                    PlaceLongitude: $('#Address_PlaceLongitude').val(),
+                    PlaceId: $('#Address_PlaceId').val()
+                }
+            });
+
+            $.ajax({
+                url: "/Home/UpdateLocation",
+                type: 'POST',
+                data: JsonResult,
+                headers: { '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                contentType: 'application/json',
+                success: function (data, textStatus, jqXHR) {
+                    $("#ProfileAddress").fadeOut();
+                    FillLocationHeader();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Error: " + jqXHR.responseText);
+                },
+                statusCode: {
+                    404: function () {
+                        alert("Error sending email: 404 page not found");
+                    }
+                }
+            })
+        }
+
+        ///------------------------------------
+        // To Update Range on Click of OK
+        ///------------------------------------
+        function UpdateRangeData() {
+            var JsonResult = JSON.stringify({
+                Distance: $('#LocationRange').val(),
+                IndustryTypeId: $('#IndustryType').val()
+            });
+
+            $.ajax({
+                url: "/Home/UpdateRange",
+                type: 'POST',
+                data: JsonResult,
+                headers: { '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                contentType: 'application/json',
+                success: function (data, textStatus, jqXHR) {
+                    $('#modalRooster').modal('hide');
+                    SkipWizard();
+                    location.href = "/Profile";
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Error: " + jqXHR.responseText);
+                },
+                statusCode: {
+                    404: function () {
+                        alert("Error sending email: 404 page not found");
+                    }
+                }
+            })
+        }
+
+        ///-------------------------------------
+        // Location rooster on keypress Event
+        ///-------------------------------------
+        $("#addrAuto").on("change keyup keypress paste", function () {
+            FillLocationHeader();
+        });
+
+        $("#LocationRoosterSpan").click(function () {
+            $("#ProfileAddress").fadeIn();
+        });
+
+        ///-------------------------------------
+        // Location Range on Vhange Event
+        ///-------------------------------------
+        $("#LocationRange").on("change", function () {
+            $("#LocationRangeSpan").empty().append($(this).find(":selected").text());
+        });
+
+        function SkipWizard() {
+            $.ajax({
+                url: "/Home/ViewedWizard",
+                type: 'POST',
+                headers: { '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                contentType: 'application/json',
+                success: function (data, textStatus, jqXHR) {
+                    $("#modalWizard").modal("hide");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Error: " + jqXHR.responseText);
+                },
+                statusCode: {
+                    404: function () {
+                        alert("Error sending email: 404 page not found");
+                    }
+                }
+            })
+        };
+
+        //The script read the modalbox element and define the
+        //modal on it using modal method and calls its "show state"
+        $(function () {
+            var modalRequestShift = function () {
+                $("#modalRequestShift").modal("show");
+            };
+            $(document).on("click", ".open-RequestShiftDialog", function () {
+                var shiftId = $(this).data('id');
+                $(".modal-body #shiftId").val(shiftId);
+                modalRequestShift();
+            });
+        });
+
+
+        //Open Model for External Shift
+        $(function () {
+            //var modalRequestShift = function () {
+
+            //};
+            $(document).on("click", ".open-RequestExternalShiftDialog", function () {
+                var ExternalshiftId = $(this).data('id');
+                $(".modal-body #ExternalshiftId").val(ExternalshiftId);
+                $.ajax({
+                    url: "/Roster/EmployeeExternal",
+                    type: 'GET',
+                    data: { externalShiftID: ExternalshiftId },
+                    beforeSend: function (xhr) {
+                        //display spinner
+                        $("#btn_Save_message").hide();
+                        $('#requestWait_' + $("#ExternalshiftId").val()).html('<img src="/images/ajax-loader.gif" alt="Wait" />');
+                    },
+                    success: function (data) {
+                        //On success remove spinner
+                        //$('#requestWait_' + $("#shiftId").val()).html('<p>Request sent!</p>');
+                        $("#ExternlShift").empty().append(data)
+                        $("#modalRequestExternalShift").modal("show");
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert("Error: " + jqXHR.responseText);
+                        $('#requestWait_' + $("#ExternalshiftId").val()).html('<input id="' + ExternalshiftId + '" type="button" data-toggle="modal" data-id="' + ExternalshiftId + '" value="View" class="open-RequestExternalShiftDialog btn btn-primary" />');
+                    },
+                    statusCode: {
+                        404: function () {
+                            alert("Error sending email: 404 page not found");
+                        }
+                    }
+                })
+            });
+        });
+
+        ///----------------------
+        //Request External Shift
+        ///----------------------
+        function RequestExternalShift() {
+            var id = $("#hdnRequestID").val();
+            $.ajax({
+                url: "@Url.Action("RequestExternalShift", "Roster")", //"/EmployeeRoster/RequestExternalShift",
+                type: 'POST',
+                headers: { '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                contentType: 'application/json',
+                data: JSON.stringify({ id: id }),
+                beforeSend: function (xhr) {
+                    //display spinner
+                    $("#btn_Save").html('<img src="/images/ajax-loader.gif" alt="Wait" />');
+                },
+                success: function (data) {
+                    //On success remove spinner
+                    $("#ExternlShift").empty().append(data)
+                    $('#Waiting').html('');
+                    $("#btn_Save").hide();
+                    $("#btn_Save_message").show();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Error: " + jqXHR.responseText);
+
+                },
+                statusCode: {
+                    404: function () {
+                        alert("Error sending email: 404 page not found");
+                    }
+                }
+            })
+        };
+        $('#modalRequestExternalShift').on('hidden.bs.modal', function () {
+            var externalshiftId = $("#hdnRequestID").val();
+            if (externalshiftId) {
+                $('#requestWait_' + $("#ExternalshiftId").val()).html('<input id="' + externalshiftId + '" type="button" data-toggle="modal" data-id="' + externalshiftId + '" value="View" class="open-RequestExternalShiftDialog btn btn-primary" />');
+            }
+        })
+        ///----------------------
+        //Request External Shift
+        ///----------------------
+        function SendExternalShiftMessage() {
+            var jsonobj = ({
+                Id: $("#hdnMessge").val(),
+                EmployeeMessage: $("#EmployeeMessage").val()
+            })
+            var json = JSON.stringify(jsonobj);
+            $.ajax({
+                url: "@Url.Action("EmployeeMessageforExternalshift", "Roster")", //"/EmployeeRoster/RequestExternalShift",
+                type: 'POST',
+                datatype: "JSON",
+                data: { json: json },
+                beforeSend: function (xhr) {
+                    //display spinner
+                    $("#btn_Save_message").html('<img src="/images/ajax-loader.gif" alt="Wait" />');
+                },
+                success: function (data) {
+                    //On success remove spinner
+                    $("#modalRequestExternalShift").modal("hide");
+                    $("#ConfirmRequest").empty().append(data)
+                    $('#requestWait_' + $("#ExternalshiftId").val()).html('<p>Request sent!</p>');
+                    $("#modalRequestConfirmation").modal("show");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Error: " + jqXHR.responseText);
+
+                },
+                statusCode: {
+                    404: function () {
+                        alert("Error sending email: 404 page not found");
+                    }
+                }
+            })
+        };
+
+        function RequestShift() {
+            $.ajax({
+                url: "/Roster/RequestShift",
+                type: 'POST',
+                headers: { '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                contentType: 'application/json',
+                data: JSON.stringify({ id: $("#shiftId").val() }),
+                beforeSend: function (xhr) {
+                    //display spinner
+                    $('#btnRequestShift_' + $("#shiftId").val()).hide();
+                    $('#requestWait_' + $("#shiftId").val()).html('<img src="/images/ajax-loader.gif" alt="Wait" />');
+                },
+                success: function (data, textStatus, jqXHR) {
+                    //On success remove spinner
+                    $('#requestWait_' + $("#shiftId").val()).html('<p>Request sent!</p>');
+                    $("#modalRequestShift").modal("hide");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Error: " + jqXHR.responseText);
+                    $('#requestWait_' + $("#shiftId").val()).html('');
+                    $('#btnRequestShift_' + $("#shiftId").val()).show();
+                },
+                statusCode: {
+                    404: function () {
+                        alert("Error sending email: 404 page not found");
+                    }
+                }
+            })
+        };
+
+        function SendFeedback() {
+           
+            $.ajax({
+                url: "/Roster/SendFeedback",
+                type: 'POST',
+                headers: { '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                contentType: 'application/json',
+                data: JSON.stringify({ feedback: $("#txtFeedback").val() }),
+                beforeSend: function (xhr) {
+                    //display spinner
+                    $('#btnSendFeedback').attr('disabled', 'disabled');
+                },
+                success: function (data, textStatus, jqXHR) {
+                    //On success remove spinner
+                    alert('Feedback sent');
+                    $("#modalFeedback").modal("hide");
+                    $("#txtFeedback").val('');
+                    $('#btnSendFeedback').removeAttr('disabled');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Error: " + jqXHR.responseText);
+                    $('#btnSendFeedback').removeAttr('disabled');
+                },
+                statusCode: {
+                    404: function () {
+                        alert("Error sending feedback: 404 page not found");
+                    }
+                }
+            })
+        };
+    </script>
+}
+<style>
+    .search_box_top h3 {
+        width: 100%;
+    }
+
+    .search_box_top .input-group {
+        float: right;
+        width: 300px;
+        padding: 12px 35px 0 0;
+    }
+
+        .search_box_top .input-group input.form-control {
+            height: 36px;
+            font-size: 14px;
+            border: none;
+            box-shadow: none;
+        }
+
+        .search_box_top .input-group span.input-group-btn #EditUserButton {
+            background: #1EC1A0;
+            margin: -24px 0 0 0;
+        }
+
+    ul#ui-id-1 {
+        z-index: 999999;
+        list-style: none;
+        padding: 0px;
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+        ul#ui-id-1 li {
+            padding: 7px;
+        }
+</style>

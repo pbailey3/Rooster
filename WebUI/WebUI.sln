@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj", "{799936FD-65B7-45AC-AC34-6810FCF2752B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6424F44A-AB17-4FA0-B0DD-91BE5C4A08AD}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		AzureReleaseBD-Demo1|Any CPU = AzureReleaseBD-Demo1|Any CPU
+		AzureReleaseBD-Test1|Any CPU = AzureReleaseBD-Test1|Any CPU
+		AzureReleaseBD-Test2|Any CPU = AzureReleaseBD-Test2|Any CPU
+		AzureReleaseDB-Prod1|Any CPU = AzureReleaseDB-Prod1|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{799936FD-65B7-45AC-AC34-6810FCF2752B}.AzureReleaseBD-Demo1|Any CPU.ActiveCfg = AzureReleaseBD-Demo1|Any CPU
+		{799936FD-65B7-45AC-AC34-6810FCF2752B}.AzureReleaseBD-Demo1|Any CPU.Build.0 = AzureReleaseBD-Demo1|Any CPU
+		{799936FD-65B7-45AC-AC34-6810FCF2752B}.AzureReleaseBD-Test1|Any CPU.ActiveCfg = AzureReleaseBD-Test1|Any CPU
+		{799936FD-65B7-45AC-AC34-6810FCF2752B}.AzureReleaseBD-Test1|Any CPU.Build.0 = AzureReleaseBD-Test1|Any CPU
+		{799936FD-65B7-45AC-AC34-6810FCF2752B}.AzureReleaseBD-Test2|Any CPU.ActiveCfg = AzureReleaseBD-Test2|Any CPU
+		{799936FD-65B7-45AC-AC34-6810FCF2752B}.AzureReleaseBD-Test2|Any CPU.Build.0 = AzureReleaseBD-Test2|Any CPU
+		{799936FD-65B7-45AC-AC34-6810FCF2752B}.AzureReleaseDB-Prod1|Any CPU.ActiveCfg = AzureReleaseDB-Prod1|Any CPU
+		{799936FD-65B7-45AC-AC34-6810FCF2752B}.AzureReleaseDB-Prod1|Any CPU.Build.0 = AzureReleaseDB-Prod1|Any CPU
+		{799936FD-65B7-45AC-AC34-6810FCF2752B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{799936FD-65B7-45AC-AC34-6810FCF2752B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{799936FD-65B7-45AC-AC34-6810FCF2752B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{799936FD-65B7-45AC-AC34-6810FCF2752B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9494FCE0-3580-4146-8FF6-BF14268AA38B}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+EndGlobal

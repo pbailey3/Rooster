@@ -1,0 +1,153 @@
+﻿@using WebUI.Common
+@model WebUI.DTOs.TimesheetWeekDTO
+
+@{
+    ViewBag.Title = "TimesheetWeekView";
+}
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-left">
+            @Ajax.RawActionLink("<span class='icon-month'></span>", "Index", "Timesheet", new { businessid = @Model.BusinessId, businesslocationid = @Model.BusinessLocationId, month = @Model.WeekStartDate.Month, year = @Model.WeekStartDate.Year }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+        </div>
+        <div class="nav-tools">
+            @if (ViewBag.PrevWeekRosterId != null)
+            { 
+                @Ajax.RawActionLink("<i class='glyphicon glyphicon-circle-arrow-left'></i><span class='sr-only'>Previous</span>", "WeekView", "Roster", new { rosterid = ViewBag.PrevWeekRosterId}, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { })
+            }    
+            <h3>@Model.WeekStartDate.ToString("MMMM yyyy") <small>Week View</small></h3>
+            @if (ViewBag.NextWeekRosterId != null)
+            {
+                @Ajax.RawActionLink("<i class='glyphicon glyphicon-circle-arrow-right'></i><span class='sr-only'>Next</span>", "WeekView", "Roster", new { rosterid = ViewBag.NextWeekRosterId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { })
+            }   
+        </div>
+     </div>
+</nav>
+<div id="page-content" class="container-fluid">
+
+       <div id="weekviewcalendar" class="cal-context">
+            <div class="cal-month-box">
+                <div class="cal-row-fluid cal-before-eventlist">
+                    <div class="cal-cell1 cal-cell" data-cal-row="-day1">
+                        <div class="cal-head">
+                                @Model.WeekStartDate.ToString("ddd dd")
+                        </div>
+                        @{
+                            Html.ViewData["DayOfWeek"] = DayOfWeek.Monday;
+                            Html.RenderPartial("_TimesheetWeekPartial", @Model, Html.ViewData);
+                        }
+                    </div>
+
+                    <div class="cal-cell1 cal-cell" data-cal-row="-day2">
+                        <div class="cal-head">
+                                @Model.WeekStartDate.AddDays(1).ToString("ddd dd")
+                        </div>
+                        @{
+                            Html.ViewData["DayOfWeek"] = DayOfWeek.Tuesday;
+                            Html.RenderPartial("_TimesheetWeekPartial", @Model, Html.ViewData);
+                        }
+                    </div>
+
+                    <div class="cal-cell1 cal-cell" data-cal-row="-day3">
+                        <div class="cal-head">
+                                @Model.WeekStartDate.AddDays(2).ToString("ddd dd")
+                        </div>
+                        @{
+                            Html.ViewData["DayOfWeek"] = DayOfWeek.Wednesday;
+                            Html.RenderPartial("_TimesheetWeekPartial", @Model, Html.ViewData);
+                        }
+                    </div>
+
+                    <div class="cal-cell1 cal-cell" data-cal-row="-day4">
+                        <div class="cal-head">
+                                @Model.WeekStartDate.AddDays(3).ToString("ddd dd")
+                        </div>
+                        @{
+                            Html.ViewData["DayOfWeek"] = DayOfWeek.Thursday;
+                            Html.RenderPartial("_TimesheetWeekPartial", @Model, Html.ViewData);
+                        }
+                    </div>
+                    <div class="cal-cell1 cal-cell" data-cal-row="-day5">
+                        <div class="cal-head">
+                                @Model.WeekStartDate.AddDays(4).ToString("ddd dd")
+                        </div>
+                        @{
+                            Html.ViewData["DayOfWeek"] = DayOfWeek.Friday;
+                            Html.RenderPartial("_TimesheetWeekPartial", @Model, Html.ViewData);
+                        }
+                    </div>
+
+                    <div class="cal-cell1 cal-cell" data-cal-row="-day6">
+                        <div class="cal-head">
+                          @Model.WeekStartDate.AddDays(5).ToString("ddd dd")
+                        </div>
+                        @{
+                            Html.ViewData["DayOfWeek"] = DayOfWeek.Saturday;
+                            Html.RenderPartial("_TimesheetWeekPartial", @Model, Html.ViewData);
+                        }
+                    </div>
+                    <div class="cal-cell1 cal-cell" data-cal-row="-day7">
+                        <div class="cal-head">
+                            @Model.WeekStartDate.AddDays(6).ToString("ddd dd")
+                        </div>
+                        @{
+                            Html.ViewData["DayOfWeek"] = DayOfWeek.Sunday;
+                            Html.RenderPartial("_TimesheetWeekPartial", @Model, Html.ViewData);
+                        }
+                    </div>
+                </div>
+
+            </div>
+   
+        </div>
+    @if (!Model.Approved && Common.DateTimeNowLocal() > @Model.WeekStartDate.AddDays(7))
+    {
+    <div class="form-horizontal" id="approveTimesheetDiv">
+        <div class="form-group">
+            <div class="row top-buffer">
+                <div class="col-md-11">
+                    <div class="pull-right">
+                        <a href='@Url.Action("GetWeekTimesheetSummary", "Timesheet", new { id = Model.Id })' class="modal-link btn btn-primary btn-sm">Approve Timesheet</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+
+@* /*********** Begin: POPUP dialogs ****************/*@
+<div id="modal-container" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+@* /*********** End: POPUP dialogs ****************/*@
+<script type="text/javascript">
+        $(function () {
+            // Initialize numeric spinner input boxes
+            //$(".numeric-spinner").spinedit();
+            // Initialize modal dialog
+            // attach modal-container bootstrap attributes to links with .modal-link class.
+            // when a link is clicked with these attributes, bootstrap will display the href content in a modal dialog.
+            $('body').on('click', '.modal-link', function (e) {
+                e.preventDefault();
+                $('#modal-container .modal-body').html('<img src="/images/ajax-loader.gif" alt="Wait" style="display: block; margin: 100px auto;" />');
+                $(this).attr('data-target', '#modal-container');
+                $(this).attr('data-toggle', 'modal');
+            });
+            // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+            $('body').on('click', '.modal-close-btn', function () {
+                $('#modal-container').modal('hide');
+            });
+            //clear modal cache, so that new content can be loaded
+            $('#modal-container').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+            $('#CancelModal').on('click', function () {
+                return false;
+            });
+        });
+</script>

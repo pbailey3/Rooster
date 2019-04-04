@@ -1,0 +1,64 @@
+﻿@model IEnumerable<WebUI.DTOs.ShiftDTO>
+
+@{ 
+    var businesses = Model.OrderBy(s => s.BusinessName).Select(s => s.BusinessName).Distinct();
+    
+    var weekNum = (int)@ViewBag.WeekNum;
+        
+    int daysToAdd = (int)@ViewBag.DayOfWeek - 1;
+        
+    if ((DayOfWeek)@ViewBag.DayOfWeek == DayOfWeek.Sunday)
+        daysToAdd = 6;
+
+    var startDate = ((DateTime)@ViewBag.StartDate).AddDays((weekNum * 7) + daysToAdd);
+    var endDate = startDate.AddDays(1);
+}  
+                        
+ @{
+                 <text>@startDate.ToString("dd/MMM");</text>
+              } 
+                 @foreach (var business in businesses)
+                 {
+                    
+                    var shifts = Model.Where(s => s.BusinessName == business && s.StartTime >= startDate &&  s.StartTime < endDate);
+                    <br />
+                     <strong>
+                        @if(shifts.Count() > 0)
+                        {
+                              @business
+                        }
+                        else
+                        {
+                            <text>NO SHIFTS</text>
+                        }
+                     </strong>
+                    <br />
+                     foreach(var shift in shifts)
+                     {
+                         var timeTilStart  = @shift.StartTime - DateTime.Now;
+                         var hrsTillStart = ((timeTilStart.Days * 24) + timeTilStart.Hours);
+                        <text><a onclick="javascript:$( '#dialogShiftDetails' ).data('Id', '@shift.Id')
+                                                                                .data('BusinessId','@shift.BusinessId')
+                                                                                .data('Start','@shift.StartTime')
+                                                                                .data('Finish','@shift.FinishTime')
+                                                                                .data('Length','@shift.ShiftLength')
+                                                                                .data('HoursToStart','@hrsTillStart')
+                                                                                .data('Location','@shift.InternalLocationName').dialog( 'open' );return false;"> 
+                           @* //*@
+  
+                        @shift.InternalLocationName
+                     <br />
+                        @shift.StartTime.ToString("HH:mm")
+                     <br />
+                        @shift.FinishTime.ToString("HH:mm")
+                     <br />
+                         @shift.ShiftLength
+                     <br />
+                      
+                         </a>
+                    </text>
+                       
+                     }
+                 }
+             
+                

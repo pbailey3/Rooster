@@ -1,0 +1,30 @@
+﻿@model WebUI.DTOs.RequestsDTO
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Requests</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12"> 
+            <section id="mainContent">
+                @{
+                    Html.RenderPartial("_EmployeeRequestPartial", Model.EmployerRequests);
+                }
+                @{
+                    Html.RenderPartial("_ShiftRequestPartial", Model.ShiftChangeRequests);
+                }
+                @{
+                    Html.RenderPartial("_ExternalShiftRequestPartial", Model.ExternalShiftRequests);
+                }
+            </section>
+        </div>
+    </div>
+</div>

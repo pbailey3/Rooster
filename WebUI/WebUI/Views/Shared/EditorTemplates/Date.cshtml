@@ -1,0 +1,10 @@
+﻿@{
+    var attribs = new Dictionary<string, object>();
+
+    var htmlAttributes = HtmlHelper.AnonymousObjectToHtmlAttributes(ViewData["htmlAttributes"]);
+    htmlAttributes["class"] += "bd-date form-control";
+    htmlAttributes["placeholder "] = Common.GetLocalePlaceholderDateString(System.Configuration.ConfigurationManager.AppSettings["CountryConfig"]); 
+
+}
+
+@Html.TextBox("", (Model != null)?((DateTime)Model).ToString(Common.GetLocaleDateDisplayFormat()):"", htmlAttributes)

@@ -1,0 +1,170 @@
+﻿@model WebUI.DTOs.EmployeeDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Edit employee</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <br/>
+            @using (Ajax.BeginForm("Edit", "Employee", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "CreateEmployee_DocumentReady", OnFailure = "HandleError" }, new { id = "createEmpForm" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true)
+
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.BusinessId)
+                    @Html.HiddenFor(model => model.BusinessLocationId)
+                    @Html.HiddenFor(model => model.IsActive)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FirstName)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LastName)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MobilePhone, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.MobilePhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MobilePhone)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @if(Model.UserProfileId != Guid.Empty)
+                            {
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                            }
+                            else
+                            {
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            }
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PayRate, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.PayRate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PayRate)
+                            <span>$ per hour</span>
+                        </div>
+
+                    </div>
+                    @*<div class="form-group">
+                        @Html.LabelFor(model => model.DateOfBirth, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.DateOfBirth, new
+                       {
+                           htmlAttributes = new
+                           {
+                               data_date_end_date = DateTime.Now.ToString(Common.GetLocaleDateDisplayFormat(HttpContext.Current.Request.UserLanguages.FirstOrDefault()))
+                           }
+                       })
+                            @Html.ValidationMessageFor(model => model.DateOfBirth)
+                        </div>
+                    </div>*@
+                    @Html.HiddenFor(model => model.Type)
+                    @*<div class="form-group">
+                        @Html.LabelFor(model => model.Type, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.Type, Enum.GetNames(typeof(WebUI.DTOs.EmployeeTypeDTO)).Select(name => new SelectListItem()
+                {
+                    Text = name.Replace("_", " "),
+                    Value = name
+                }),
+                "-- SELECT --",
+                  new { @class = "form-control" })
+
+                            @Html.ValidationMessageFor(x => x.Type)
+                        </div>
+                    </div>*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsAdmin, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.IsAdmin)
+                            @Html.ValidationMessageFor(model => model.IsAdmin)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Roles, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-offset-2 col-md-10">
+                            @if (ViewBag.BusinessRoles.Count == 0)
+                            {
+                                <text>No roles exist yet</text>
+                            }
+                            else
+                            {
+                                <table class="table">
+                                    <tr>
+    @{
+                                int cnt = 0;
+                                List<WebUI.DTOs.RoleDTO> roles = ViewBag.BusinessRoles;
+
+                                foreach (var role in roles.OrderBy(n=>n.Name))
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+        @:</tr><tr>
+                                                        }
+        @:<td>
+            <input type="checkbox"
+                   name="selectedRoles"
+                   value="@role.Id"
+                   @(Html.Raw((@Model.Roles != null && @Model.Roles.Exists(r=>r.Id == role.Id)) ? "checked=\"checked\"" : "")) />
+            @role.Name
+            @:</td>
+                                                }
+        @:</tr>
+    }
+                            </table>
+                            }
+                    </div>
+                </div>
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2 col-md-10">
+                                                    <input type="submit" value="Save" class="btn btn-primary btn-sm" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        }
+
+                                        <div>
+                                            @Ajax.ActionLink("< Back to list", "Index", "Employee", new { businessLocationId = Model.BusinessLocationId, businessId = Model.BusinessId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn  btn-outline btn-primary btn-sm" })
+                                     </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                             

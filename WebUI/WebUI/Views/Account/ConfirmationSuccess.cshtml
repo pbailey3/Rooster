@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Confirmation Success";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title</h1>
+</hgroup>
+<br />
+<h2>Thank you for confirming your email address and activating your account.</h2>
+<h4>Please continue to log into your account: @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</h4>
+       
+
+

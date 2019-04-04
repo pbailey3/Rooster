@@ -1,0 +1,30 @@
+﻿<section id="leftMenu">
+    <hr />
+    <div>
+        <p>
+            Business:
+            <div>
+                @Html.DropDownList("Business",
+                                 (SelectList)ViewBag.Businesses,
+                        new { id = "busDd", @class = "form-control" })
+            </div>
+        </p>
+        @if (ViewBag.BusinessLocations != null && ((SelectList)ViewBag.BusinessLocations).Count() > 1)
+        { 
+            <p>
+                Location:
+                <div>
+                    @Html.DropDownList("BusinessLocation",
+                            (SelectList)ViewBag.BusinessLocations,
+                            new { id = "busLocDd", @class = "form-control" })
+                </div>
+
+            </p>
+        }
+    <p> @Html.ActionLink("Employees", "Index", "Employee", new { businesslocationid = ViewBag.SelectedBusinessLocationId }, new { @class = "btn btn-primary btn-md" }) </p>
+    <p> @Html.ActionLink("Roles", "RoleIndex", "Business", new { businessid = ViewBag.BusinessId }, new { @class = "btn btn-primary btn-md" }) </p>
+    <p> @Html.ActionLink("Recurring Shifts", "RecurringShiftIndex", "Business", new { businesslocationid = ViewBag.SelectedBusinessLocationId }, new { @class = "btn btn-primary btn-md" }) </p>
+    <p> @Html.ActionLink("Preferences", "PreferencesDetails", "Business", new { businesslocationid = ViewBag.SelectedBusinessLocationId }, new { @class = "btn btn-primary btn-md" })</p>
+    <br />
+    </div>
+</section>

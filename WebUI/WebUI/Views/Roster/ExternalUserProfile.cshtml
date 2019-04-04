@@ -1,0 +1,204 @@
+﻿@model WebUI.DTOs.UserProfilesDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>External User Profile</h3>
+        </div>
+    </div>
+</nav>
+<link href="~/Content/style.css" rel="stylesheet" />
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <div class="top_sec">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <div class="profile">
+                                <div class="user_img">
+                                    @if (!string.IsNullOrEmpty(Convert.ToBase64String(Model.ImageData)))
+                                    {
+                                        <img id="profilePictureImage" src="data:image;base64,@Convert.ToBase64String(Model.ImageData)" />
+                                    }
+                                    else
+                                    {
+                                        <img id="profilePictureImage" src="~/Images/person-placeholder.jpg" />
+                                    }
+                                </div>
+                                <div class="user_name text-center"><h3> @Model.FirstName @Model.LastName </h3></div>
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <div class="about_us">
+                                <div class="button-sec">
+                                    <input type="hidden" id="RecommendedUserID" value="@Model.ExternalUserID" />
+                                    <button data-toggle="modal" id="btnContact_@Model.ExternalUserID" onclick="javascript:$('#userId').val('@Model.ExternalUserID');$('#modalMessage').modal('show');return false;" class="btn btn-sm btn-info">Contact</button>
+                                    @{
+                                        if (Model.UserRecommendationsDTO != null)
+                                        {
+                                            if (Model.UserRecommendationsDTO.UserRecommendedByList.Contains(Model.Id))
+                                            {
+                                                <button id="Recommended_@Model.ExternalUserID" disabled class="btn btn-primary btn-sm ">Recommended @Model.UserRecommendationsDTO.UserRecommendedByList.Count() x </button>
+                                            }
+                                            else
+                                            {
+                                                <button id="Recommended_@Model.ExternalUserID" class="btn btn-default btn-sm" onclick="javascript: User_Recommendations();">Recommended @Model.UserRecommendationsDTO.UserRecommendedByList.Count() x </button>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <button id="Recommended_@Model.ExternalUserID" class="btn btn-default btn-sm" onclick="javascript: User_Recommendations();">Recommended</button>
+                                        }
+                                        if (ClaimsHelper.IsInRole(System.Web.HttpContext.Current, Constants.RoleBusinessLocationManager))
+                                        {
+                                            @*if (Model.EmployeeList.EmployeeIDs.Contains(Model.ExternalUserID))
+                                                {
+                                                    <button id="AddEmployee_@Model.ExternalUserID" class="btn btn-primary btn-sm pull-right" disabled>Employee !</button>
+                                                }
+                                                else
+                                                {*@
+                                            <button id="AddEmployee_@Model.ExternalUserID" class="btn btn-primary btn-sm pull-right" onclick="javascript:$('#userId').val('@Model.ExternalUserID');$('#modalAddEmployee').modal('show');return false;">Add As Employee</button>
+                                            //}
+
+                                        }
+                                    }
+
+                                </div>
+                                <div style="margin-top:30px">
+                                    <table class="table table-responsive">
+                                        <tr>
+                                            <th>Employer</th>
+                                            <th>Worked From</th>
+                                            <th>Role</th>
+                                        </tr>
+                                        <tbody>
+                                            @foreach (var item in Model.WorkHistoryList)
+                                            {
+                                                <tr>
+                                                    <td>@item.workCompanyName</td>
+                                                    <td>@item.workStartDate.ToString("MM/dd/yyyy") To @item.workEndDate.ToString("MM/dd/yyyy")</td>
+                                                    <td>@item.UserRole</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div style="margin-top:30px">
+                                    <h2> About us </h2>
+                                    <p>
+                                        @Model.AboutMe
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="about_us">
+                                <h2>Qualification</h2>
+                                <div class="border-box">
+                                    <form class="check-form">
+                                        @foreach (var item in Model.QualificationsList)
+                                        {
+                                            <span><input type="checkbox" checked="checked">@item.Text</span>
+                                        }
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="about_us">
+                                <h2>Skills</h2>
+                                <div class="border-box">
+                                    <ul class="list-unstyled">
+
+                                        @foreach (var skillId in Model.SkillsList)
+                                        {
+                                            if (Model.UserSkillEndorsmentListDTO != null)
+                                            {
+                                                var resultUserSkillsEnd = Model.UserSkillEndorsmentListDTO.UserSkillEndorsementDTO.Where(a => a.UserSkill == skillId.ValueGuid).ToList();
+
+                                                if (resultUserSkillsEnd.Count > 0)
+                                                {
+                                                    var EndorsementCountByOther = resultUserSkillsEnd.Count();
+
+                                                    List<Guid> SkillRecommededBY = new List<Guid>();
+
+                                                    foreach (var result in resultUserSkillsEnd)
+                                                    {
+                                                        SkillRecommededBY.Add(result.UserProfileUserRecommendedBY);
+
+                                                    }
+                                                    if (SkillRecommededBY.Contains(Model.Id))
+                                                    {
+                                                        <li>@skillId.Text <button disabled class="btn btn-primary btn-sm pull-right">Endorsed! @EndorsementCountByOther x</button> <div class="clearfix"></div></li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li>@skillId.Text <button class="btn btn-primary btn-sm pull-right" id="@skillId.ValueGuid" onclick="javascript: User_EndorseASkill(this.id);">Endorsed! @EndorsementCountByOther x</button> <div class="clearfix"></div></li>
+                                                    }
+
+                                                }
+                                                else
+                                                {
+                                                    <li>@skillId.Text <button class="btn btn-default btn-sm pull-right" id="@skillId.ValueGuid" onclick="javascript: User_EndorseASkill(this.id);">Endorse</button><div class="clearfix"></div></li>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <li>@skillId.Text <button class="btn btn-default btn-sm pull-right" id="@skillId.ValueGuid" onclick="javascript: User_EndorseASkill(this.id);">Endorse</button> <div class="clearfix"></div></li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="about_us">
+                                <div class="button-sec row">
+                                    @Ajax.ActionLink("Back to list", "SearchExternal", null, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-outline btn-primary btn-sm" })
+                                    @*<button id="approve_@Model.ExternalshfitRequestID" class="btn btn-sm btn-primary" onclick="javascript:$('#reqId').val('@Model.ExternalshfitRequestID');$('#externalShiftId').val('@Model.ExternalShiftBroadCastID');$('#isRecurring').val(false); $('#isOpenShift').val(true);$('#modalApprove').modal('show');return false;">Award shift</button>*@
+                                </div>
+                            </div>
+                            @* /*********** Begin: POPUP dialog ****************/*@
+                            <input type="hidden" name="userId" id="userId" value="" />
+                            <div id="modalAddEmployee" class="modal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1>Add As Employee</h1>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you wish to add this user as Employee?</p>
+                                            <p>Please select any business:</p>
+                                            @Html.DropDownListFor(x => x.BusinessID, Model.Businesses.Select(m => new SelectListItem { Text = m.Text, Value = Convert.ToString(m.ValueGuid) }), new { @class = "form-control ", })
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button class="btn btn-primary" onclick="javascript: Manager_AddExternalUserAsEmployee();">Yes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*popup for Sending the message*@
+                            <div id="modalMessage" class="modal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1>Send your Message</h1>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Message:</p>
+                                            <textarea id="txtAcceptReason" name="ShiftAcceptReason" maxlength="400" required style="width:100%"></textarea>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button id="btnSend_@Model.ExternalUserID" class="btn btn-primary" onclick="javascript: ContactExternalUser();">Send</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+﻿@model WebUI.DTOs.UserProfilesDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Search External Index</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @if (ExternalShiftRequests.Count() > 0)
+            {
+
+                var meta = ExternalShiftRequests.First();
+                <table class="table table-striped">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => meta.UserName)
+                        </th>
+                    </tr>
+
+                    @foreach (var item in ExternalShiftRequests)
+                    {
+                        <tr>
+                            <td style="width: 105px;">
+                                <div class="img-responsive">
+                                    @if (!string.IsNullOrEmpty(Convert.ToBase64String(item.ProfileImageData)))
+                                    {
+                                        <img id="profilePictureImage" width="100" height="100" src="data:image;base64,@Convert.ToBase64String(item.ProfileImageData)" />
+                                    }
+                                    else
+                                    {
+                                        <img id="profilePictureImage" width="100" height="100" src="~/Images/person-placeholder.jpg" />
+                                    }
+
+                                </div>
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserName)
+                                <p>
+                                    @Html.DisplayFor(modelItem => item.Message)
+                                </p>
+                                <div id="@item.ExternalShiftBroadCastID" class="@item.Id">
+                                    <div id="requestWait_@item.Id"></div>
+                                    <div id="requestBtns_@item.Id" class="row col-md-6">
+                                        @Ajax.ActionLink("View Profile", "ExternalUserProfile", new { externalshiftRequestID = item.Id, ExternalShiftBroadCastID = item.ExternalShiftBroadCastID }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-sm btn-default" })
+                                        @*<button id="approve_@item.Id" class="btn btn-xs btn-default" onclick="javascript:$('#reqId').val('@item.Id');$('#externalShiftId').val('@item.ExternalShiftBroadCastID');$('#isRecurring').val(false); $('#isOpenShift').val(true);$('#modalViewProfile').modal('show');return false;">View Profile</button>*@
+
+                                        <button id="reject_@item.Id" class="btn btn-sm btn-danger" onclick="javascript:$('#reqId').val('@item.Id');$('#modalReject').modal('show'); $('#isRecurring').val(false);return false;">Decline</button>
+
+                                        <button id="approve_@item.Id" class="btn btn-sm btn-primary" onclick="javascript:$('#reqId').val('@item.Id');$('#externalShiftId').val('@item.ExternalShiftBroadCastID');$('#isRecurring').val(false); $('#isOpenShift').val(true);$('#modalApprove').modal('show');return false;">Approve</button>
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<WebUI.DTOs.RoleDTO>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Employee roles (@ViewBag.EmployeeName)</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @Ajax.RawActionLink("<span class='icon-add'></span>", "RoleCreate", "Employee", new { employeeid = ViewBag.EmployeeId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "add" })
+
+            @if (Model.Count() > 0)
+            {
+                <table class="table table-striped">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Ajax.ActionLink("Remove", "RoleDelete", new { employeeid = ViewBag.EmployeeId, id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-danger btn-xs" })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <p>
+                    <h4>No roles added</h4>
+                </p>
+            }
+
+            @Ajax.ActionLink("< Back to employee list", "Index", new { businesslocationid = ViewBag.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary btn-outline btn-sm" })
+         </div>
+    </div>
+</div>

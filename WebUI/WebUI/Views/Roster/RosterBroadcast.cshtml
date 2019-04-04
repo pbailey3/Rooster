@@ -1,0 +1,179 @@
+﻿@model IEnumerable<WebUI.DTOs.RosterDTO>
+@{
+    var date = ((DateTime)ViewBag.DisplayMonth);
+    var nextYear = date.Year;
+    var prevYear = date.Year;
+    var nextMonth = date.AddMonths(1).Month;
+    var prevMonth = date.AddMonths(-1).Month;
+
+    if (date.Month == 12)
+    {
+        nextYear++;
+    }
+    else if (date.Month == 1)
+    {
+        prevYear--;
+    }
+}
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            @Ajax.RawActionLink("<i class='glyphicon glyphicon-circle-arrow-left'></i><span class='sr-only'>Previous</span>", "RosterBroadcast", "Roster", new { businessid = ViewBag.BusinessId, businesslocationid = ViewBag.BusinessLocationId, monthDate = prevMonth, yearDate = prevYear, location = ViewBag.IntLocation }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+            <h3>@(((DateTime)ViewBag.DisplayMonth).ToString("MMMM yyyy")) <small>Broadcast view</small></h3>
+            @Ajax.RawActionLink("<i class='glyphicon glyphicon-circle-arrow-right'></i><span class='sr-only'>Next</span>", "RosterBroadcast", "Roster", new { businessid = ViewBag.BusinessId, businesslocationid = ViewBag.BusinessLocationId, monthDate = nextMonth, yearDate = nextYear, location = ViewBag.IntLocation }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+         </div>
+    </div>
+</nav>
+
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+
+            <p>
+               
+                <div class="form-horizontal">
+                    @*@if (ViewBag.BusinessLocations != null && ((SelectList)ViewBag.BusinessLocations).Count() > 1)
+                        {
+                        <div class="form-group">
+                            @Html.Label("Business location", new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-10">
+                                @Html.DropDownList("BusinessLocation",
+                                        (SelectList)ViewBag.BusinessLocations,
+                                        new { id = "busLocDd", @class = "form-control" })
+                            </div>
+                        </div>
+                        }*@
+                    @if (ViewBag.BusinessInternalLocations != null && ((List<WebUI.DTOs.InternalLocationDTO>)ViewBag.BusinessInternalLocations).Count() > 1)
+                    {
+                        Html.ViewData["HasMultiInternalLocations"] = true;
+                    <div class="form-group">
+                        @Html.Label("Internal location", new { @class = "control-label col-md-1" })
+
+                        <div class="col-md-11">
+                            @Html.DropDownList(
+                            "Location",
+                            new SelectList(ViewBag.BusinessInternalLocations, "Id", "Name"),
+                            "-- SELECT --", //ViewBag.IntLocation
+                           new { @class = "form-control", onchange = @"javascript:RosterBroadcast_busIntLocDdChanged('" + ViewBag.BusinessId + "','" + ViewBag.BusinessLocationId + "','" + date.Month.ToString() + "','" + @date.Year.ToString() + "',this.value);" }
+                        )
+                        </div>
+                    </div>
+                    }
+                    else
+                    {
+                        Html.ViewData["HasMultiInternalLocations"] = false;
+                    }
+
+                </div>
+
+
+            </p>
+            @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnFailure = "HandleError" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                @Html.Hidden("BusinessId", ((Guid)ViewBag.BusinessId))
+                @Html.Hidden("BusinessLocationId", ((Guid)ViewBag.BusinessLocationId))
+                @Html.Hidden("DisplayDate", ((DateTime)ViewBag.DisplayMonth))
+                @*Attempt a basic month view*@
+                <table class="table table-bordered">
+                    <tr>
+                        <th class="cal-head">
+                            Monday
+                        </th>
+                        <th class="cal-head">
+                            Tuesday
+                        </th>
+                        <th class="cal-head">
+                            Wednesday
+                        </th>
+                        <th class="cal-head">
+                            Thursday
+                        </th>
+                        <th class="cal-head">
+                            Friday
+                        </th>
+                        <th class="cal-head">
+                            Saturday
+                        </th>
+                        <th class="cal-head">
+                            Sunday
+                        </th>
+                    </tr>
+                    @foreach (var item in Model.OrderBy(s => s.WeekStartDate))
+                    {
+
+                        <tr>
+                            <td>
+                                @{
+                        Html.ViewData["DayOfWeek"] = DayOfWeek.Monday;
+                        Html.RenderPartial("_RosterBroadcastPartial", @item, Html.ViewData);
+                                }
+                            </td>
+                            <td>
+                                @{
+                        Html.ViewData["DayOfWeek"] = DayOfWeek.Tuesday;
+                        Html.RenderPartial("_RosterBroadcastPartial", @item, Html.ViewData);
+                                }
+                            </td>
+                            <td>
+                                @{
+                        Html.ViewData["DayOfWeek"] = DayOfWeek.Wednesday;
+                        Html.RenderPartial("_RosterBroadcastPartial", @item, Html.ViewData);
+                                }
+                            </td>
+                            <td>
+                                @{
+                        Html.ViewData["DayOfWeek"] = DayOfWeek.Thursday;
+                        Html.RenderPartial("_RosterBroadcastPartial", @item, Html.ViewData);
+                                }
+                            </td>
+                            <td>
+                                @{
+                        Html.ViewData["DayOfWeek"] = DayOfWeek.Friday;
+                        Html.RenderPartial("_RosterBroadcastPartial", @item, Html.ViewData);
+                                }
+                            </td>
+                            <td>
+                                @{
+                        Html.ViewData["DayOfWeek"] = DayOfWeek.Saturday;
+                        Html.RenderPartial("_RosterBroadcastPartial", @item, Html.ViewData);
+                                }
+                            </td>
+                            <td>
+                                @{
+                        Html.ViewData["DayOfWeek"] = DayOfWeek.Sunday;
+                        Html.RenderPartial("_RosterBroadcastPartial", @item, Html.ViewData);
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <p>
+                    <strong>Note:</strong> Only unpublished shifts will be reported here.
+                    <br />
+                </p>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            @Ajax.ActionLink("< Back to rosters", "Index", "Roster", new { businessid = ViewBag.BusinessId, month = date.Month, year = date.Year, businesslocationid = ViewBag.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary btn-outline" })
+                        </div>
+                        <div class="col-md-10">
+                            <div class="pull-right">
+                                <button id="btnSelectAll" class="btn btn-default" onclick="javascript: RosterBroadcast_checkAll(true); return false;">Select All</button>
+                                <button id="btnDeselectAll" class="btn btn-default" style="display: none;" onclick="javascript: RosterBroadcast_checkAll(false); return false;">Deselect All</button>
+
+                                <input type="submit" value="Broadcast" id="Submit" class="btn btn-primary" onclick="javascript: return RosterBroadcast_checkSelected();" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

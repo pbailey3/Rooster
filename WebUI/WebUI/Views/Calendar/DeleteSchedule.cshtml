@@ -1,0 +1,168 @@
+﻿@model WebUI.DTOs.ScheduleDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Delete unvailability</h3>
+        </div>
+    </div>
+</nav>
+
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-10">
+
+            <h3>Are you sure you want to delete this?</h3>
+            <div>
+                <hr />
+                <dl class="dl-horizontal">
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FrequencyChoice)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.FrequencyChoice)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Frequency)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Frequency)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DaysOfWeek)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.DaysOfWeek)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.WeeklyInterval)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.WeeklyInterval)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NumberOfOccurrences)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.NumberOfOccurrences)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.StartDate)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.StartDate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.StartDateTime)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.StartDateTime)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.EndDateTime)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.EndDateTime)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.StartTime)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.StartTime)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.EndTime)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.EndTime)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.EndDate)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.EndDate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsSundaySelected)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.IsSundaySelected)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsMondaySelected)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.IsMondaySelected)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsTuesdaySelected)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.IsTuesdaySelected)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsWednesdaySelected)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.IsWednesdaySelected)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsThursdaySelected)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.IsThursdaySelected)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsFridaySelected)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.IsFridaySelected)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsSaturdaySelected)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.IsSaturdaySelected)
+                    </dd>
+                   
+                </dl>
+            </div>
+            @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnFailure = "HandleError" }))
+            {
+                @Html.AntiForgeryToken()
+                <p>
+                    <input type="submit" value="Delete" class="btn btn-danger" /> |
+                    @Ajax.ActionLink("Back to List", "IndexSchedule", "Calendar", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-default" })
+                </p>
+            }
+        </div>
+    </div>
+</div>

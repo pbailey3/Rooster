@@ -1,0 +1,54 @@
+﻿@model WebUI.DTOs.RoleDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Create new role</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+           <input type="hidden" id="needRefresh" value="@(ViewBag.IsNew.ToString())" />
+           @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading",OnSuccess = "DocumentReady", OnFailure = "HandleError" }))
+           {
+               <br/>
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(model => model.BusinessId, new { Value = ViewBag.BusinessId })
+                    @if (ViewBag.BusinessLocationId != null)
+                    {
+                        @Html.Hidden("BusinessLocationId", (Guid)ViewBag.BusinessLocationId)
+                    }
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-success" />
+                        </div>
+                    </div>
+
+                </div>
+
+            }
+
+            <div>
+                @Ajax.ActionLink("< Back to list", "RoleIndex", new { businessid = ViewBag.BusinessId, businesslocationid = ViewBag.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn  btn-outline btn-primary btn-sm" })
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(UpdateNavMenu_NewBusiness());
+</script>

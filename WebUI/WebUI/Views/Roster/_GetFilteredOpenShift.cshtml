@@ -1,0 +1,117 @@
+﻿@model WebUI.DTOs.OpenShiftDTO
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>Role</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Distance</th>
+            <th>Total Hours</th>
+            <th>Rate</th>
+            <th>Total Pay</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.OpenShiftList.Count() > 0)
+            {
+                foreach (var obj in Model.OpenShiftList)
+                {
+                    <tr>
+                        <td>
+                            @obj.RoleName
+                        </td>
+                        <td>
+                            @obj.locationName
+                        </td>
+                        <td>@obj.Description</td>
+                        <td>
+                            @obj.date.ToShortDateString()
+                        </td>
+                        <td>
+                            @obj.startTime
+                        </td>
+                        <td>
+                            @obj.EndTime
+                        </td>
+                        <td>
+                            @obj.Distance km
+                        </td>
+                        <td>
+                            @{
+
+                                TimeSpan starttime = @obj.startTime;
+                                TimeSpan endtime = @obj.EndTime;
+
+                                //var _starttime = starttime.Split(':');
+                                //var _endtime = endtime.Split(':');
+
+                                //var startTime = _starttime[0];
+                                //var endTime = _endtime[0];
+
+                                TimeSpan timeSpan = endtime.Subtract(starttime);
+
+                                var totalTime = timeSpan.TotalHours;
+                            }
+                            <span>@obj.totalhourse</span>
+                        </td>
+                        <td>
+                            @obj.rate
+                        </td>
+
+                        <td>
+                            @*@{
+
+                                decimal rate = @obj.rate;
+                                int totahours = Convert.ToInt32(totalTime);
+                                var totalPrice = rate * totahours;
+                            }*@
+                            <span>@obj.totalPrice</span>
+                        </td>
+
+                        <td>
+                            @{
+                                if (obj.IsExternalShift == true)
+                                {
+                                    <div class="actions pull-right">
+                                        <div id="requestWait_@obj.Id">
+                                            @if (Model.ExternalShiftBroadCastEmpoyee.ExternalShiftRequests.Contains(obj.Id))
+                                            {
+                                                <p>Requested!</p>
+                                            }
+                                            else
+                                            {
+                                                <input id="@obj.Id" type="button" data-toggle="modal" data-id="@obj.Id" value="View" class="open-RequestExternalShiftDialog btn btn-primary" />
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="actions pull-right">
+                                        <div id="requestWait_@obj.Id">
+                                            @if (Model.OpenShiftsEmployee.OpenShiftRequests.Contains(obj.Id))
+                                            {
+                                                <p>Requested!</p>
+                                            }
+                                            else
+                                            {
+                                                <input id="@obj.Id" type="button" onclick="" data-toggle="modal" data-id="@obj.Id" value="Apply" class="open-RequestShiftDialog btn btn-primary" />
+                                            }
+                                        </div>
+                                    </div>
+
+                                }
+                            }
+
+                        </td>
+                    </tr>
+                                    }
+                                }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,216 @@
+﻿@model WebUI.DTOs.RegisterModelDTO
+@{
+    ViewBag.Title = "Register";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title</h1>
+</hgroup>
+<br />
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a new account</h4>
+    <hr />
+    @Html.ValidationSummary()
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        </div>
+    </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.MobilePhone, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.MobilePhone, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.DateofBirth, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.DateofBirth, new
+           {
+               htmlAttributes = new
+               {
+                   data_date_end_date = DateTime.Now.ToString(Common.GetLocaleDateDisplayFormat())                    }
+                })
+            </div>
+        </div>
+          <input type="text" style="display:none" id="fakeFieldStopAutocomplete"/>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control"})
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 ">
+                @Html.CheckBoxFor(x => x.TermsAndConditions)
+                @Html.Label("I accept the ")
+                <a id="lnkTNCs" href="#" onclick="$('#modalTNCs').modal('show');return false;">Terms and Conditions</a>
+                @Html.ValidationMessageFor(x => x.TermsAndConditions)
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            @Html.Label("EnterAddress", "Enter address", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                <input id="addrAuto" placeholder="Enter your address" class="form-control"
+                       onfocus="geolocate()" type="text" autocomplete="off" />
+            </div>
+            <table id="address" hidden="hidden">
+                <tr>
+                    <td class="label">Street address</td>
+                    <td class="slimField">
+                        <input class="field" id="subpremise"
+                               disabled="true" />
+                        <input class="field" id="street_number"
+                               disabled="true" />
+                    </td>
+                    <td class="wideField" colspan="2">
+                        <input class="field" id="route"
+                               disabled="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">City</td>
+                    <td class="wideField" colspan="3">
+                        <input class="field" id="locality"
+                               disabled="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">State</td>
+                    <td class="slimField">
+                        <input class="field"
+                               id="administrative_area_level_1" disabled="true" />
+                    </td>
+                    <td class="label">Zip code</td>
+                    <td class="wideField">
+                        <input class="field" id="postal_code"
+                               disabled="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">Country</td>
+                    <td class="wideField" colspan="3">
+                        <input class="field"
+                               id="country" disabled="true" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <hr />
+        <div hidden="true">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Address.Line1, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Address.Line1, new { @class = "form-control", @readonly = true })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Address.Line2, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Address.Line2, new { @class = "form-control", @readonly = true })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Address.Suburb, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Address.Suburb, new { @class = "form-control", @readonly = true })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Address.State, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(
+                        x => x.Address.State,
+                       new SelectList(ViewBag.StatesList, "StateValue", "StateName"),
+                        "-- SELECT --",
+                     new { @class = "form-control", @readonly = true }
+                    )
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Address.Postcode, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Address.Postcode, new { @class = "form-control", @readonly = true })
+                </div>
+            </div>
+        </div>
+        @Html.HiddenFor(m => m.Address.Lat)
+        @Html.HiddenFor(m => m.Address.Long)
+        @Html.HiddenFor(m => m.Address.PlaceId)
+
+
+    <div class="form-group">
+           <div class="col-md-offset-2 col-md-5">
+                @Html.ActionLink("Cancel", "Login", "Account", null, new { @class = "btn btn-danger btn-md" })
+                <input type="submit" class="btn btn-reversed pull-right" value="Register" />
+           </div>
+    </div>
+}
+@* /*********** Begin: POPUP dialog ****************/*@
+<div id="modalTNCs" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>Terms and Conditions</h1>
+            </div>
+            <div class="modal-body">
+               @{Html.RenderAction("TermsAndConditions", "Home");}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@* /*********** End: POPUP dialog ****************/*@
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datetimepicker")
+    @Scripts.Render("~/Scripts/bd-googlemaps.js")
+    @Scripts.Render("~/bundles/batdog")
+
+    @{
+        var key = System.Web.Configuration.WebConfigurationManager.AppSettings["GoogleMapsAPIKey"];
+   
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@key&libraries=places"></script>    
+    }
+    <script>
+        $(document).ready(function () {
+            initialize();
+            $("#DateofBirth").datepicker({
+                format: getLocaleDateString()
+            });
+
+        });
+
+
+
+    </script>
+}

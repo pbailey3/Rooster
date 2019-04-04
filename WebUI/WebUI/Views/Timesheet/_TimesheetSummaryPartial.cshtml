@@ -1,0 +1,87 @@
+﻿@model WebUI.DTOs.TimesheetSummaryDTO
+@using (Html.BeginForm("ApproveTimesheet", "Timesheet", FormMethod.Post, new { id = "frm-approveTimesheet" }))
+{
+    <div class="modal-header">
+        <h1>Time sheet summary</h1>
+        <h4>Week starting @Model.WeekStartDate.ToString(Common.GetLocaleDateDisplayFormat())</h4>
+    </div>
+    <div class="modal-body" style="height:280px">
+
+        @Html.HiddenFor(model => model.Id)
+         <div class="row-fluid">
+             <div class="col-md-12">
+                 <div class="row">
+                     <div class="col-md-4">
+                         <label class="control-label">Total shifts worked</label>
+                     </div>
+                     <div class="col-md-4">
+                        @Model.TotalShifts
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-md-4">
+                         <label class="control-label">Total Hours worked</label>
+                     </div>
+                     <div class="col-md-4">
+                         @String.Format(WebUI.Common.Constants.FormatTotalHours, Model.TotalHours)
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-md-4">
+                         <label class="control-label">Total cost</label>
+                     </div>
+                     <div class="col-md-4">
+                         @String.Format(WebUI.Common.Constants.FormatCurrency, Model.TotalCost)
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-md-4">
+                         <label class="control-label">Average hourly rate</label>
+                     </div>
+                     <div class="col-md-4">
+                        @String.Format(WebUI.Common.Constants.FormatCurrency, Model.AvgHourlyRate)
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-md-12">
+                         <div id="result" class="validation-summary-errors">
+                             @if(!Model.AllTimeCardsApproved)
+                             {
+                                 <text>Timesheet contains unnapproved shifts which require attention</text>
+                             }
+
+                         </div>
+                         @Html.ValidationSummary(true)
+                     </div>
+                 </div>
+             </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default"
+                data-dismiss="modal">
+            Cancel
+        </button>
+@if (Model.AllTimeCardsApproved)
+{
+            <button type="submit" id="approve-btn"
+                    class="btn btn-success">
+                Approve
+            </button>
+}
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        DocumentReady();
+        $.validator.unobtrusive.parse("#frm-approveTimesheet");
+    });
+
+    $('form').submit(function () {
+        if ($(this).valid()) {
+            TimseheetApproveSubmit(this.action, this.method, $(this).serialize(), '@Model.Id');
+        }
+        return false;
+    });
+
+</script>

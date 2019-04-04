@@ -1,0 +1,113 @@
+﻿@model WebUI.DTOs.ScheduleDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Edit unvailability</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-10">
+            <h3>Enter unavailability details</h3>
+            <br />
+            @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "Schedule_EditLoad", OnFailure = "HandleError" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true)
+
+                    @Html.HiddenFor(model => model.Id)
+                    @*@Html.HiddenFor(model => model.Frequency)*@
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Title)
+                        </div>
+                    </div>
+                    @Html.HiddenFor(model => model.Location)
+                    @Html.HiddenFor(model => model.Description)
+                   
+                </div>
+
+                <hr />
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.Label("Create Schedule", new { @class = "control-label col-md-2" })
+                        <div id="schedule-recurrence-selection" class="col-md-10">
+                            @Html.RadioButton("ScheduleRecurrence", "OneTime", new { id = "rb-one-time-event", onclick = "javascript: Schedule_rb_one_time_eventClick();" })&nbsp;One-time only
+                            @Html.RadioButton("ScheduleRecurrence", "Repeat", new { id = "rb-recurrence-event", onclick = "javascript: Schedule_rb_recurrence_eventClick();" })&nbsp;Repeat
+                            <span id="schedule-recurrence-choice" onclick="javascript: Schedule_recurrence_choiceClick();">
+                                @Html.DropDownList("FrequencyChoice", (SelectList)ViewBag.FrequencyChoices, "-- Choose Schedule --", null)
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="day-selection" class="col-md-offset-2 col-md-10">
+                            @Html.CheckBoxFor(model => model.IsSundaySelected) Sun
+                            @Html.CheckBoxFor(model => model.IsMondaySelected) Mon
+                            @Html.CheckBoxFor(model => model.IsTuesdaySelected) Tue
+                            @Html.CheckBoxFor(model => model.IsWednesdaySelected) Wed
+                            @Html.CheckBoxFor(model => model.IsThursdaySelected) Thu
+                            @Html.CheckBoxFor(model => model.IsFridaySelected) Fri
+                            @Html.CheckBoxFor(model => model.IsSaturdaySelected) Sat
+                        </div>
+
+                        <div id="monthly-interval-selection" class="col-md-offset-2 col-md-10">
+                            @Html.CheckBoxFor(model => model.IsFirstWeekOfMonthSelected) First
+                            @Html.CheckBoxFor(model => model.IsSecondWeekOfMonthSelected) Second
+                            @Html.CheckBoxFor(model => model.IsThirdWeekOfMonthSelected) Third
+                            @Html.CheckBoxFor(model => model.IsFourthWeekOfMonthSelected) Fourth
+                            @Html.CheckBoxFor(model => model.IsLastWeekOfMonthSelected) Last Week of Every Month
+                        </div>
+
+                        <div class="col-md-offset-2 col-md-10">
+                            <div class="col-md-3">
+                                Starting @Html.EditorFor(model => model.StartDate)
+                                @Html.ValidationMessageFor(model => model.StartDate)
+                            </div>
+                            <div class="col-md-3" id="schedule-start-time">
+                                from
+                                @Html.EditorFor(model => model.StartTime)
+                                @Html.ValidationMessageFor(model => model.StartTime)
+                            </div>
+                            <div class="col-md-3" id="schedule-end-time">
+                                to
+                                @Html.EditorFor(model => model.EndTime)
+                                @Html.ValidationMessageFor(model => model.EndTime)
+                            </div>
+                            <div class="col-md-1">
+                                All day
+                                @Html.CheckBox("cbAllDay", false, new { onclick = "javascript:Schedule_cbAllDay_Click();" })
+                            </div>
+
+                        </div>
+                        <div class="col-md-offset-2 col-md-10" id="schedule-end-date">
+
+                            <div class="col-md-3">
+                                Ends @Html.EditorFor(model => model.EndDate)
+                                @Html.ValidationMessageFor(model => model.EndDate)
+                            </div>
+                           @Html.HiddenFor(model => model.NumberOfOccurrences)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                            @Ajax.ActionLink("Cancel", "IndexSchedule", "Calendar", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>

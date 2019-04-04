@@ -1,0 +1,50 @@
+﻿@model WebUI.DTOs.RosterDTO
+
+@{ 
+
+
+    var internalLocationIds = Model.Shifts.OrderBy(s => s.InternalLocationName).Select(s => s.InternalLocationId).Distinct();
+
+    int daysToAdd = (int)@ViewBag.DayOfWeek - 1;
+
+    if ((DayOfWeek)@ViewBag.DayOfWeek == DayOfWeek.Sunday)
+        daysToAdd = 6;
+
+    bool hasInternalLocations = (bool)ViewBag.HasMultiInternalLocations;
+}
+    @Model.WeekStartDate.AddDays(daysToAdd).ToString("dd/MMM")
+<br />
+    @foreach (var locationId in internalLocationIds)
+    {
+                  //  <br />
+                    
+                    var shifts = Model.Shifts.Where(s => s.InternalLocationId == locationId && s.StartDay.DayOfWeek == (DayOfWeek)@ViewBag.DayOfWeek);
+                     
+                    
+                         if(shifts.Count() > 0)
+                         { 
+                             var shiftLocationName = shifts.FirstOrDefault().InternalLocationName;
+                            
+                                <text>@Html.CheckBox("CHKB|"+ Model.Id.ToString()+ "|" + locationId.ToString()+ "|" + ((DayOfWeek)ViewBag.DayOfWeek).ToString())</text>;
+            if (hasInternalLocations)
+            {
+                if (!String.IsNullOrEmpty(shiftLocationName))
+                {
+                                     <text><strong>@shiftLocationName</strong><br /></text>;
+                }
+                else
+                {
+                                      <text><strong>[No Location]</strong><br /></text>;
+                }
+            }
+                                <text>@shifts.Count().ToString() Shift(s)</text>;
+                                var time = new TimeSpan(shifts.Sum(s => s.ShiftLength.Ticks));
+                                <text>@time.Hours.ToString() hrs<br /></text>;
+                               
+                        }
+                     
+                    }  
+
+                <br />
+               
+          

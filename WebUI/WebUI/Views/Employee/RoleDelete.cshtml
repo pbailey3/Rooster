@@ -1,0 +1,42 @@
+﻿@model WebUI.DTOs.RoleDTO
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Delete role</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <p>
+                <h3>Are you sure you want to remove this role from employee?</h3>
+            </p>
+            <dl class="dl-horizontal">
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+            </dl>
+           @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnFailure = "HandleError" }))
+           {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    @Ajax.ActionLink("< Back to list", "RoleIndex", new { employeeid = ViewBag.EmployeeId },new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary btn-outline btn-sm" }) |
+                    <input type="submit" value="Delete" class="btn btn-danger btn-sm" />
+
+                </div>
+            }
+        </div>
+    </div>
+</div>

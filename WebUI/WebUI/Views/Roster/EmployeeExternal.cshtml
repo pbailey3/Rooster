@@ -1,0 +1,97 @@
+﻿@model WebUI.DTOs.ExternalBroadcastDTO
+<link href="~/Content/select2-bootstrap.css" rel="stylesheet" />
+<link href="~/Content/select2.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @using (Ajax.BeginForm("EmployeeExternal", "Roster", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnFailure = "HandleError" }, new { id = "EmployeeExternalShiftfrm" }))
+            {
+                <div class="form-body">
+                    <div class="form-group">
+                        <label>Business</label>
+                        <p>
+                            @Html.DisplayFor(x => x.BusinessName, new { @class = "form-control", @disabled = "disabled" }) - @Html.DisplayFor(x => x.BusinessLocationName, new { @class = "form-control", @disabled = "disabled" })
+                        </p>
+                            </div>
+                    <div class="form-group">
+                        <label>Business address</label>
+                        <p>
+                            @Html.DisplayFor(x => x.BusinessLocationAddress, new { @class = "form-control", @disabled = "disabled" })
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label>Job Description</label>
+                        <p>
+                            @Html.DisplayFor(x => x.Description, new { @class = "form-control", @disabled = "disabled" })
+                        </p>
+</div>
+                    <div id="IndustryQualification" class="form-group">
+                        <label>Qualification</label>
+                        <div class="mt-checkbox-list">
+                            @if (Model.Qualification.Count > 0)
+                            {
+                                foreach (var QualificationItem in Model.Qualification)
+                                {
+                                    <p><input type="checkbox" disabled="disabled" checked="checked" value="@QualificationItem.ValueGuid" />&nbsp;&nbsp;@QualificationItem.Text</p>
+                                }
+                            }
+                            else
+                            {
+                                <p>N/A</p>
+                             }
+</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Skills</label>
+                        <br />
+                        @if (Model.Skills.Count() > 0)
+                        {
+                            @Html.DropDownListFor(x => x.Skill, Model.Skills.Select(m => new SelectListItem { Text = m.Text, Value = Convert.ToString(m.ValueGuid) }), new { @class = "form-control select2-selection select2-selection--multiple", @disabled = "disabled" })
+                        } 
+                        else
+                        {
+                        <p>N/A</p>
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label>Wage @Html.TextBoxFor(m => m.Wage, new { @style = "width:50px", @disabled = "disabled" }) Per hour</label>
+                    </div>
+                    <div class="form-group">
+                        <table id="tbl_BroadcastedOpenShiftList" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Start</th>
+                                    <th>Finish</th>
+                                    <th style="display:none">BroadcastedOpenShiftId</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Shifts != null)
+                                {
+                                    foreach (var item in Model.Shifts)
+                                    {
+                                        <tr id="wrkhistory_">
+                                            <td>@item.StartDateTime.ToString("MM/dd/yyyy")</td>
+                                            <td>@item.StartTime</td>
+                                            <td>@item.FinishTime</td>
+                                            <td style="display:none">@item.Id</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-actions right1">
+                    <input type="hidden" id="hdnRequestID" value="@Model.Id" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script>
+
+</script>

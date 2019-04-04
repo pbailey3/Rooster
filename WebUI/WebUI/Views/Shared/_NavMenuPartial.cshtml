@@ -1,0 +1,210 @@
+﻿@model WebUI.DTOs.HomeSummaryDTO
+@{
+    var businesses = Model.Employers.OrderBy(e => e.BusinessName).Select(s => s.BusinessName).Distinct();
+
+    }
+<section id="leftMenu">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav" id="menu">
+            <li class="sidebar-brand">
+                <a href="#menu-toggle" id="menu-toggle"><span class="icon-hamburger"></span></a>
+                <a href="/" class="logo"><img src="~/Content/img/rooster-logo.png" alt="rooster-logo" width="125" height="40" class="img-responsive"></a>
+            </li>
+            <li class="active">
+                <a href="/">
+                    <span class="icon-dashboard"></span> Dashboard
+                </a>
+            </li>
+            <li>
+                <a href= "/EmployeeRoster/FullCalendar">
+                    <span class="icon-calender"></span> My Roster
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon-message-star"></span> Requests
+                </a>
+            </li>
+           
+               @foreach(var business in businesses)
+               { 
+                <li class="nav-level1">
+                    <a href="#">
+                        <span class="icon-business"></span> @business
+                    </a>
+                    <ul class="nav-level2">
+                        @{
+                             var businessLocations = Model.Employers.OrderBy(e => e.Name).Where(e => e.BusinessName == business).Distinct();
+
+                        }
+                @foreach(var businessLocation in businessLocations)
+               {
+
+                        <li>
+                            <a href="#">
+                                <em>@businessLocation.Name</em>
+                            </a>
+                            <ul class="nav-level3">
+                                <li>
+                                    <a href="/Business/RoleIndex?businessid=@businessLocation.BusinessId">Roles</a>
+                                </li>
+                                <li>
+                                    <a href="/Employee/Index?businesslocationid=@businessLocation.Id">Employees</a>
+                                </li>
+                                <li>
+                                    <a href="/Business/RecurringShiftIndex?businesslocationid=@businessLocation.Id">Recurring Shifts</a>
+                                </li>
+                            </ul>
+                        </li>
+                }
+                    </ul>
+                </li>
+               
+           }
+
+            @*<li class="nav-level1">
+                <a href="#">
+                    <span class="icon-business"></span> Business 2
+                </a>
+                <ul class="nav-level2">
+                    <li>
+                        <a href="#">
+                            <em>Location 1</em>
+                        </a>
+                        <ul class="nav-level3">
+                            <li>
+                                <a href="#">Roles</a>
+                            </li>
+                            <li>
+                                <a href="#">Employees</a>
+                            </li>
+                            <li>
+                                <a href="#">Recurring Shifts</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <em>Location 2</em>
+                        </a>
+                        <ul class="nav-level3">
+                            <li>
+                                <a href="#">Roles</a>
+                            </li>
+                            <li>
+                                <a href="#">Employees</a>
+                            </li>
+                            <li>
+                                <a href="#">Recurring Shifts</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <em>Location 3</em>
+                        </a>
+                        <ul class="nav-level3">
+                            <li>
+                                <a href="#">Roles</a>
+                            </li>
+                            <li>
+                                <a href="#">Employees</a>
+                            </li>
+                            <li>
+                                <a href="#">Recurring Shifts</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-level1">
+                <a href="#">
+                    <span class="icon-business"></span> Business 3
+                </a>
+                <ul class="nav-level2">
+                    <li>
+                        <a href="#">
+                            <em>Location 1</em>
+                        </a>
+                        <ul class="nav-level3">
+                            <li>
+                                <a href="#">Roles</a>
+                            </li>
+                            <li>
+                                <a href="#">Employees</a>
+                            </li>
+                            <li>
+                                <a href="#">Recurring Shifts</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <em>Location 2</em>
+                        </a>
+                        <ul class="nav-level3">
+                            <li>
+                                <a href="#">Roles</a>
+                            </li>
+                            <li>
+                                <a href="#">Employees</a>
+                            </li>
+                            <li>
+                                <a href="#">Recurring Shifts</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <em>Location 3</em>
+                        </a>
+                        <ul class="nav-level3">
+                            <li>
+                                <a href="#">Roles</a>
+                            </li>
+                            <li>
+                                <a href="#">Employees</a>
+                            </li>
+                            <li>
+                                <a href="#">Recurring Shifts</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>*@
+            <li>
+                <a href="/Account/UserPreferencesDetails">
+                    <span class="icon-settings"></span>Settings
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+   @*<div style="padding-top: 20px">
+        @if (WebUI.Common.ClaimsHelper.IsInRole(HttpContext.Current, WebUI.Common.Constants.RoleBusinessLocationManager))
+        {
+            <p>
+                @Html.ActionLink("Rostering", "Index", "Roster", null , new { @class = "btn btn-md btn-primary" })
+
+            </p>
+        }
+       <p>@Html.ActionLink("My Roster", "FullCalendar", "EmployeeRoster", null, new { @class = "btn btn-primary btn-md" })</p>
+
+         <p>@Html.ActionLink("Businesses", "Index", "Employer", null, new { @class = "btn btn-primary btn-md" })</p>
+
+        @if( WebUI.Common.ClaimsHelper.IsInRole(HttpContext.Current, WebUI.Common.Constants.RoleBusinessLocationManager)) {
+             <p>@Html.ActionLink("Staff Requests", "RequestIndex", "Manager", null, new { @class = "btn btn-primary btn-md" })</p>
+             <p>@Html.ActionLink("Shift Requests", "ShiftRequestIndex", "Manager", null, new { @class = "btn btn-primary btn-md" })</p>
+        }
+        
+      @if( WebUI.Common.ClaimsHelper.IsInRole(HttpContext.Current, WebUI.Common.Constants.RoleSysAdmin)) {
+         <hr />
+         <text>Admin Menu</text>
+         <p>@Html.ActionLink("Businesses", "Index", "Business", null, new { @class = "btn btn-primary btn-md" })</p>
+        }
+    <p>@Html.ActionLink("My Preferences", "UserPreferencesDetails", "Account", null, new { @class = "btn btn-primary btn-md" })</p>
+    <br />
+
+       </div>*@  
+    </section>

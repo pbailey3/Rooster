@@ -1,0 +1,171 @@
+﻿@model WebUI.DTOs.TimesheetEntryDTO
+@using (Html.BeginForm("ApproveUpdateTimesheetEntry", "Timesheet", FormMethod.Post, new { id = "frm-updateTimesheetEntry"}))
+{
+<div class="modal-header">
+    <h1>Time card details</h1>
+    <h3 id="empName">@Model.TimeCard.EmployeeFirstName @Model.TimeCard.EmployeeLastName</h3>
+    <h4>@Model.TimeCard.ShiftRoleName @Model.TimeCard.ClockIn.ToShortDateString()</h4>
+</div>
+<div class="modal-body" style="height:280px">
+    
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.TimesheetId)
+    @Html.HiddenFor(model => model.Approved)
+       <div class="row-fluid">
+            <div class="col-md-12">
+               
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.TimeCard.ClockInTime, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.TimeCard.ClockOutTime, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">Break-off</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            @String.Format(WebUI.Common.Constants.FormatTimeSpan, Model.TimeCard.ClockInTime)
+                        </div>
+                        <div class="col-md-4">
+                            @String.Format(WebUI.Common.Constants.FormatTimeSpan, Model.TimeCard.ClockOutTime)
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <hr />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+
+                            @Html.LabelFor(model => model.StartTime, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.FinishTime, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">Hours worked</label>
+                        </div>
+                    </div>
+                    <div class="row"  @if (Model.Approved == false) { <text>id="timeSection"</text>}>
+                        <div class="col-md-4">
+                            @Html.HiddenFor(model => model.StartDay)
+                            @if (Model.Approved == false)
+                            {
+                                     @Html.EditorFor(model => model.StartTime, new
+                                   {
+                                        htmlAttributes = new
+                                        {
+                                            onchange = "javascript:ShiftTimes_OnChange();"
+                                        }
+                                    })
+                                @Html.ValidationMessageFor(model => model.StartTime)
+                            }
+                            else
+                            {
+                                @String.Format(WebUI.Common.Constants.FormatTimeSpan, Model.StartTime)
+                            }
+                          
+
+                        </div>
+                        <div class="col-md-4">
+                            @Html.HiddenFor(model => model.FinishDay)
+                            @if (Model.Approved == false)
+                            {
+                                   @Html.EditorFor(model => model.FinishTime, new
+                                    {
+                                            htmlAttributes = new
+                                            {
+                                                onchange = "javascript:ShiftTimes_OnChange();"
+                                             }
+                                    })
+                                    @Html.ValidationMessageFor(model => model.FinishTime)
+                            }
+                            else
+                            {
+                                @String.Format(WebUI.Common.Constants.FormatTimeSpan, Model.FinishTime)
+                            }
+                        </div>
+                        <div class="col-md-4">
+                            <div id="divShiftLength"></div>
+                        </div>
+                    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="result"></div>
+                        @Html.ValidationSummary(true)
+                    </div>
+                </div>
+                    <div class="row">
+                        <hr />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="control-label">Penalty rate</label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">Wage p/h</label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">Pay</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            TODO
+                        </div>
+                        <div class="col-md-4">
+                            @String.Format(WebUI.Common.Constants.FormatCurrency, Model.PayRate)
+                        </div>
+                        <div class="col-md-4">
+                            @String.Format(WebUI.Common.Constants.FormatCurrency, Model.Pay)
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default"
+            data-dismiss="modal">
+        Close
+    </button>
+    @if (Model.Approved == false)
+    {
+        <button type="submit" id="approve-btn"
+                class="btn btn-success">
+            Approve
+        </button>
+        <button type="submit" id="approve-btn-next"
+                class="btn btn-success">
+            Approve and goto next
+        </button>
+    }
+</div>
+}
+<script type="text/javascript">
+    $(function () {
+        DocumentReady();
+        $.validator.unobtrusive.parse("#frm-updateTimesheetEntry");
+        ShiftTimes_OnChange();
+        //$('#approve-btn').click(function () {
+       //     $('#modal-container').modal('hide');
+        //});
+        $("form button[type=submit]").click(function () {
+            $("button[type=submit]", $(this).parents("form")).removeAttr("clicked");
+            $(this).attr("clicked", "true");
+        });
+    });
+
+    $('form').submit(function () {
+        if ($(this).valid()) {
+            TimseheetEntryEditSubmit(this.action, this.method, $(this).serialize(), '@Model.Id');
+        }
+        return false;
+    });
+
+</script>

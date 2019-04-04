@@ -1,0 +1,67 @@
+﻿@model WebUI.DTOs.TimesheetWeekDTO
+
+@{ 
+    var shiftsForDay = Model.TimesheetEntries.Where(s => s.StartDateTime.DayOfWeek == ((DayOfWeek)@ViewBag.DayOfWeek)).OrderBy(s=>s.StartDateTime).ToList();
+}  
+ 
+<div class="cal-month-day">
+    @for (int i = 0; i < shiftsForDay.Count(); i++)
+    {
+        var item = shiftsForDay[i];
+
+        <div class="cal-shift">
+            <div id="timeCard-@item.Id" class='cal-shift-timesheet'>
+                @if (item.Approved)
+                {
+                    @*<i class="glyphicon glyphicon-ok-sign"></i>*@
+                    <i class="glyphicon glyphicon-ok-circle"></i>
+                }
+                else
+                {
+                    if (item.ContainsErrors)
+                    {
+                        <i class="glyphicon glyphicon-exclamation-sign"></i>
+                    }
+                }
+            </div>
+             <a href='@Url.Action("EditTimesheetEntry", "Timesheet", new { id = item.Id })' class=" modal-link cal-shift-link" >
+               <h5 class="shift-staff">
+                    <text>@item.TimeCard.EmployeeFirstName  @item.TimeCard.EmployeeLastName</text>
+                </h5>
+
+                <p class="shift-time">
+                    @if (@item.FinishDateTime.HasValue)
+                    {
+                        <b>@item.StartDateTime.ToString("hh:mm")</b> @item.StartDateTime.ToString("tt") <text>-</text> <b>@item.FinishDateTime.Value.ToString("hh:mm")</b>@item.FinishDateTime.Value.ToString("tt")
+                        if (item.FinishDateTime.Value.DayOfYear > item.StartDateTime.DayOfYear)
+                        {
+                            <text>(+1d)</text>
+                        }
+                    }
+                    else
+                    {
+                        <b>@item.StartDateTime.ToString("hh:mm")</b> @item.StartDateTime.ToString("tt") <text>- NA</text>
+}
+                </p>
+                <p class="shift-location">
+                    <em>
+                        @if (item.TimeCard.ShiftRoleName != null)
+                        {
+                        <text>@item.TimeCard.ShiftRoleName</text>
+                        }
+                        else
+                        {
+                        <text>No role</text>
+                        }
+                        @if ((bool)ViewBag.HasInternalLocations && !String.IsNullOrEmpty(item.TimeCard.ShiftInternalLocationName))
+                        {
+                        <text>, @item.TimeCard.ShiftInternalLocationName</text>
+                        }
+                    </em>
+                </p>
+           </a>
+        </div>
+    }
+
+</div>
+ 

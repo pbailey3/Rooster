@@ -1,0 +1,67 @@
+﻿@model WebUI.DTOs.ShiftBlockDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Delete shift block</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <h3>Are you sure you want to delete this?</h3>
+            <div>
+                <br />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.RoleName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.RoleName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.StartTime)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.StartTime)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FinishTime)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.FinishTime)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FinishNextDay)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.FinishNextDay)
+                    </dd>
+
+                </dl>
+
+                @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady", OnFailure = "HandleError" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.BusinessLocationId)
+                    <div class="form-actions no-color">
+                        @Ajax.ActionLink("< Back to list", "Index", new { businessLocationId = ViewBag.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn  btn-outline btn-primary btn-sm" })
+                        <input type="submit" value="Delete" class="btn btn-danger btn-sm" />
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

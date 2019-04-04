@@ -1,0 +1,68 @@
+/* css start here */
+*{
+	margin:0;
+	padding:0;
+}
+body{
+	font-family: 'Oxygen', sans-serif;
+}
+img{
+	max-width:100%;
+}
+p{
+	margin:0;
+}
+h1, h2, h3, h4, h5, h6{
+	margin:0;
+	padding:0;
+}
+.top_sec {
+    padding-top: 15px;
+}
+.user_img {
+    border-radius: 100%;
+    height: 150px;
+    width: 150px;
+    overflow: hidden;
+	border: 5px solid #fff;
+    box-shadow: 2px 1px 1px #ececec;
+	    margin: 12px auto;
+}
+.user_img img {
+    max-width: 231px;
+}
+.about_us {
+    margin-bottom: 30px;
+}
+.user_name.text-center {
+    font-size: 17px;
+    color: #555;
+}
+.about_us p{
+	margin:20px 0;
+	color:#555;
+}
+.about_us h2{
+	font-size:22px;
+}
+.border-box{
+	border:1px solid #E1E1E1;
+	padding:15px;
+	border-radius: 5px;
+margin-top: 10px;
+}
+.check-form span{
+	display:block;
+}
+.check-form span input{
+	margin-right:10px;
+}
+.button-sec {
+    margin-top: 15px;
+}
+
+.border-box .list-unstyled li {
+    color: #888;
+    padding: 7px 0;
+    border-bottom: 1px dotted #888;
+}

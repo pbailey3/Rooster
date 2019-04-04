@@ -1,0 +1,29 @@
+﻿@model WebUI.DTOs.AddCardDetailsDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Add card details</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <section id="mainContent">
+
+                <h3>Add credit card details</h3>
+                <p>
+                    <img src="/images/ajax-loader.gif" alt="Wait" />
+                    Please wait while you are redirected to our payment gateway....
+                    <br />If you are not redirected soon <a href="@Model.SharedPaymentUrl">click here</a>
+                </p>
+                <iframe src="@Model.SharedPaymentUrl" hidden="hidden"></iframe>
+            </section>
+        </div>
+    </div>
+</div>
+

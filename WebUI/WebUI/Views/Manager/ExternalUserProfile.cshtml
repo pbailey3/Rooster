@@ -1,0 +1,126 @@
+﻿@model WebUI.DTOs.UserProfilesDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>External Shift requests</h3>
+        </div>
+    </div>
+</nav>
+<link href="~/Content/style.css" rel="stylesheet" />
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <div class="top_sec">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <div class="profile">
+                                <div class="user_img">
+                                    @if (!string.IsNullOrEmpty(Convert.ToBase64String(Model.ImageData)))
+                                    {
+                                        <img id="profilePictureImage" src="data:image;base64,@Convert.ToBase64String(Model.ImageData)" />
+                                    }
+                                    else
+                                    {
+                                        <img id="profilePictureImage" src="~/Images/person-placeholder.jpg" />
+                                    }
+                                </div>
+                                <div class="user_name text-center"><h3> @Model.FirstName @Model.LastName </h3></div>
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <div class="about_us">
+                                <div class="button-sec">
+                                    <button class="btn btn-sm btn-info">Contact</button>
+                                    <button class="btn btn-primary btn-sm">Recommended</button>
+                                </div>
+                                <div style="margin-top:30px">
+                                    <table class="table table-responsive">
+                                        <tr>
+                                            <th>Employer</th>
+                                            <th>Worked From</th>
+                                            <th>Role</th>
+                                        </tr>
+                                        <tbody>
+                                            @foreach (var item in Model.WorkHistoryList)
+                                            {
+                                                <tr>
+                                                    <td>@item.workCompanyName</td>
+                                                    <td>@item.workStartDate.ToString("MM/dd/yyyy") To @item.workEndDate.ToString("MM/dd/yyyy")</td>
+                                                    <td>@item.UserRole</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div style="margin-top:30px">
+                                    <h2> About me </h2>
+                                    <p>
+                                        @Model.AboutMe
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="about_us">
+                                <h2>Qualification</h2>
+                                <div class="border-box">
+                                    <form class="check-form">
+                                        @foreach (var item in Model.QualificationsList)
+                                        {
+                                            <span><input type="checkbox" checked="checked">@item.Text</span>
+                                        }
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="about_us">
+                                <h2>Skills</h2>
+                                <div class="border-box">
+                                    <ul class="list-unstyled">
+                                        @foreach (var item in Model.SkillsList)
+                                        {
+                                            <li>@item.Text</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="about_us">
+                                <div id="requestWait_@Model.ExternalshfitRequestID"></div>
+                                <div class="button-sec row">
+                                    @Ajax.ActionLink("Back to list", "ExternalShiftRequestIndex", null, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-outline btn-primary btn-sm" })
+                                    <button id="approve_@Model.ExternalshfitRequestID" class="btn btn-sm btn-primary" onclick="javascript:$('#reqId').val('@Model.ExternalshfitRequestID');$('#externalShiftId').val('@Model.ExternalShiftBroadCastID');$('#isRecurring').val(false); $('#isOpenShift').val(true);$('#modalApprove').modal('show');return false;">Award shift</button>
+                                </div>
+                            </div>
+                            @* /*********** Begin: POPUP dialog ****************/*@
+                            <input type="hidden" name="reqId" id="reqId" value="" />
+                            <input type="hidden" name="externalShiftId" id="externalShiftId" value="" />
+                            <input type="hidden" name="isRecurring" id="isRecurring" value="" />
+                            <input type="hidden" name="isOpenShift" id="isOpenShift" value="" />
+                            <div id="modalApprove" class="modal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1>Approve request</h1>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you wish to approve this request?</p>
+                                            @*<p>Comment:</p>
+                                                <textarea id="txtAcceptReason" name="ShiftAcceptReason" maxlength="400" required style="width:100%"></textarea>*@
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button class="btn btn-primary" onclick="javascript: ProfileReview_AproveExternalShiftRequest();">Yes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

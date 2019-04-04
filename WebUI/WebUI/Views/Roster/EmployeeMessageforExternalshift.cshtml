@@ -1,0 +1,19 @@
+﻿@model WebUI.DTOs.ExternalBroadcastDTO
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @using (Ajax.BeginForm("EmployeeMessageforExternalshift", "Roster", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnFailure = "HandleError" }, new { id = "EmployeeExternalShiftMessagefrm" }))
+            {
+                <div class="form-body">
+                    <div class="form-group">
+                        <label>Message</label>
+                        @Html.TextAreaFor(x => x.EmployeeMessage, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-actions right1">
+                    <input type="hidden" id="hdnMessge" value="@Model.Id" />
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,107 @@
+﻿@model IEnumerable<WebUI.DTOs.InternalLocationDTO>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Internal locations</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @Ajax.RawActionLink("<span class='icon-add'></span>", "InternalLocationCreate", "Business", new { businesslocationid = ViewBag.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "add" })
+            <table class="table table-striped">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            <form class="form-inline pull-right">
+                                <div class="form-group" id="edit_@item.Id">
+                                    @if (item.Enabled)
+                                    {
+                                        @Ajax.ActionLink("Edit", "InternalLocationEdit", new { businesslocationid = item.BusinessLocationId, id = item.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-default btn-xs" })
+                                    }
+                                </div>
+                                <div class="form-group">
+                                    <div id="requestWait_@item.Id"></div>
+                                    <div id="requestBtns_@item.Id">
+                                        @if (Model.Count() > 1)
+                                        {
+                                            if (item.Enabled) //Only allow disable if more than one location exists
+                                            {
+                                                <text> |</text>
+                                                <button id="disable_@item.Id" class="btn btn-warning btn-xs" onclick="javascript: $('#locId').val('@item.Id'); $('#businessLocationId').val('@item.BusinessLocationId');$('#businessId').val('@item.BusinessId');$('#modalDisable').modal('show');return false;">Disable</button>
+                                            }
+                                            else
+                                            {
+                                                <button id="enable_@item.Id" class="btn btn-success btn-xs" onclick="javascript: $('#locId').val('@item.Id'); $('#businessLocationId').val('@item.BusinessLocationId');$('#businessId').val('@item.BusinessId');$('#modalEnable').modal('show');return false;">Enable</button>
+                                            }
+                                        }
+
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+           
+            <!--The Modal box defined using class modal-->
+            <input type="hidden" name="locId" id="locId" value="" />
+            <input type="hidden" name="businessLocationId" id="businessLocationId" value="" />
+            <input type="hidden" name="businessId" id="businessId" value="" />
+
+            <div id="modalDisable" class="modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1>Disable internal location</h1>
+                        </div>
+                        <div class="modal-body">
+                            <p>Disabling an internal location will remove this location from the rostering feature for any rosters not yet published.</p>
+                            <p>Are you sure you wish to continue?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" onclick="javascript: IntLocations_DisableInternalLocation(); return false;">Yes</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div id="modalEnable" class="modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1>Enable internal location</h1>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you wish to enable this internal location?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" onclick="javascript: IntLocations_EnableInternalLocation(); return false;">Yes</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+          

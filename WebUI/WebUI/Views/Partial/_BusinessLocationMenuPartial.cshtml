@@ -1,0 +1,49 @@
+﻿@using WebUI.Common
+@using FeatureToggle
+@model WebUI.DTOs.BusinessLocationSummaryDTO
+
+
+    
+
+                <ul class="nav-level3">
+                    <li>
+                        @Ajax.RawActionLink("Rosters", "Index", "Roster", new { businessid = Model.BusinessId, businesslocationid = Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+                    </li>
+                    @if (Is<TimesheetFeature>.Enabled)
+                    {
+                        <li>
+                            @Ajax.RawActionLink("Timesheets", "Index", "Timesheet", new { businessid = Model.BusinessId, businesslocationid = Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+                        </li>
+                    }
+                    <li>
+                        @Ajax.ActionLink("Roles", "RoleIndex", "Business", new { businessid = @Model.BusinessId, businesslocationid = @Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+                    </li>
+                    <li>
+                        @Ajax.ActionLink("Employees", "Index", "Employee", new { businesslocationid = @Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+                    </li>
+                    <li>
+                        @Ajax.ActionLink("Recurring shifts", "RecurringShiftIndex", "Business", new { businesslocationid = @Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+                    </li>
+                    @if (Model.HasInternalLocations)
+                    {
+                        <li>
+                            @Ajax.ActionLink("Internal locations", "InternalLocationIndex", "Business", new { businesslocationid = @Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+                        </li>
+                    }
+                    @if (Is<ShiftBlockFeature>.Enabled)
+                    {
+                        <li>
+                            @Ajax.ActionLink("Shift blocks", "Index", "ShiftBlock", new { businesslocationid = @Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { })
+                        </li>
+                    }
+                    <li>
+                        @Ajax.ActionLink("Preferences", "PreferencesDetails", "Business", new { businesslocationid = @Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+                    </li>
+                    @if (Is<PaymentFeature>.Enabled)
+                    {
+                        <li>
+                            @Ajax.ActionLink("Payments", "Index", "Payment", new { businesslocationid = @Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+                        </li>
+                    }
+                </ul>
+   

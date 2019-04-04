@@ -1,0 +1,150 @@
+﻿@model WebUI.DTOs.EmployerSearchDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Business Details</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <div class="form-horizontal">
+
+                @if (Model != null)
+                {
+                    <div>
+                        <hr />
+                        <h3>Search Results</h3>
+                        @if (Model.SearchResults != null && Model.SearchResults.Count > 0)
+                        {
+                            /*********** Begin: POPUP dialog ****************/
+                        <input type="hidden" name="empId" id="empId" value="" />
+                        <div id="modalRequest" class="modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1>Request employer</h1>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>A request will be sent to the managers of the following nominated company:</p>
+                                        <ul><li><label id="requestName"></label></li></ul>
+                                        <p>Are you sure you wish to continue?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                        <button class="btn btn-primary" onclick="javascript: EmployerSearch_RequestEmployer(); return false;">Yes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            /*********** End: POPUP dialog ****************/
+
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    Business Name
+                                </th>
+                                <th>
+                                    Location Name
+                                </th>
+                                <th>
+                                </th>
+                            </tr>
+                            @foreach (var busSummary in Model.SearchResults)
+                                {
+                                <tr>
+                                    <td>
+                                        @busSummary.BusinessName
+                                    </td>
+                                    <td>
+                                        @busSummary.Name
+                                    </td>
+                                    <td>
+                                        <div id="requestWait_@busSummary.Id">
+                                            @if (Model.SearchRequests.Where(sr => sr.Business_Id == busSummary.Id).Any())
+                                                {
+                                                <text>Already requested!</text>
+                                                }
+                                                else if (Model.CurrentBusinesses.Contains(busSummary.Id))
+                                                {
+                                                <text>Already an employee!</text>
+                                                }
+                                                else
+                                                {
+                                                <button id="request_@busSummary.Id" class="btn btn-info" onclick="javascript:$('#requestName').html('@busSummary.Name'); $( '#empId').val('@busSummary.Id'); $('#modalRequest').modal('show');return false;">Request</button>
+                                                }
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                }
+                        </table>
+                        }
+                        else
+                        {
+                            /*********** Begin: POPUP dialog ****************/
+
+                        <div id="modalRefer" class="modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1>Let your manager know</h1>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="validateTips">All form fields are required.</p>
+                                        <p>Fill your managers details below</p>
+                                        <form>
+                                            <fieldset>
+                                                <table>
+                                                    <tr>
+                                                        <td><label for="name" class="control-label">Manager Name</label></td>
+                                                        <td><input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <label for="email" class="control-label">Email</label>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all" />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                        <button class="btn btn-primary" onclick="javascript: EmployerSearch_ReferEmployer(); return false;">Send email</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            /*********** End: POPUP dialog ****************/
+
+                        <p class="message-error"> No results found!</p>
+                        <hr />
+                        <div id="divRefer">
+                            <h4>Refer your manager</h4>
+                            <p>Your business has not been registered, would you like to tell your manager about Rooster? <a id="referManager" onclick="javascript: $('#modalRefer').modal('show'); return false;">Click Here</a></p>
+                        </div>
+                        <div id="divReferSuccess" style="display: none;" class="alert alert-success">
+                            <h4>Refer your manager</h4>
+                            <p>Referral email sent successfully!</p>
+                        </div>
+                        <div id="divReferFail" style="display: none;" class="alert alert-danger">
+                            <h4>Refer your manager</h4>
+                            <p>Referral email failed!</p>
+                        </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

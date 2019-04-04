@@ -1,0 +1,89 @@
+﻿@model WebUI.DTOs.UserPreferencesDTO
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Edit user preferences</h3>
+        </div>
+    </div>
+</nav>
+
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @using (Ajax.BeginForm(null, null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnFailure = "HandleError" }, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(model => model.Id)
+                    <br/>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.InternalAvailableShifts, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.InternalAvailableShifts)
+                            @Html.ValidationMessageFor(model => model.InternalAvailableShifts)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NotifyByApp, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.NotifyByApp)
+                            @Html.ValidationMessageFor(model => model.NotifyByApp)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NotifyByEmail, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.NotifyByEmail)
+                            @Html.ValidationMessageFor(model => model.NotifyByEmail)
+                        </div>
+                    </div>
+                    @Html.HiddenFor(model => model.ExternalShiftInfo)
+
+                    @Html.HiddenFor(model => model.ExternalAvailableShifts)
+
+
+                    @Html.HiddenFor(model => model.DistanceTravel, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.ShiftReminderLength, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.NotifyBySMS)
+                    @Html.HiddenFor(model => model.TimeFormat24Hr)
+                    @Html.HiddenFor(model => model.MonthCalView)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ImageData, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @if (Model.ImageData.Length > 0)
+                            {
+                                <img src="@Url.Action("ShowUserPreferencesImage", "Account", new { Model.Id, cachebuster= DateTime.Now.Ticks.ToString() })" alt="User Image" />
+                            }
+                            else
+                            {
+                                <text>[NO IMAGE]</text>
+                            }
+                            Upoad a new image?
+                            <input name="Image" type="file" />
+                            @Html.ValidationMessageFor(model => model.ImageData)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Ajax.ActionLink("Cancel", "UserPreferencesDetails", "Account", new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary btn-outline" })
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div>
+            </div>
+        </div>
+    </div>
+</div>
+     

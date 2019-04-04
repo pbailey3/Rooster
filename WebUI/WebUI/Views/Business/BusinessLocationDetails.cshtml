@@ -1,0 +1,78 @@
+﻿@model WebUI.DTOs.BusinessLocationDTO
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Business location details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressLine1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddressLine1)
+        </dd>
+
+        <dt>
+            @if( !String.IsNullOrEmpty(Model.AddressLine2))
+            { 
+                @Html.DisplayNameFor(model => model.AddressLine2)
+            }
+            else
+            {
+                <text></text>
+            }
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddressLine2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressSuburb)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddressSuburb)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressState)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddressState)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressPostcode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddressPostcode)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "BusinessLocationEdit", new { businesslocationid = Model.Id }) |
+    @Html.ActionLink("Back to List", "BusinessLocationIndex", new { businessid = Model.BusinessId })
+</p>

@@ -1,0 +1,236 @@
+﻿@model WebUI.DTOs.EmployeeDTO
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Add new employee</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @using (Ajax.BeginForm("Create", "Employee", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "CreateEmployee_DocumentReady", OnFailure = "HandleError" }, new { id = "createEmpForm" }))
+            {
+                <p>
+                    <div id="dvSuccessAddAnother" class="alert alert-success" role="alert"><strong>Success!</strong>Employee successfully added. Please enter next employee's details.</div>
+                </p>
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+            
+                    @Html.ValidationSummary(true)
+
+                    <input id="AddedAnother" type="hidden" value="@ViewBag.AddedAnother.ToString()" />
+
+                    @*@if (ViewBag.BusinessLocations != null && ((SelectList)ViewBag.BusinessLocations).Count() > 1)
+                    {
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Business location:</label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("BusinessLocation",
+                            (SelectList)ViewBag.BusinessLocations,
+                            new { id = "busLocDd", @class = "form-control" })
+                            </div>
+
+                        </div>
+                        <hr />
+                    }*@
+                    @Html.HiddenFor(model => model.BusinessId)
+                    @Html.HiddenFor(model => model.BusinessLocationId)
+                    @Html.HiddenFor(model => model.IsActive)
+                    @Html.HiddenFor(model => model.AddAnother)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FirstName)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LastName)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MobilePhone, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.MobilePhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MobilePhone)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email)
+                            Note: An email will be sent to the user
+                         </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PayRate, new { @class = "control-label col-md-2" })
+                       
+                        <div class="col-md-10">
+                              @Html.EditorFor(model => model.PayRate, new { htmlAttributes = new { @class = "form-control" } }) 
+                            @Html.ValidationMessageFor(model => model.PayRate)
+                            <span>$ per hour</span>
+                        </div>
+                      
+                    </div>
+                       
+                      @*<div class="form-group">
+                                @Html.LabelFor(model => model.DateOfBirth, new { @class = "control-label col-md-2" })
+
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.DateOfBirth, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       data_date_end_date = DateTime.Now.ToString(Common.GetLocaleDateDisplayFormat(HttpContext.Current.Request.UserLanguages.FirstOrDefault()))
+                                   }
+                               })
+                                    @Html.ValidationMessageFor(model => model.DateOfBirth)
+                                </div>
+                            </div>*@
+                    @Html.HiddenFor(model => model.Type)
+                            @*<div class="form-group">
+                                @Html.LabelFor(model => model.Type, new { @class = "control-label col-md-2" })
+
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.Type, Enum.GetNames(typeof(WebUI.DTOs.EmployeeTypeDTO)).Select(name => new SelectListItem()
+                       {
+                           Text = name.Replace("_", " "),
+                           Value = name
+                       }),
+                "-- SELECT --",
+                new { @class = "form-control" })
+
+                                    @Html.ValidationMessageFor(x => x.Type)
+                                </div>
+                            </div>*@
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IsAdmin, new { @class = "control-label col-md-2" })
+
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.IsAdmin, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IsAdmin)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Roles, new { @class = "control-label col-md-2" })@Html.Partial("_HelpEmpRolesPartial")
+                                <div class="col-md-offset-2 col-md-10">
+                                    @if (ViewBag.BusinessRoles.Count == 0)
+                                    {
+                                        <label id="lblNoRoles">No roles exist yet</label>
+                                        <table class="table" id="tblRoles"><tr> </tr></table>
+
+                                    }
+                                    else
+                                    {
+                                        <table class="table" id="tblRoles">
+                                            <tr>
+                                                @{
+                                                    int cnt = 0;
+                                                    List<WebUI.DTOs.RoleDTO> roles = ViewBag.BusinessRoles;
+                                                    foreach (var role in roles.OrderBy(n => n.Name))
+                                                    {
+                                                        if (cnt++ % 3 == 0)
+                                                        {
+                                                          @:</tr><tr>
+                                                                }
+        @:<td>
+            <input type="checkbox"
+                   name="selectedRoles"
+                   value="@role.Id"
+                   @(Html.Raw((@Model.Roles != null && @Model.Roles.Contains(role)) ? "checked=\"checked\"" : "")) />
+            @role.Name
+            @:</td>
+                                                }
+        @:</tr>
+    }
+                                            </table>
+
+                                                    }
+                                </div>
+
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input id="btnAddRole" type="button" value="Add new role" class="btn  btn-outline btn-primary btn-sm" />
+                                    <!--The Modal box defined using class modal-->
+                                    <div id="modalAddRole" class="modal">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1>Add new role</h1>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label class="control-label ">Enter role name</label>
+                                                    <input id="txtRoleName" type="text" class="form-control" />
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <button class="btn btn-primary" onclick="javascript: CreateEmployee_AddRole(); return false;">Add</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!--end here-->
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="button" value="Create" class="btn btn-primary btn-sm" onclick="javascript: $('#AddAnother').val(false); if (CreateEmployee_DisplayPopup()) $('#dialogContact').modal('show'); else $('#submit').click();" />
+                                    <input type="button" value="Create and add another" class="btn btn-outline btn-primary btn-sm" onclick="javascript: $('#AddAnother').val(true); if (CreateEmployee_DisplayPopup()) $('#dialogContact').modal('show'); else $('#submit').click();" />
+                                    <input type="submit" value="Create" id="submit" style='display:none' />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        }
+                        @*/*********** Begin: POPUP dialog ****************/*@
+                        <!--The Modal box defined using class modal-->
+                        <div id="dialogContact" class="modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1>Email or Phone Number</h1>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>An email or phone number is recommended. Do you want to add one?</p>
+                                        <form>
+                                            <fieldset>
+                                                <label for="chkShow" class="control-label col-md-4">Do not prompt again</label>
+                                                <input type="checkbox" id="chkShow" name="chkShow" />
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-default" data-dismiss="modal">Yes</button>
+                                        <button class="btn btn-primary" data-dismiss="modal" onclick="javascript: $('#submit').click();">No</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--end here-->
+                        @*/*********** End: POPUP dialog ****************/*@
+                        <div>
+                            @Ajax.ActionLink("< Back to list", "Index", "Employee", new { businessLocationId = Model.BusinessLocationId, businessId = Model.BusinessId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn  btn-outline btn-primary btn-sm" })
+                        </div>
+                    </div>
+                                </div>
+                            </div>
+                               

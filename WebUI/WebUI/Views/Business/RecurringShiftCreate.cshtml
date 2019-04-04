@@ -1,0 +1,214 @@
+﻿@model WebUI.DTOs.ShiftTemplateDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Add recurring shift</h3>
+        </div>
+    </div>
+</nav>
+
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady", OnFailure = "HandleError" }))
+            {
+                <br/>
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true)
+
+                    @*@if (ViewBag.BusinessLocations != null && ((SelectList)ViewBag.BusinessLocations).Count() > 1)
+                    {
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Business location:</label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("BusinessLocation",
+                            (SelectList)ViewBag.BusinessLocations,
+                            new { id = "busLocDd", @class = "form-control" })
+                            </div>
+
+                        </div>
+                        <hr />
+                    }*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmployeeId, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(
+                        x => x.EmployeeId,
+                        new SelectList(ViewBag.BusinessEmployees, "Id", "FullName"),
+                        "-- SELECT --",
+                         new
+                         {
+                             id = "employeeDd",
+                             @class = "form-control",
+                             onchange = "javascript: CreateRecurringShift_employeeDdChange();"
+                         }
+                    )
+                            @Html.ValidationMessageFor(model => model.EmployeeId)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RoleId, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(
+                        x => x.RoleId,
+                        new SelectList(ViewBag.BusinessRoles, "Id", "Name"),
+                        "-- SELECT --",
+                         new
+                         {
+                             id = "roleDd",
+                             @class = "form-control"
+                         }
+                    )
+                            @Html.ValidationMessageFor(model => model.RoleId)
+                        </div>
+                    </div>
+                <span id="timeSection">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StartTime, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.StartTime)
+
+                            @Html.ValidationMessageFor(model => model.StartTime)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FinishTime, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.FinishTime)
+                            @Html.ValidationMessageFor(model => model.FinishTime)
+                        </div>
+                    </div>
+                </span>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FinishNextDay, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.FinishNextDay)
+                            @Html.ValidationMessageFor(model => model.FinishNextDay)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Frequency, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.Frequency, Enum.GetNames(typeof(WebUI.DTOs.ShiftFrequencyDTO)).Select(name => new SelectListItem()
+                {
+                    Text = name,
+                    Value = name
+                }), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Frequency)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Monday, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Monday)
+                            @Html.ValidationMessageFor(model => model.Monday)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Tuesday, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Tuesday)
+                            @Html.ValidationMessageFor(model => model.Tuesday)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Wednesday, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Wednesday)
+                            @Html.ValidationMessageFor(model => model.Wednesday)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Thursday, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Thursday)
+                            @Html.ValidationMessageFor(model => model.Thursday)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Friday, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Friday)
+                            @Html.ValidationMessageFor(model => model.Friday)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Saturday, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Saturday)
+                            @Html.ValidationMessageFor(model => model.Saturday)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Sunday, new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Sunday)
+                            @Html.ValidationMessageFor(model => model.Sunday)
+                        </div>
+                    </div>
+
+                    @if (ViewBag.HasInternalLocations)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InternalLocationId, new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(
+                            x => x.InternalLocationId,
+                            new SelectList(ViewBag.BusinessInternalLocations, "Id", "Name"),
+                            "-- SELECT --",
+                            new
+                            {
+                                @class = "form-control"
+                            }
+                        )
+                                @Html.ValidationMessageFor(model => model.InternalLocationId)
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        var busLocId = ((List<WebUI.DTOs.InternalLocationDTO>)ViewBag.BusinessInternalLocations)[0].Id;
+                        @Html.Hidden("InternalLocationId", busLocId);
+                    }
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div>
+                @Ajax.ActionLink("< Back to list", "RecurringShiftIndex", new { businessLocationId = ViewBag.BusinessLocationId}, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn  btn-outline btn-primary btn-sm" })
+            </div>
+        </div>
+    </div>
+</div>

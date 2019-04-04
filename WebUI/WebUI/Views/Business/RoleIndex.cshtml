@@ -1,0 +1,167 @@
+﻿@model IEnumerable<WebUI.DTOs.RoleDTO>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Roles</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+                @Ajax.RawActionLink("<span class='icon-add'></span>", "RoleCreate", "Business", new { businessid = ViewBag.BusinessId, businessLocationId = ViewBag.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = "add" })
+
+            @if (Model.Where(m => m.Enabled).Count() > 0)
+            {
+                <table class="table table-striped">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th></th>
+
+                    </tr>
+
+                    @foreach (var item in Model.Where(m => m.Enabled).OrderBy(n=> n.Name))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                <form class="form-inline pull-right">
+                                    <div class="form-group" id="edit_@item.Id">
+                                        @if (item.Enabled)
+                                        {
+                                            @Ajax.ActionLink("Edit", "RoleEdit", new { businessid = item.BusinessId, id = item.Id, businessLocationId = ViewBag.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-default btn-xs" })<text> |</text>
+                                        }
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div id="requestWait_@item.Id"></div>
+                                        <div id="requestBtns_@item.Id">
+                                            @if (item.Enabled)
+                                            {
+                                                <button id="disable_@item.Id" class="btn btn-danger btn-xs" onclick="javascript:$('#roleId').val('@item.Id'); $('#businessId').val('@item.BusinessId');$('#modalDisable').modal('show');return false;">Delete</button>
+                                            }
+                                            @*else
+                                                {
+                                                    <button id="enable_@item.Id" class="btn btn-success btn-xs" onclick="javascript:$( '#dialogEnable' ).data('roleId', '@item.Id').data('businessId', '@item.BusinessId').dialog( 'open' );return false;">Enable</button>
+                                                }*@
+
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <p>
+                    <h4>No roles exist</h4>
+                </p>
+            }
+            <div class="form-horizontal">
+                <div class="form-group">
+                   <div class="col-md-12">
+                        <div class="pull-right">
+                            @if (ViewBag.BusinessLocationId == null && !(bool)ViewBag.HasMultiLocations)
+                            {
+                                @Ajax.ActionLink("Next add employees >", "Create", "Employee", new { businessId = ViewBag.BusinessId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "CreateEmployee_DocumentReady" }, new { @class = "btn btn-primary btn-sm" })
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* /*********** Begin: POPUP dialog ****************/*@
+            <input type="hidden" name="roleId" id="roleId" value="" />
+            <input type="hidden" name="businessId" id="businessId" value="" />
+
+            <div id="modalDisable" class="modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1>Delete role</h1>
+                        </div>
+                        <div class="modal-body">
+                            <p>Deleting a role will remove this role from any employees and will also delete any recurring shifts or shift blocks which use this role!</p>
+                            <p>Are you sure you wish to continue?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" onclick="javascript: Roles_DisableRole(); return false;">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div id='dialogEnable' class='modal' title="Enable role">
+        <p>Are you sure you wish to enable this role?</p>
+    </div>
+@* /*********** End: POPUP dialog ****************/*@
+
+@*@section Scripts {
+
+    <script>
+        
+        $("#dialogEnable").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Yes": function () {
+                    $.ajax({
+                        url: "/Business/EnableRole",
+                        type: 'POST',
+                        headers: { '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                        contentType: 'application/json',
+                        data: JSON.stringify({ roleId: $(this).data('roleId'), businessId: $(this).data('businessId') }),
+                        beforeSend: function (xhr) {
+                            //display spinner
+                            var reqId = JSON.parse(this.data)['roleId'];
+                            $('#requestBtns_' + reqId).hide();
+                            $('#requestWait_' + reqId).html('<img src="/images/ajax-loader.gif" alt="Wait" />');
+                        },
+                        success: function (msg) {
+                            //On success remove spinner
+                            var reqId = JSON.parse(this.data)['roleId'];
+                            $('#edit_' + reqId).show();
+                            $('#requestWait_' + reqId).html('Role enabled successfully!');
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("Error: " + jqXHR.responseText);
+                            var reqId = JSON.parse(this.data)['reqId'];
+                            $('#requestWait_' + reqId).html('');
+                            $('#requestBtns_' + reqId).show();
+                        },
+                        statusCode: {
+                            404: function () {
+                                alert("Error sending email: 404 page not found");
+                            }
+                        }
+                    })
+                    $(this).dialog("close");
+                },
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+
+    </script>
+
+}*@

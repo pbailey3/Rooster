@@ -1,0 +1,137 @@
+﻿@model WebUI.DTOs.OpenShiftsEmployeeIndexDTO
+
+@{
+    ViewBag.Title = "Open shift index";
+}
+
+<h2>Open shifts index</h2>
+
+@if (Model.OpenShifts.Count() > 0)
+{ 
+  
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OpenShifts.First().BusinessLocationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OpenShifts.First().RoleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OpenShifts.First().StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OpenShifts.First().FinishTime)
+        </th>
+       
+        <th></th>
+    </tr>
+@foreach (var item in Model.OpenShifts.OrderBy(s => s.StartTime))
+{
+    <tr>
+       <td>
+            @Html.DisplayFor(modelItem => item.BusinessLocationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RoleName)
+        </td>
+        <td>
+          @item.StartTime.ToString(Common.GetLocaleDateTimeDisplayFormat(HttpContext.Current.Request.UserLanguages.FirstOrDefault()))
+        </td>
+        <td>
+          @item.FinishTime.ToString(Common.GetLocaleDateTimeDisplayFormat(HttpContext.Current.Request.UserLanguages.FirstOrDefault()))
+        </td>
+       
+        <td>
+            <div id="requestWait_@item.Id">
+                @if (Model.OpenShiftRequests.Contains(item.Id))
+                {
+                    <text>Already requested!</text>
+                }
+                 else
+                {
+                    <input id="btnRequestShift_@item.Id" type="button" data-toggle="modal" data-id="@item.Id" value="Request shift" class="open-RequestShiftDialog btn btn-primary btn-xs" />
+                }
+            </div>
+        </td>
+    </tr>
+}
+
+</table>
+
+    <!--The Modal box defined using class modal-->
+    <div id="modalRequestShift" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1>Request open shift</h1>
+                </div>
+                <div class="modal-body">
+                   Are you sure you wish to request this open shift?
+                    <p>All requests will be sent to location manager to approve.</p>
+                    <input type="hidden" name="shiftId" id="shiftId" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" onclick="javascript: RequestShift();">Request</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--end here-->
+}
+else
+{
+      <h4>No open shifts</h4>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    <script>
+        //The script read the modalbox element and define the
+        //modal on it using modal method and calls its "show state"
+        $(function () {
+            var modalRequestShift = function () {
+                $("#modalRequestShift").modal("show");
+            };
+            $(document).on("click", ".open-RequestShiftDialog", function () {
+                var shiftId = $(this).data('id');
+                $(".modal-body #shiftId").val(shiftId);
+                modalRequestShift();
+            });
+        });
+
+        function RequestShift() {
+            $.ajax({
+                url: "/Roster/RequestShift",
+                type: 'POST',
+                headers: { '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                contentType: 'application/json',
+                data: JSON.stringify({ id: $("#shiftId").val() }),
+                beforeSend: function (xhr) {
+                    //display spinner
+                   $('#btnRequestShift_' + $("#shiftId").val()).hide();
+                    $('#requestWait_' + $("#shiftId").val()).html('<img src="/images/ajax-loader.gif" alt="Wait" />');
+                },
+                success: function (data, textStatus, jqXHR) {
+                    //On success remove spinner
+                    $('#requestWait_' + $("#shiftId").val()).html('Request sent!');
+                    $("#modalRequestShift").modal("hide");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Error: " + jqXHR.responseText);
+                    $('#requestWait_' + $("#shiftId").val()).html('');
+                    $('#btnRequestShift_' + $("#shiftId").val()).show();
+                },
+                statusCode: {
+                    404: function () {
+                        alert("Error sending email: 404 page not found");
+                    }
+                }
+            })
+        };
+</script>
+        
+}

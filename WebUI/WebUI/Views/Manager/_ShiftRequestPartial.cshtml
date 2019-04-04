@@ -1,0 +1,257 @@
+﻿@model WebUI.DTOs.ShiftChangeRequestListsDTO
+
+
+                @{
+                    var shiftCancelRequests = Model.ShiftChangeRequests.Where(sr => sr.Type == WebUI.DTOs.ShiftRequestTypeDTO.Cancel).OrderBy(sr => sr.StartDateTime);
+                    var openShiftRequests = Model.ShiftChangeRequests.Where(sr => sr.Type == WebUI.DTOs.ShiftRequestTypeDTO.TakeOpenShift).OrderBy(sr => sr.StartDateTime);
+                    var distinctOpenShiftIDs = openShiftRequests.Select(os => os.ShiftId).Distinct();
+                }
+                <p>
+                    <h2>Pending shift requests</h2>
+                </p>
+                @if (Model.ShiftChangeRequests.Count() == 0
+                && Model.RecurringShiftChangeRequests.Count() == 0)
+                {
+                    <h3>No pending requests</h3>
+                }
+
+                @if (shiftCancelRequests.Count() > 0)
+                {
+                    <h4>Cancellation requests</h4>
+                    var meta = shiftCancelRequests.First();
+                    <table class="table table-striped">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => meta.EmployeeName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => meta.BusinessName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => meta.StartDateTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => meta.FinishDateTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => meta.Type)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => meta.Reason)
+                            </th>
+                            <th></th>
+
+                        </tr>
+
+                        @foreach (var item in shiftCancelRequests)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BusinessName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StartDateTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FinishDateTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Type)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Reason)
+                                </td>
+                                <td>
+                                    <div id="requestWait_@item.Id"></div>
+                                    <div id="requestBtns_@item.Id">
+                                        <button id="approve_@item.Id" class="btn btn-xs btn-success" onclick="javascript:$('#shiftReqId').val('@item.Id'); SendDataToModalInput('@item.BusinessLocationId', '@item.ShiftId'); $('#shiftModalApprove').modal('show');$('#shiftIsRecurring').val(false); return false;">Approve</button> |
+                                        <button id="reject_@item.Id" class="btn btn-xs btn-danger" onclick="javascript:$('#shiftReqId').val('@item.Id');$('#shiftModalReject').modal('show'); $('#shiftIsRecurring').val(false);return false;">Reject</button>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </table>
+                }
+
+                @if (openShiftRequests.Count() > 0)
+                {
+                    <h4>Open shift requests</h4>
+
+                    foreach (var openShiftID in distinctOpenShiftIDs)
+                    {
+                        var shiftDetails = openShiftRequests.Where(sr => sr.ShiftId == openShiftID).First();
+                        <h5>
+                            Open Shift: @shiftDetails.StartDateTime.ToString()
+                            -
+                            @shiftDetails.FinishDateTime.ToString()
+                            @@
+                            @shiftDetails.BusinessLocationName
+                        </h5>
+                        var meta = openShiftRequests.First();
+                        <table class="table table-striped">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => meta.EmployeeName)
+                                </th>
+                                <th></th>
+
+                            </tr>
+
+                            @foreach (var item in openShiftRequests.Where(sr => sr.ShiftId == openShiftID))
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EmployeeName)
+                                    </td>
+
+                                    <td>
+                                        <div id="@item.ShiftId" class="@item.Id">
+                                            <div id="requestWait_@item.Id"></div>
+                                            <div id="requestBtns_@item.Id">
+                                                <button id="approve_@item.Id" class="btn btn-xs btn-success" onclick="javascript:$('#shiftReqId').val('@item.Id');$('#openShiftId').val('@item.ShiftId');$('#shiftIsRecurring').val(false); $('#shiftIsOpenShift').val(true);$('#shiftModalApprove').modal('show');return false;">Approve</button>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            }
+                        </table>
+                    }
+                }
+
+                @if (Model.RecurringShiftChangeRequests.Count() > 0)
+                {
+                    var metaRecur = Model.RecurringShiftChangeRequests.First();
+                    <h4>Recurring shift requests</h4>
+    <table class="table table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => metaRecur.EmployeeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => metaRecur.BusinessName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => metaRecur.OccurenceDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => metaRecur.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => metaRecur.FinishTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => metaRecur.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => metaRecur.Reason)
+            </th>
+            <th></th>
+
+        </tr>
+
+        @foreach (var item in Model.RecurringShiftChangeRequests)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BusinessName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OccurenceDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FinishTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reason)
+                </td>
+                <td>
+                    <div id="requestWait_@item.Id"></div>
+                    <div id="requestBtns_@item.Id">
+                        <button id="approve_@item.Id" class="btn btn-xs btn-success" onclick="javascript:$('#shiftReqId').val('@item.Id');$('#shiftModalApprove').modal('show');$('#shiftIsRecurring').val(true);return false;">Approve</button> |
+                        <button id="reject_@item.Id" class="btn btn-xs btn-danger" onclick="javascript:$('#shiftReqId').val('@item.Id');$('#shiftModalReject').modal('show'); $('#shiftIsRecurring').val(true);return false;">Reject</button>
+                    </div>
+                </td>
+
+            </tr>
+        }
+
+    </table>
+                }
+
+
+                @* /*********** Begin: POPUP dialog ****************/*@
+                <input type="hidden" name="shiftReqId" id="shiftReqId" value="" />
+                <input type="hidden" name="openShiftId" id="openShiftId" value="" />
+                <input type="hidden" name="shiftIsRecurring" id="shiftIsRecurring" value="" />
+                <input type="hidden" name="shiftIsOpenShift" id="shiftIsOpenShift" value="" />
+                <div id="shiftModalApprove" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1>Approve request</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you wish to approve this request?</p>
+                                <p>Comment:</p>
+                                <textarea id="shiftTxtAcceptReason" name="ShiftAcceptReason" maxlength="400" required style="width:100%"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-primary" onclick="javascript: ShiftRequest_ApproveRequest(); $('#modalReassign').modal('show'); return false;">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="shiftModalReject" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1>Reject request</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you wish to reject this request?</p>
+                                <p>Please enter reason below:</p>
+                                <textarea id="shiftTxtRejectReason" name="ShiftRejectReason" maxlength="400" required style="width:100%"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-primary" onclick="javascript: ShiftRequest_RejectRequest(); return false;">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="modalReassign" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1>Open Shift</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p>Would you like to reassign the shift now?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <a id="btnYesModal" href='@Url.Action("ShiftEdit", "Roster", new { id = "param-id", businessLocationId = "param-buss", returnView = "WeekView" })' class="btn btn-primary" data-ajax-update="#body" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-loading="#divLoading" data-ajax="true" data-ajax-complete="DocumentReady" onclick="javascript: $('#modalReassign').modal('hide'); return false;">Yes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @* /*********** End: POPUP dialog ****************/*@
+          

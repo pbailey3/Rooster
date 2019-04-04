@@ -1,0 +1,150 @@
+﻿@model WebUI.DTOs.RosterBroadcastCheckDTO
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Unassigned shifts</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+       
+            <table class="table table-striped">
+
+
+                @foreach (var item in Model.RosterBroadCasts)
+                {
+                    if (item.UnassignedShifts != null)
+                    {
+                        foreach (var itemShift in item.UnassignedShifts)
+                        {
+                            <tr>
+                                <td>
+                                    @if (String.IsNullOrEmpty(itemShift.RoleName))
+                                    {
+                                        <text>[No Role]</text>
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(modelItem => itemShift.RoleName)
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => itemShift.InternalLocationName)
+                                </td>
+                                <td>
+                                    @itemShift.StartDateTime.ToString(Common.GetLocaleDateTimeDisplayFormat(HttpContext.Current.Request.UserLanguages.FirstOrDefault()))
+                                </td>
+                                <td>
+                                    @itemShift.FinishDateTime.ToString(Common.GetLocaleDateTimeDisplayFormat(HttpContext.Current.Request.UserLanguages.FirstOrDefault()))
+                                </td>
+                                <td>
+                                    <div id="requestAssigned_@itemShift.Id">
+                                        @{
+                                    SelectList sl = null;
+                                    if (itemShift.RoleId != Guid.Empty)
+                                    {
+                                        sl = new SelectList(((List<WebUI.DTOs.EmployeeRoleSummaryDTO>)ViewBag.EmployeeRoles).Where(er => er.Roles.Contains(itemShift.RoleId)).AsEnumerable(), "Id", "FullName");
+                                    }
+                                    else
+                                    {
+                                        sl = new SelectList(((List<WebUI.DTOs.EmployeeRoleSummaryDTO>)ViewBag.EmployeeRoles).AsEnumerable(), "Id", "FullName");
+                                    }
+                                    @Html.DropDownListFor(
+                        model => itemShift.EmployeeId,
+                        sl,
+                        "-- SELECT --",
+                             new { @class = "form-control", id = "assignedEmployee_" + @itemShift.Id, onchange = "javascript:RosterBroadcastShiftCheck_onChangeDDL('" + @itemShift.Id + "');" }
+                    )
+                                        }
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div id="requestWait_@itemShift.Id"></div>
+                                    <div id="requestBtns_@itemShift.Id">
+                                        <button id="assignShift_@itemShift.Id" class="btn btn-success btn-sm" onclick="javascript:RosterBroadcastShiftCheck_assignShift('@itemShift.Id');return false;" hidden="hidden">Assign Shift</button>
+                                        <button id="openShift_@itemShift.Id" class="btn btn-warning btn-sm" onclick="javascript: $('#requestBtns_@itemShift.Id').hide(); $('#requestWait_@itemShift.Id').html('Open shift!');  $('#requestAssigned_@itemShift.Id').hide(); return false;" hidden="hidden">Leave open</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+
+            </table>
+            
+            @if (Model.ConflictingShifts != null && Model.ConflictingShifts.Count > 0)
+            {
+                <h2>Conflicting Shifts</h2>
+
+                <table class="table table-striped">
+                  
+                        @foreach (var itemShift in Model.ConflictingShifts)
+                        {
+                            <tr>
+                                <td>
+                                    @if (String.IsNullOrEmpty(itemShift.RoleName))
+                                    {
+                                        <text>[No Role]</text>
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(modelItem => itemShift.RoleName)
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => itemShift.InternalLocationName)
+                                </td>
+                                <td>
+                                    @itemShift.StartDateTime.ToString(Common.GetLocaleDateTimeDisplayFormat(HttpContext.Current.Request.UserLanguages.FirstOrDefault()))
+                                </td>
+                                <td>
+                                    @itemShift.FinishDateTime.ToString(Common.GetLocaleDateTimeDisplayFormat(HttpContext.Current.Request.UserLanguages.FirstOrDefault()))
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => itemShift.EmployeeFullName)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(
+                        model => itemShift.EmployeeId,
+                        new SelectList(((List<WebUI.DTOs.EmployeeRoleSummaryDTO>)ViewBag.EmployeeRoles).Where(er => er.Roles.Contains(itemShift.RoleId) && er.Id != itemShift.EmployeeId).AsEnumerable(), "Id", "FullName"),
+                        "-- SELECT --",
+                            new { @class = "form-control", id = "assignedEmployee_" + @itemShift.Id, onchange = "javascript:RosterBroadcastShiftCheck_onChangeDDL('" + @itemShift.Id + "');" }
+                    )
+                                </td>
+                                <td>
+                                    <div id="requestWait_@itemShift.Id"></div>
+                                    <div id="requestBtns_@itemShift.Id">
+                                        <button id="assignShift_@itemShift.Id" class="btn btn-success btn-sm" onclick="javascript:RosterBroadcastShiftCheck_assignShift('@itemShift.Id');return false;" hidden="hidden">Assign Shift</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                 
+
+                </table>
+            }
+           
+        <div class="col-md-12">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        @Ajax.ActionLink("< Back", "RosterBroadcast", "Roster", new { businessId = ViewBag.BusinessId, monthDate = ViewBag.DisplayDate.Month, yearDate = ViewBag.DisplayDate.Year, businessLocationId = ViewBag.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-default" })
+                    </div>
+                    <div class="col-md-10">
+                        <div class="pull-right">
+                            @Ajax.ActionLink("Next >", "RosterBroadcastNext", "Roster", new { businessId = ViewBag.BusinessId, businessLocationId = ViewBag.BusinessLocationId, displayDate = ViewBag.DisplayDate }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+   
+</div>

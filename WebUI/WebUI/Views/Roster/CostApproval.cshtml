@@ -1,0 +1,25 @@
+﻿<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Edit shift broadcast</h3>
+        </div>
+    </div>
+</nav>
+
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div align="center" class="col-md-12" style="margin-top:10%; font-size:130%">
+            <p>Broadcasting a shift externally cost $20</p>
+            <p>Do you wish to proceed</p>
+        </div>
+        <div align="center" class="col-md-12">
+            @Ajax.ActionLink("No", "ShiftEdit", new { id = Model.Id, businessLocationId = Model.BusinessLocationId, returnView = "DayView" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-default" }) |
+            @Ajax.ActionLink("Yes", "ShiftSetUp", new { ID = @Model.Id, RosterID = @Model.RosterId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</div>
+

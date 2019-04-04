@@ -1,0 +1,30 @@
+﻿<div id="previewsFileUpload" class="table">
+    <table class="table" id="template">
+        <tr class="dz-details">
+            <td rowspan="2"><span class="preview"><img id="previewsImage" data-dz-thumbnail src="~/Images/csv_FileUpload.jpg"/></span></td>
+            <td><strong>File Name:</strong></td>
+            <td class="name" data-dz-name></td>
+            <td rowspan="2">
+                <button data-dz-remove class="btn btn-danger delete">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Remove</span>
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Size:</strong></td>
+            <td class="size" data-dz-size>tam</td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="dz-message needsclick">
+        Drop file here or click to upload.<br>
+        <span class="note needsclick">(The file is not uploaded until the upload button is clicked.)</span>
+    </div>
+</div>

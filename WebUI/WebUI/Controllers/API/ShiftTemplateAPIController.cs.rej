@@ -1,0 +1,10 @@
+diff a/WebUI/WebUI/Controllers/API/ShiftTemplateAPIController.cs b/WebUI/WebUI/Controllers/API/ShiftTemplateAPIController.cs	(rejected hunks)
+@@ -86,7 +86,7 @@
+                         return Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, "Employee does not have the role specified");
+                     
+                     var shiftTemplate = Mapper.Map<ShiftTemplateDTO, ShiftTemplate>(shiftTemplateDTO);
+-                    shiftTemplate.Id = Guid.NewGuid(); //Assign new ID on save.
++                     shiftTemplate.Id = Guid.NewGuid(); //Assign new ID on save.
+                     
+                     shiftTemplate.Enabled = true; //default to enabled
+ 

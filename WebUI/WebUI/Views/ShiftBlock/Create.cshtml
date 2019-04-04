@@ -1,0 +1,100 @@
+﻿@model WebUI.DTOs.ShiftBlockDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Add shift block</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady", OnFailure = "HandleError" }))
+            {
+                @Html.AntiForgeryToken()
+                <br/>
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true)
+
+                    <div class="form-group">
+
+                        @Html.HiddenFor(model => model.BusinessLocationId, new { Value = ViewBag.BusinessLocationId })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RoleId, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(
+                        x => x.RoleId,
+                        new SelectList(ViewBag.BusinessRoles, "Id", "Name"),
+                        "-- SELECT --",
+                         new
+                         {
+                             id = "roleDd",
+                             @class = "form-control"
+                         }
+                    )
+                                @Html.ValidationMessageFor(model => model.RoleId)
+                            </div>
+                        </div>
+                    <div id="timeSection">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.StartTime, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.StartTime, new
+                                   {
+                                       htmlAttributes = new
+                                       {
+                                           onchange = "javascript:ShiftBlockTime_OnChange();"
+                                       }
+                                   })
+                                    @Html.ValidationMessageFor(model => model.StartTime)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FinishTime, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.FinishTime, new
+                                   {
+                                       htmlAttributes = new
+                                       {
+                                           onchange = "javascript:ShiftBlockTime_OnChange();"
+                                       }
+                                   })
+                                    @Html.ValidationMessageFor(model => model.FinishTime)
+                                </div>
+                            </div>
+                      </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FinishNextDay, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.FinishNextDay, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   @readonly = "readonly"
+                               }
+                           })
+                                @Html.ValidationMessageFor(model => model.FinishNextDay)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div>
+                @Ajax.ActionLink("< Back to list", "Index", new { businessLocationId = ViewBag.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn  btn-outline btn-primary btn-sm" })
+            </div>
+        </div>
+    </div>
+</div>
+

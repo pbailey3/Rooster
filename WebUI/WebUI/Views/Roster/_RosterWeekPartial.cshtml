@@ -1,0 +1,58 @@
+﻿@model WebUI.DTOs.RosterDTO
+
+@{ 
+    var shiftsForDay = Model.Shifts.Where(s => s.StartDay.DayOfWeek == ((DayOfWeek)@ViewBag.DayOfWeek)).OrderBy(s=>s.StartTime).ToList();
+}  
+ 
+<div class="cal-month-day">
+    @for (int i = 0; i < shiftsForDay.Count(); i++)
+    {
+        var item = shiftsForDay[i];
+           
+        <div class="cal-shift">
+            @Ajax.RawActionLink("<span class='icon-cross'></span>", "ShiftDelete", "Roster", new { id = item.Id, returnView = "WeekView" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class=" cal-shift-delete"})
+            <a href='@Url.Action("ShiftEdit", "Roster", new { id = item.Id, businessLocationId = item.BusinessLocationId, returnView = "WeekView" })' class=" cal-shift-link" data-ajax-update="#body" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-loading="#divLoading" data-ajax="true" data-ajax-complete="DocumentReady">
+                <h5 class="shift-staff">
+                    @if (!item.IsPublished)
+                    {
+                    <span class="icon-broadcast" data-toggle="tooltip" data-placement="left" title="This shift has not been broadcast"></span>
+                    }
+                    @if (item.EmployeeId != null)
+                    {
+                    <text>@item.EmployeeFirstName  @item.EmployeeLastName</text>
+                    }
+                    else
+                    {
+                    <span class="label label-primary">Open</span>
+                    }
+                </h5>
+
+                <p class="shift-time">
+                    <b>@item.StartDateTime.ToString("hh:mm")</b> @item.StartDateTime.ToString("tt") - <b>@item.FinishDateTime.ToString("hh:mm")</b>@item.FinishDateTime.ToString("tt")
+                    @if (item.FinishDay.DayOfYear > item.StartDay.DayOfYear)
+                    {
+                    <text>(+1d)</text>
+                    }
+                </p>
+                <p class="shift-location">
+                    <em>
+                        @if (item.RoleName != null)
+                        {
+                        <text>@item.RoleName</text>
+                        }
+                        else
+                        {
+                        <text>No role</text>
+                        }
+                        @if ((bool)ViewBag.HasInternalLocations && !String.IsNullOrEmpty(item.InternalLocationName))
+                        {
+                        <text>, @item.InternalLocationName</text>
+                        }
+                    </em>
+                </p>
+            </a>
+        </div>
+    }
+
+</div>
+ 

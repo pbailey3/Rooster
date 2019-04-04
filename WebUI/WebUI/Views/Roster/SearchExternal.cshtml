@@ -1,0 +1,80 @@
+﻿@model WebUI.DTOs.ExternalUserProfileListDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Search External</h3>
+        </div>
+    </div>
+</nav>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <div class="top_sec">
+                <div class="container">
+                    @{
+                        var ExternalUser = Model.ExternalUserProfile;
+                    }
+
+                    @if (ExternalUser != null && ExternalUser.Count() > 0)
+                    {
+
+                        <table id="tblExternalUsers" class="table table-striped table-responsive">
+                            <thead>
+                                <tr><th></th><th></th></tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ExternalUser)
+                                {
+                                    <tr>
+                                        <td style="width: 105px;">
+                                            <div class="img-responsive">
+                                                @if (!string.IsNullOrEmpty(Convert.ToBase64String(item.ImageData)))
+                                                {
+                                                    <img id="profilePictureImage" width="100" height="100" src="data:image;base64,@Convert.ToBase64String(item.ImageData)" />
+                                                }
+                                                else
+                                                {
+                                                    <img id="profilePictureImage" width="100" height="100" src="~/Images/person-placeholder.jpg" />
+                                                }
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FirstName)
+                                            <p>
+                                                @Html.DisplayFor(modelItem => item.AboutMe)
+                                            </p>
+                                            <div id="@item.ExternalUserID" class="@item.ExternalUserID">
+                                                <div id="requestWait_@item.ExternalUserID"></div>
+                                                <div id="requestBtns_@item.ExternalUserID" class="row col-md-6">
+                                                    @Ajax.ActionLink("View Profile", "ExternalUserProfile", new { externalUserID = item.ExternalUserID }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-sm btn-default" })
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>
+                            <h4>No external users</h4>
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-datatable.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#tblExternalUsers").DataTable();
+                    });
+
+</script>

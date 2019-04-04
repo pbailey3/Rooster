@@ -1,0 +1,213 @@
+﻿@model WebUI.DTOs.ExternalShiftRequestListsDTO
+
+
+                @{
+                    var ExternalshiftCancelRequests = Model.ExternalShiftRequests.Where(esr => esr.Type == WebUI.DTOs.ExternalShiftRequestTypeDTO.Cancel).OrderBy(esr => esr.StartDateTime);
+                    var ExternalShiftRequests = Model.ExternalShiftRequests.Where(esr => esr.Type == WebUI.DTOs.ExternalShiftRequestTypeDTO.TakeExternalShift).OrderBy(esr => esr.StartDateTime);
+                    //var distinctExternalShiftIDs = ExternalShiftRequests.Select(os => os.ExternalShiftBroadCastID).Distinct();
+                }
+                <p>
+                    <h2>Pending external shift requests</h2>
+                </p>
+                @if (Model.ExternalShiftRequests.Count() == 0)
+                {
+                    <h3>No pending requests</h3>
+                }
+
+                @if (ExternalshiftCancelRequests.Count() > 0)
+                {
+                    <h4>Cancellation requests</h4>
+                    var meta = ExternalshiftCancelRequests.First();
+                    <table class="table table-striped">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => meta.UserName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => meta.BusinessName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => meta.StartDateTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => meta.FinishDateTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => meta.Type)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => meta.Reason)
+                            </th>
+                            <th></th>
+
+                        </tr>
+
+                        @foreach (var item in ExternalshiftCancelRequests)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BusinessName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StartDateTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FinishDateTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Type)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Reason)
+                                </td>
+                                <td>
+                                    <div id="requestWait_@item.Id"></div>
+                                    <div id="requestBtns_@item.Id">
+                                        <button id="approve_@item.Id" class="btn btn-xs btn-success" onclick="javascript:$('#extShftReqId').val('@item.Id'); SendDataToModalInput('@item.BusinessLocationId', '@item.ShiftId'); $('#extShftModalApprove').modal('show');$('#extShftIsRecurring').val(false); return false;">Approve</button> |
+                                        <button id="reject_@item.Id" class="btn btn-xs btn-danger" onclick="javascript:$('#extShftReqId').val('@item.Id');$('#extShftModalReject').modal('show'); $('#extShftIsRecurring').val(false);return false;">Reject</button>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </table>
+                }
+
+                @if (ExternalShiftRequests.Count() > 0)
+                {
+
+                    var meta = ExternalShiftRequests.First();
+                    <table class="table table-striped">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => meta.UserName)
+                            </th>
+                        </tr>
+
+                        @foreach (var item in ExternalShiftRequests)
+                        {
+                            <tr>
+                                <td style="width: 105px;">
+                                    <div class="img-responsive">
+                                        @if (!string.IsNullOrEmpty(Convert.ToBase64String(item.ProfileImageData)))
+                                        {
+                                            <img id="profilePictureImage" width="100" height="100" src="data:image;base64,@Convert.ToBase64String(item.ProfileImageData)" />
+                                        }
+                                        else
+                                        {
+                                            <img id="profilePictureImage" width="100" height="100" src="~/Images/person-placeholder.jpg" />
+                                        }
+
+                                    </div>
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                    <p>
+                                        @Html.DisplayFor(modelItem => item.Message)
+                                    </p>
+                                    <div id="@item.ExternalShiftBroadCastID" class="@item.Id">
+                                        <div id="requestWait_@item.Id"></div>
+                                        <div id="requestBtns_@item.Id" class="row col-md-6">
+                                            @Ajax.ActionLink("View Profile", "ExternalUserProfile", new { externalshiftRequestID = item.Id, ExternalShiftBroadCastID = item.ExternalShiftBroadCastID }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-sm btn-default" })
+                                            @*<button id="approve_@item.Id" class="btn btn-xs btn-default" onclick="javascript:$('#reqId').val('@item.Id');$('#externalShiftId').val('@item.ExternalShiftBroadCastID');$('#isRecurring').val(false); $('#isOpenShift').val(true);$('#modalViewProfile').modal('show');return false;">View Profile</button>*@
+
+                                            <button id="reject_@item.Id" class="btn btn-sm btn-danger" onclick="javascript:$('#extShftReqId').val('@item.Id');$('#extShftModalReject').modal('show'); $('#extShftIsRecurring').val(false);return false;">Decline</button>
+
+                                            <button id="approve_@item.Id" class="btn btn-sm btn-primary" onclick="javascript:$('#extShftReqId').val('@item.Id');$('#externalShiftId').val('@item.ExternalShiftBroadCastID');$('#extShftIsRecurring').val(false); $('#extShftIsOpenShift').val(true);$('#extShftModalApprove').modal('show');return false;">Approve</button>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+
+
+
+                @* /*********** Begin: POPUP dialog ****************/*@
+                <input type="hidden" name="extShftReqId" id="extShftReqId" value="" />
+                <input type="hidden" name="externalShiftId" id="externalShiftId" value="" />
+                <input type="hidden" name="extShftIsRecurring" id="extShftIsRecurring" value="" />
+                <input type="hidden" name="extShftIsOpenShift" id="extShftIsOpenShift" value="" />
+                <div id="modalViewProfile" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1>Approve request</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you wish to approve this request?</p>
+                                @*<p>Comment:</p>
+                                    <textarea id="txtAcceptReason" name="ShiftAcceptReason" maxlength="400" required style="width:100%"></textarea>*@
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-primary" onclick="javascript: ExterenalShiftRequest_ApproveRequest();">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="extShftModalApprove" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1>Approve request</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you wish to approve this request?</p>
+                                @*<p>Comment:</p>
+                                    <textarea id="txtAcceptReason" name="ShiftAcceptReason" maxlength="400" required style="width:100%"></textarea>*@
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-primary" onclick="javascript: ExterenalShiftRequest_ApproveRequest();">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="extShftModalReject" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1>Reject request</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you wish to re  ject this request?</p>
+                                <p>Please enter reason below:</p>
+                                <textarea id="extShftTxtRejectReason" name="ShiftRejectReason" maxlength="400" required style="width:100%"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-primary" onclick="javascript: ExternalShiftRequest_RejectRequest(); return false;">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="modalReassign" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1>Open Shift</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p>Would you like to reassign the shift now?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <a id="btnYesModal" href='@Url.Action("ShiftEdit", "Roster", new { id = "param-id", businessLocationId = "param-buss", returnView = "WeekView" })' class="btn btn-primary" data-ajax-update="#body" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-loading="#divLoading" data-ajax="true" data-ajax-complete="DocumentReady" onclick="javascript: $('#modalReassign').modal('hide'); return false;">Yes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @* /*********** End: POPUP dialog ****************/*@
+                
+
+

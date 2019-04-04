@@ -1,0 +1,233 @@
+﻿@using WebUI.Common
+@model WebUI.DTOs.RosterDTO
+
+@{
+    ViewBag.Title = "WeekView";
+    bool hasMultiInternal = false;
+}
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+            <a href="#" onclick="window.open('@Url.Action("WeekViewPrint", "Roster", new { rosterId = @Model.Id })', '_blank','toolbar=0,location=0,menubar=0,top=50, left=50, width=1200, height=650' )">
+                <span class="icon-print"></span>
+            </a>
+            @Ajax.RawActionLink("<span class='icon-broadcast'></span><h3><small>Broadcast</small></h3>", "RosterBroadcast", "Roster", new { businessId = ViewBag.BusinessId, businessLocationId = ViewBag.SelectedBusinessLocationId, monthDate = @Model.WeekStartDate.Month, yearDate = @Model.WeekStartDate.Year }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+            <!-- a href="#">
+                <span class="icon-add"></span>
+            </a --> 
+        </div>
+        <div class="nav-tools pull-left">
+            @Ajax.RawActionLink("<span class='icon-month'></span>", "Index", "Roster", new { businessid = @Model.BusinessId, businesslocationid = @Model.BusinessLocationId, month = @Model.WeekStartDate.Month, year = @Model.WeekStartDate.Year }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { })
+        </div>
+        <div class="nav-tools">
+            @if (ViewBag.PrevWeekRosterId != null)
+            { 
+                @Ajax.RawActionLink("<i class='glyphicon glyphicon-circle-arrow-left'></i><span class='sr-only'>Previous</span>", "WeekView", "Roster", new { rosterid = ViewBag.PrevWeekRosterId}, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { })
+            }    
+            <h3>@Model.WeekStartDate.ToString("MMMM yyyy") <small>Week View</small></h3>
+            @if (ViewBag.NextWeekRosterId != null)
+            {
+                @Ajax.RawActionLink("<i class='glyphicon glyphicon-circle-arrow-right'></i><span class='sr-only'>Next</span>", "WeekView", "Roster", new { rosterid = ViewBag.NextWeekRosterId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { })
+            }   
+        </div>
+     </div>
+</nav>
+<div id="page-content" class="container-fluid">
+    <div class="row">
+        @if (ViewBag.BusinessInternalLocations != null && ((List<WebUI.DTOs.InternalLocationDTO>)ViewBag.BusinessInternalLocations).Count() > 1)
+        {
+                Html.ViewData["HasMultiInternalLocations"] = true;
+                hasMultiInternal = true;
+                Html.ViewData["SelectedInternalLocation"] = (Guid)ViewBag.SelectedInternalLocation;
+                    @Html.Label("Internal location", new { @class = "control-label col col-md-1" })
+
+                    @*<div class="col-md-11">*@
+                        @Html.DropDownList(
+                            "Location",
+                            new SelectList(ViewBag.BusinessInternalLocations, "Id", "Name"),
+                            "-- SELECT --", //ViewBag.IntLocation
+                           new { @class = "form-control col col-md-1", onchange = @"javascript:RosterMonthView_busIntLocDdChanged('" + Model.Id + "', this.value );" }
+                        )
+                    @*</div>*@
+              
+        }
+        else
+        {
+            Html.ViewData["HasMultiInternalLocations"] = false;
+        }
+            @Html.Label("Week total", new { @class = "control-label col col-md-offset-2 col-md-1" })
+            @{
+                var totalHours = 0.0;
+                decimal totalWages = 0.0M;
+                var unassignedShifts = false;
+                var employeesWithoutPayrate = false;
+                foreach (var shift in Model.Shifts)
+                {
+                    totalHours += shift.ShiftLength.TotalHours;
+                    if (shift.EmployeeId.HasValue)
+                    {
+                        if (shift.EmployeePayRate.HasValue)
+                        {
+                            totalWages += (shift.EmployeePayRate.Value * (decimal)shift.ShiftLength.TotalHours);
+                        }
+                        else
+                        {
+                            employeesWithoutPayrate = true;
+                        }
+                    }
+                    else
+                    {
+                        unassignedShifts = true;
+                    }
+                }
+                <div class="control-label col col-md-2">@totalHours hours/ $@totalWages.ToString("0.00")</div>
+               
+            }
+
+        </div>
+
+
+
+        <div class='kc_fab_wrapper'>
+            <input type="hidden" id="btnMon" value="@Url.Action("ShiftCreate", "Roster", new { businessLocationId = @Model.BusinessLocationId, startDate = @Model.WeekStartDate, returnView = "WeekView", rosterId = @Model.Id, DayOfWeek = DayOfWeek.Monday })">
+            <input type="hidden" id="btnTue" value="@Url.Action("ShiftCreate", "Roster", new { businessLocationId = @Model.BusinessLocationId, startDate = @Model.WeekStartDate, returnView = "WeekView", rosterId = @Model.Id, DayOfWeek = DayOfWeek.Tuesday })">
+            <input type="hidden" id="btnWed" value="@Url.Action("ShiftCreate", "Roster", new { businessLocationId = @Model.BusinessLocationId, startDate = @Model.WeekStartDate, returnView = "WeekView", rosterId = @Model.Id, DayOfWeek = DayOfWeek.Wednesday })">
+            <input type="hidden" id="btnThu" value="@Url.Action("ShiftCreate", "Roster", new { businessLocationId = @Model.BusinessLocationId, startDate = @Model.WeekStartDate, returnView = "WeekView", rosterId = @Model.Id, DayOfWeek = DayOfWeek.Thursday })">
+            <input type="hidden" id="btnFri" value="@Url.Action("ShiftCreate", "Roster", new { businessLocationId = @Model.BusinessLocationId, startDate = @Model.WeekStartDate, returnView = "WeekView", rosterId = @Model.Id, DayOfWeek = DayOfWeek.Friday })">
+            <input type="hidden" id="btnSat" value="@Url.Action("ShiftCreate", "Roster", new { businessLocationId = @Model.BusinessLocationId, startDate = @Model.WeekStartDate, returnView = "WeekView", rosterId = @Model.Id, DayOfWeek = DayOfWeek.Saturday })">
+            <input type="hidden" id="btnSun" value="@Url.Action("ShiftCreate", "Roster", new { businessLocationId = @Model.BusinessLocationId, startDate = @Model.WeekStartDate, returnView = "WeekView", rosterId = @Model.Id, DayOfWeek = DayOfWeek.Sunday })">
+
+        </div>
+       
+            @foreach (var intLocation in ((List<WebUI.DTOs.InternalLocationDTO>)ViewBag.BusinessInternalLocations))
+            {
+                if (Model.Shifts.Exists(s => s.InternalLocationId == intLocation.Id))
+                {
+                    var totalDayHours = new List<double>() { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+                    var totalDayWages = new List<decimal>() { 0.0m, 0.0m, 0.0m, 0.0m, 0.0m, 0.0m, 0.0m };
+                    foreach (var shift in Model.Shifts.Where(s => s.InternalLocationId == intLocation.Id))
+                    {
+                      
+                        totalDayHours[(int)shift.StartDay.DayOfWeek] += shift.ShiftLength.TotalHours;
+                        totalDayWages[(int)shift.StartDay.DayOfWeek] += (shift.EmployeePayRate.GetValueOrDefault() * (decimal)shift.ShiftLength.TotalHours);
+                       
+                    }
+                  
+                    Html.ViewData["InternalLocationId"] = intLocation.Id;
+                    <div class="form-group">
+@if (hasMultiInternal)
+{
+                        <h3>@intLocation.Name</h3>
+}
+                        <div id="weekviewcalendar" class="cal-context">
+                            <div class="cal-month-box">
+                                <div class="cal-row-fluid cal-before-eventlist">
+                                    <div class="cal-cell1 cal-cell" data-cal-row="-day1">
+                                        <div class="cal-head">
+                                            @Ajax.RawActionLink("<span class='icon-add'></span>", "ShiftCreate", "Roster", new { businessLocationId = @Model.BusinessLocationId, startDate = @Model.WeekStartDate, returnView = "WeekView", rosterId = @Model.Id, DayOfWeek = DayOfWeek.Monday, internalLocationId = intLocation.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = " cal-shift-add" })
+                                                <a href='@Url.Action("DayView", "Roster", new { businessId = @Model.BusinessId, businessLocationId = @Model.BusinessLocationId, date = @Model.WeekStartDate, rosterId = @Model.Id })' class=" cal-shift-link" data-ajax-update="#body" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-loading="#divLoading" data-ajax="true" data-ajax-complete="DocumentReady">
+                                                    @Model.WeekStartDate.ToString("ddd dd")
+                                                </a>
+                                                <sup class="text-right">@totalDayHours[(int)DayOfWeek.Monday] hrs / $@totalDayWages[(int)DayOfWeek.Monday].ToString("0.00")</sup>
+                                        </div>
+                                        @{
+                                            Html.ViewData["DayOfWeek"] = DayOfWeek.Monday;
+                                            Html.RenderPartial("_RosterWeekBudgetPartial", @Model, Html.ViewData);
+                                        }
+                                    </div>
+
+                                    <div class="cal-cell1 cal-cell" data-cal-row="-day2">
+                                        <div class="cal-head">
+                                            @Ajax.RawActionLink("<span class='icon-add'></span>", "ShiftCreate", "Roster", new { businessLocationId = @Model.BusinessLocationId, startDate = @Model.WeekStartDate, returnView = "WeekView", rosterId = @Model.Id, DayOfWeek = DayOfWeek.Tuesday, internalLocationId = intLocation.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = " cal-shift-add" })
+                                            <a href='@Url.Action("DayView", "Roster", new { businessId = @Model.BusinessId, businessLocationId = @Model.BusinessLocationId, date = @Model.WeekStartDate.AddDays(1), rosterId = @Model.Id })' class=" cal-shift-link" data-ajax-update="#body" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-loading="#divLoading" data-ajax="true" data-ajax-complete="DocumentReady">
+                                                @Model.WeekStartDate.AddDays(1).ToString("ddd dd")
+                                            </a>
+                                            <sup class="text-right">@totalDayHours[(int)DayOfWeek.Tuesday] hrs / $@totalDayWages[(int)DayOfWeek.Tuesday].ToString("0.00")</sup>
+                                        </div>
+                                        @{
+                                            Html.ViewData["DayOfWeek"] = DayOfWeek.Tuesday;
+                                            Html.RenderPartial("_RosterWeekBudgetPartial", @Model, Html.ViewData);
+                                        }
+                                    </div>
+
+                                    <div class="cal-cell1 cal-cell" data-cal-row="-day3">
+                                        <div class="cal-head">
+                                            @Ajax.RawActionLink("<span class='icon-add'></span>", "ShiftCreate", "Roster", new { businessLocationId = @Model.BusinessLocationId, startDate = @Model.WeekStartDate, returnView = "WeekView", rosterId = @Model.Id, DayOfWeek = DayOfWeek.Wednesday, internalLocationId = intLocation.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = " cal-shift-add" })
+                                            <a href='@Url.Action("DayView", "Roster", new { businessId = @Model.BusinessId, businessLocationId = @Model.BusinessLocationId, date = @Model.WeekStartDate.AddDays(2), rosterId = @Model.Id })' class=" cal-shift-link" data-ajax-update="#body" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-loading="#divLoading" data-ajax="true" data-ajax-complete="DocumentReady">
+                                                @Model.WeekStartDate.AddDays(2).ToString("ddd dd")
+                                            </a>
+                                            <sup class="text-right">@totalDayHours[(int)DayOfWeek.Wednesday] hrs / $@totalDayWages[(int)DayOfWeek.Wednesday].ToString("0.00")</sup>
+                                        </div>
+                                        @{
+                                            Html.ViewData["DayOfWeek"] = DayOfWeek.Wednesday;
+                                            Html.RenderPartial("_RosterWeekBudgetPartial", @Model, Html.ViewData);
+                                        }
+                                    </div>
+
+                                    <div class="cal-cell1 cal-cell" data-cal-row="-day4">
+                                        <div class="cal-head">
+                                            @Ajax.RawActionLink("<span class='icon-add'></span>", "ShiftCreate", "Roster", new { businessLocationId = @Model.BusinessLocationId, startDate = @Model.WeekStartDate, returnView = "WeekView", rosterId = @Model.Id, DayOfWeek = DayOfWeek.Thursday, internalLocationId = intLocation.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = " cal-shift-add" })
+                                            <a href='@Url.Action("DayView", "Roster", new { businessId = @Model.BusinessId, businessLocationId = @Model.BusinessLocationId, date = @Model.WeekStartDate.AddDays(3), rosterId = @Model.Id })' class=" cal-shift-link" data-ajax-update="#body" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-loading="#divLoading" data-ajax="true" data-ajax-complete="DocumentReady">
+                                                @Model.WeekStartDate.AddDays(3).ToString("ddd dd")
+                                            </a>
+                                            <sup class="text-right">@totalDayHours[(int)DayOfWeek.Thursday] hrs / $@totalDayWages[(int)DayOfWeek.Thursday].ToString("0.00")</sup>
+                                        </div>
+                                        @{
+                                            Html.ViewData["DayOfWeek"] = DayOfWeek.Thursday;
+                                            Html.RenderPartial("_RosterWeekBudgetPartial", @Model, Html.ViewData);
+                                        }
+                                    </div>
+                                    <div class="cal-cell1 cal-cell" data-cal-row="-day5">
+                                        <div class="cal-head">
+                                            @Ajax.RawActionLink("<span class='icon-add'></span>", "ShiftCreate", "Roster", new { businessLocationId = @Model.BusinessLocationId, startDate = @Model.WeekStartDate, returnView = "WeekView", rosterId = @Model.Id, DayOfWeek = DayOfWeek.Friday, internalLocationId = intLocation.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = " cal-shift-add" })
+                                            <a href='@Url.Action("DayView", "Roster", new { businessId = @Model.BusinessId, businessLocationId = @Model.BusinessLocationId, date = @Model.WeekStartDate.AddDays(4), rosterId = @Model.Id })' class=" cal-shift-link" data-ajax-update="#body" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-loading="#divLoading" data-ajax="true" data-ajax-complete="DocumentReady">
+                                                @Model.WeekStartDate.AddDays(4).ToString("ddd dd")
+                                            </a>
+                                            <sup class="text-right">@totalDayHours[(int)DayOfWeek.Friday] hrs / $@totalDayWages[(int)DayOfWeek.Friday].ToString("0.00")</sup>
+                                        </div>
+                                        @{
+                                            Html.ViewData["DayOfWeek"] = DayOfWeek.Friday;
+                                            Html.RenderPartial("_RosterWeekBudgetPartial", @Model, Html.ViewData);
+                                        }
+                                    </div>
+
+                                    <div class="cal-cell1 cal-cell" data-cal-row="-day6">
+                                        <div class="cal-head">
+                                            @Ajax.RawActionLink("<span class='icon-add'></span>", "ShiftCreate", "Roster", new { businessLocationId = @Model.BusinessLocationId, startDate = @Model.WeekStartDate, returnView = "WeekView", rosterId = @Model.Id, DayOfWeek = DayOfWeek.Saturday, internalLocationId = intLocation.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = " cal-shift-add" })
+                                            <a href='@Url.Action("DayView", "Roster", new { businessId = @Model.BusinessId, businessLocationId = @Model.BusinessLocationId, date = @Model.WeekStartDate.AddDays(5), rosterId = @Model.Id })' class=" cal-shift-link" data-ajax-update="#body" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-loading="#divLoading" data-ajax="true" data-ajax-complete="DocumentReady">
+                                                @Model.WeekStartDate.AddDays(5).ToString("ddd dd")
+                                            </a>
+                                            <sup class="text-right">@totalDayHours[(int)DayOfWeek.Saturday] hrs / $@totalDayWages[(int)DayOfWeek.Saturday].ToString("0.00")</sup>
+                                        </div>
+                                        @{
+                                            Html.ViewData["DayOfWeek"] = DayOfWeek.Saturday;
+                                            Html.RenderPartial("_RosterWeekBudgetPartial", @Model, Html.ViewData);
+                                        }
+                                    </div>
+                                    <div class="cal-cell1 cal-cell" data-cal-row="-day7">
+                                        <div class="cal-head">
+                                            @Ajax.RawActionLink("<span class='icon-add'></span>", "ShiftCreate", "Roster", new { businessLocationId = @Model.BusinessLocationId, startDate = @Model.WeekStartDate, returnView = "WeekView", rosterId = @Model.Id, DayOfWeek = DayOfWeek.Sunday, internalLocationId = intLocation.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading", OnComplete = "DocumentReady" }, new { @class = " cal-shift-add" })
+                                            <a href='@Url.Action("DayView", "Roster", new { businessId = @Model.BusinessId, businessLocationId = @Model.BusinessLocationId, date = @Model.WeekStartDate.AddDays(6), rosterId = @Model.Id })' class=" cal-shift-link" data-ajax-update="#body" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-loading="#divLoading" data-ajax="true" data-ajax-complete="DocumentReady">
+                                                @Model.WeekStartDate.AddDays(6).ToString("ddd dd")
+                                            </a>
+                                            <sup class="text-right">@totalDayHours[(int)DayOfWeek.Sunday] hrs / $@totalDayWages[(int)DayOfWeek.Sunday].ToString("0.00")</sup>
+                                        </div>
+                                        @{
+                                            Html.ViewData["DayOfWeek"] = DayOfWeek.Sunday;
+                                            Html.RenderPartial("_RosterWeekBudgetPartial", @Model, Html.ViewData);
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                                                    }
+
+                                                }
+
+                                            
+
+
+    </div>

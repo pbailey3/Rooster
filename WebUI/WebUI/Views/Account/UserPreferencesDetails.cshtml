@@ -1,0 +1,76 @@
+﻿@model WebUI.DTOs.UserPreferencesDTO
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>User preferences</h3>
+        </div>
+    </div>
+</nav>
+
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <div class="form-horizontal">
+                <br />
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="form-group">
+                        @Html.LabelFor(model => model.InternalAvailableShifts, new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DisplayFor(model => model.InternalAvailableShifts)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NotifyByApp, new { @class = "control-label col-md-4" })
+                     
+                    <div class="col-md-8">
+                        @Html.DisplayFor(model => model.NotifyByApp)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NotifyByEmail, new { @class = "control-label col-md-4" })
+                  <div class="col-md-8">
+                        @Html.DisplayFor(model => model.NotifyByEmail)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ImageData, new { @class = "control-label col-md-4" })
+                 <div class="col-md-8">
+                        @if (Model.ImageData.Length > 0)
+                        {
+                            <img src="@Url.Action("ShowUserPreferencesImage", "Account", new { Model.Id, cachebuster= DateTime.Now.Ticks.ToString() })" alt="User Image" />
+                        }
+                        else
+                        {
+                            <label class="control-label">[NO IMAGE]</label>
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("", "QR Code", new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                           <img src="@Url.Action("ShowCurrentUserQRCode", "Account", null)" alt="QR Code" />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <p>
+                            @Html.ActionLink("< Back", "Index", "Home", null, new { @class = "btn btn-primary btn-outline btn-md" }) |
+                            @Ajax.ActionLink("Edit", "UserPreferencesEdit", "Account", new { id = Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary btn-md" })
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

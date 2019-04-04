@@ -1,0 +1,90 @@
+﻿@model WebUI.DTOs.EmployeeDTO
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="text-center">
+        <div class="nav-tools pull-right">
+        </div>
+        <div class="nav-tools pull-left">
+        </div>
+        <div class="nav-tools">
+            <h3>Employee details</h3>
+        </div>
+    </div>
+</nav>
+<div id="page-content" class="container-fluid theme-showcase">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <br />
+
+               <dl class="dl-horizontal">
+
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.FirstName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.LastName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.MobilePhone)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.MobilePhone)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </dt>
+                    <dd>
+                        @if (!String.IsNullOrEmpty(Model.Email))
+                        {
+                            @Html.DisplayFor(model => model.Email)
+                        }
+                        else
+                        {
+                            <text>&nbsp;</text>
+                        }
+                    </dd>
+                    @*<dt>
+                        @Html.LabelFor(model => model.Type)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Type)
+                    </dd>*@
+
+                   <dt>
+                       @Html.LabelFor(model => model.QRCode)
+                   </dt>
+
+                   
+                   <dd>
+                        @if (Model.QRCode.Length > 0)
+                        {
+                             <img src="data:image;base64,@System.Convert.ToBase64String(Model.QRCode)" alt="User QR Code Image"/>
+                        }
+                         else
+                        {
+                            <label class="control-label">[NO QR Code]</label>
+                        }
+                   </dd>
+
+                </dl>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @Ajax.ActionLink("Edit", "Edit", new { id = Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-primary btn-sm" }) 
+                     </div>
+                </div>
+            <div>
+                @Ajax.ActionLink("< Back to list", "Index", new { businesslocationid = Model.BusinessLocationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "body", LoadingElementId = "divLoading" }, new { @class = "btn btn-outline btn-primary btn-sm" })
+            </div>
+        </div>
+    </div>
+</div>
+
