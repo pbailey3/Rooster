@@ -39,6 +39,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -532,19 +533,19 @@
     <Compile Include="Http\ValidateJsonAntiForgeryTokenAttribute.cs" />
     <Compile Include="Interfaces\ICacheProvider.cs" />
     <Compile Include="Models\Address.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Business.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BusinessLocation.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BusinessPreferences.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BusinessType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DataModel.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -552,6 +553,10 @@
       <DependentUpon>DataModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\PaymentController.cs" />
+    <Content Include="App_Data\Rooster.mdf" />
+    <Content Include="App_Data\Rooster_log.ldf">
+      <DependentUpon>Rooster.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-datepicker.standalone.css" />
@@ -645,154 +650,154 @@
     <Content Include="Models\1-InitBusinessTypes.sql" />
     <Content Include="Models\DataModelSEED.sql" />
     <Compile Include="Models\Employee.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EmployeeRequest.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EmployeeType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EmployerRequest.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EventFrequency.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ExternalShiftBroadcast.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ExternalShiftQualification.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ExternalShiftRequest.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ExternalShiftRequestType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ExternalShiftSkills.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ExternalShiftStatus.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IndustrySkills.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IndustryTypes.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InternalLocation.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Messages.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Model1.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Model1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Notifications.cs" />
     <Compile Include="Models\OtherQualification.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PaymentDetails.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Qualificationslookup.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RecurringShiftChangeRequest.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RequestStatus.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Role.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RoosterModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RoosterModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RoosterModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Roster.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Schedule.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ScheduleRecurrenceType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\security_Membership.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\security_OAuthMembership.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\security_Role.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Shift.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ShiftBlock.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ShiftChangeRequest.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ShiftFrequency.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ShiftRequestType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ShiftTemplate.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TimeCard.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Timesheet.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TimesheetEntry.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserPreferences.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserProfile.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserQualification.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserRecommendations.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserSkillEndorsements.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserSkills.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WorkHistory.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>RoosterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Models\Model1.Context.tt">
+    <Content Include="Models\RoosterModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+      <LastGenOutput>RoosterModel.Context.cs</LastGenOutput>
       <DependentUpon>DataModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\Model1.tt">
+    <Content Include="Models\RoosterModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model1.cs</LastGenOutput>
+      <LastGenOutput>RoosterModel.cs</LastGenOutput>
       <DependentUpon>DataModel.edmx</DependentUpon>
     </Content>
     <Content Include="Scripts\bd-googlemaps.js" />
@@ -1131,7 +1136,6 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Images\TemporaryFolder\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\Shared\ToolTips\" />

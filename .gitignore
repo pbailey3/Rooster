@@ -1,0 +1,15 @@
+obj/
+bin/
+
+/WebUI/.vs/WebUI/v14
+# NuGet Packages
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+# except build/, which is used as an MSBuild target.
+!**/packages/build/
+# Uncomment if necessary however generally it will be regenerated when needed
+#!**/packages/repositories.config
+.vs/
+/WebUI/WebUI_.psess
+/WebUI/WebUI_170319.vsp

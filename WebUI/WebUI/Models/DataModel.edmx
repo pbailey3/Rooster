@@ -4,1785 +4,1785 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="DataModelStoreContainer">
-    <EntitySet Name="BusinessLocations" EntityType="DataModel.Store.BusinessLocations" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="BusinessTypes" EntityType="DataModel.Store.BusinessTypes" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Employees" EntityType="DataModel.Store.Employees" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Roles" EntityType="DataModel.Store.Roles" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="UserProfiles" EntityType="DataModel.Store.UserProfiles" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="security_Membership" EntityType="DataModel.Store.security_Membership" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="security_Role" EntityType="DataModel.Store.security_Role" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="EmployerRequests" EntityType="DataModel.Store.EmployerRequests" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="InternalLocations" EntityType="DataModel.Store.InternalLocations" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ShiftTemplates" EntityType="DataModel.Store.ShiftTemplates" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Rosters" EntityType="DataModel.Store.Rosters" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Shifts" EntityType="DataModel.Store.Shifts" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="BusinessPreferences" EntityType="DataModel.Store.BusinessPreferences" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ShiftChangeRequests" EntityType="DataModel.Store.ShiftChangeRequests" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Schedules" EntityType="DataModel.Store.Schedules" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="EmployeeRequests" EntityType="DataModel.Store.EmployeeRequests" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ShiftBlocks" EntityType="DataModel.Store.ShiftBlocks" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="UserPreferences" EntityType="DataModel.Store.UserPreferences" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Businesses" EntityType="DataModel.Store.Businesses" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="RecurringShiftChangeRequests" EntityType="DataModel.Store.RecurringShiftChangeRequests" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="security_OAuthMembership" EntityType="DataModel.Store.security_OAuthMembership" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="PaymentDetails" EntityType="DataModel.Store.PaymentDetails" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TimeCards" EntityType="DataModel.Store.TimeCards" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Timesheets" EntityType="DataModel.Store.Timesheets" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TimesheetEntries" EntityType="DataModel.Store.TimesheetEntries" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="IndustryTypes" EntityType="DataModel.Store.IndustryTypes" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="WorkHistories" EntityType="DataModel.Store.WorkHistories" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Qualificationslookups" EntityType="DataModel.Store.Qualificationslookups" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="UserQualifications" EntityType="DataModel.Store.UserQualifications" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="OtherQualifications" EntityType="DataModel.Store.OtherQualifications" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="IndustrySkills" EntityType="DataModel.Store.IndustrySkills" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="UserSkills" EntityType="DataModel.Store.UserSkills" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ExternalShiftBroadcasts" EntityType="DataModel.Store.ExternalShiftBroadcasts" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ExternalShiftQualifications" EntityType="DataModel.Store.ExternalShiftQualifications" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ExternalShiftSkills" EntityType="DataModel.Store.ExternalShiftSkills" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ExternalShiftRequests" EntityType="DataModel.Store.ExternalShiftRequests" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="UserRecommendations" EntityType="DataModel.Store.UserRecommendations" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="UserSkillEndorsements" EntityType="DataModel.Store.UserSkillEndorsements" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Messages" EntityType="DataModel.Store.Messages" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="EmployeeRole" EntityType="DataModel.Store.EmployeeRole" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="security_UsersInRoles" EntityType="DataModel.Store.security_UsersInRole" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ManagerBusinessLocations" EntityType="DataModel.Store.ManagerBusinessLocation" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK_EmployeeRole_Employee" Association="DataModel.Store.FK_EmployeeRole_Employee">
-      <End Role="Employee" EntitySet="Employees" />
-      <End Role="EmployeeRole" EntitySet="EmployeeRole" />
-    </AssociationSet>
-    <AssociationSet Name="FK_EmployeeRole_Role" Association="DataModel.Store.FK_EmployeeRole_Role">
-      <End Role="Role" EntitySet="Roles" />
-      <End Role="EmployeeRole" EntitySet="EmployeeRole" />
-    </AssociationSet>
-    <AssociationSet Name="MembershipUserProfile" Association="DataModel.Store.MembershipUserProfile">
-      <End Role="Membership" EntitySet="security_Membership" />
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-    </AssociationSet>
-    <AssociationSet Name="FK_security_UsersInRoles_UserProfile" Association="DataModel.Store.FK_security_UsersInRole_UserProfile">
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-      <End Role="security_UsersInRole" EntitySet="security_UsersInRoles" />
-    </AssociationSet>
-    <AssociationSet Name="FK_security_UsersInRoles_security_Role" Association="DataModel.Store.FK_security_UsersInRole_security_Role">
-      <End Role="security_Role" EntitySet="security_Role" />
-      <End Role="security_UsersInRole" EntitySet="security_UsersInRoles" />
-    </AssociationSet>
-    <AssociationSet Name="UserProfileEmployee" Association="DataModel.Store.UserProfileEmployee">
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-      <End Role="Employee" EntitySet="Employees" />
-    </AssociationSet>
-    <AssociationSet Name="UserProfileEmployerRequest" Association="DataModel.Store.UserProfileEmployerRequest">
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-      <End Role="EmployerRequest" EntitySet="EmployerRequests" />
-    </AssociationSet>
-    <AssociationSet Name="EmployeeEmployerRequest" Association="DataModel.Store.EmployeeEmployerRequest">
-      <End Role="Employee" EntitySet="Employees" />
-      <End Role="EmployerRequest" EntitySet="EmployerRequests" />
-    </AssociationSet>
-    <AssociationSet Name="ManagerEmployerRequest" Association="DataModel.Store.ManagerEmployerRequest">
-      <End Role="Employee" EntitySet="Employees" />
-      <End Role="EmployerRequest" EntitySet="EmployerRequests" />
-    </AssociationSet>
-    <AssociationSet Name="BusinessInternalLocation" Association="DataModel.Store.BusinessLocationInternalLocation">
-      <End Role="BusinessLocation" EntitySet="BusinessLocations" />
-      <End Role="InternalLocation" EntitySet="InternalLocations" />
-    </AssociationSet>
-    <AssociationSet Name="BusinessLocationShiftTemplate" Association="DataModel.Store.BusinessLocationShiftTemplate">
-      <End Role="BusinessLocation" EntitySet="BusinessLocations" />
-      <End Role="ShiftTemplate" EntitySet="ShiftTemplates" />
-    </AssociationSet>
-    <AssociationSet Name="ShiftTemplateRole" Association="DataModel.Store.ShiftTemplateRole">
-      <End Role="ShiftTemplate" EntitySet="ShiftTemplates" />
-      <End Role="Role" EntitySet="Roles" />
-    </AssociationSet>
-    <AssociationSet Name="ShiftTemplateInternalLocation" Association="DataModel.Store.ShiftTemplateInternalLocation">
-      <End Role="ShiftTemplate" EntitySet="ShiftTemplates" />
-      <End Role="InternalLocation" EntitySet="InternalLocations" />
-    </AssociationSet>
-    <AssociationSet Name="ShiftTemplateEmployee" Association="DataModel.Store.ShiftTemplateEmployee">
-      <End Role="ShiftTemplate" EntitySet="ShiftTemplates" />
-      <End Role="Employee" EntitySet="Employees" />
-    </AssociationSet>
-    <AssociationSet Name="RosterShift" Association="DataModel.Store.RosterShift">
-      <End Role="Roster" EntitySet="Rosters" />
-      <End Role="Shift" EntitySet="Shifts" />
-    </AssociationSet>
-    <AssociationSet Name="EmployeeShift" Association="DataModel.Store.EmployeeShift">
-      <End Role="Employee" EntitySet="Employees" />
-      <End Role="Shift" EntitySet="Shifts" />
-    </AssociationSet>
-    <AssociationSet Name="RoleShift" Association="DataModel.Store.RoleShift">
-      <End Role="Role" EntitySet="Roles" />
-      <End Role="Shift" EntitySet="Shifts" />
-    </AssociationSet>
-    <AssociationSet Name="InternalLocationShift" Association="DataModel.Store.InternalLocationShift">
-      <End Role="InternalLocation" EntitySet="InternalLocations" />
-      <End Role="Shift" EntitySet="Shifts" />
-    </AssociationSet>
-    <AssociationSet Name="BusinessBusinessPreferences" Association="DataModel.Store.BusinessBusinessPreferences">
-      <End Role="BusinessLocation" EntitySet="BusinessLocations" />
-      <End Role="BusinessPreferences" EntitySet="BusinessPreferences" />
-    </AssociationSet>
-    <AssociationSet Name="ShiftShiftChangeRequest" Association="DataModel.Store.ShiftShiftChangeRequest">
-      <End Role="Shift" EntitySet="Shifts" />
-      <End Role="ShiftChangeRequest" EntitySet="ShiftChangeRequests" />
-    </AssociationSet>
-    <AssociationSet Name="ShiftChangeRequestEmployee" Association="DataModel.Store.ShiftChangeRequestEmployee">
-      <End Role="ShiftChangeRequest" EntitySet="ShiftChangeRequests" />
-      <End Role="Employee" EntitySet="Employees" />
-    </AssociationSet>
-    <AssociationSet Name="UserProfileRecurringCalendarEvent" Association="DataModel.Store.UserProfileRecurringCalendarEvent">
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-      <End Role="RecurringCalendarEvent" EntitySet="Schedules" />
-    </AssociationSet>
-    <AssociationSet Name="EmployeeEmployeeRequest" Association="DataModel.Store.EmployeeEmployeeRequest">
-      <End Role="Employee" EntitySet="Employees" />
-      <End Role="EmployeeRequest" EntitySet="EmployeeRequests" />
-    </AssociationSet>
-    <AssociationSet Name="EmployeeRequestUserProfile" Association="DataModel.Store.EmployeeRequestUserProfile">
-      <End Role="EmployeeRequest" EntitySet="EmployeeRequests" />
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-    </AssociationSet>
-    <AssociationSet Name="ShiftBlockRole" Association="DataModel.Store.ShiftBlockRole">
-      <End Role="ShiftBlock" EntitySet="ShiftBlocks" />
-      <End Role="Role" EntitySet="Roles" />
-    </AssociationSet>
-    <AssociationSet Name="BusinessShiftBlock" Association="DataModel.Store.BusinessShiftBlock">
-      <End Role="Business" EntitySet="BusinessLocations" />
-      <End Role="ShiftBlock" EntitySet="ShiftBlocks" />
-    </AssociationSet>
-    <AssociationSet Name="UserProfileUserPreferences" Association="DataModel.Store.UserProfileUserPreferences">
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-      <End Role="UserPreferences" EntitySet="UserPreferences" />
-    </AssociationSet>
-    <AssociationSet Name="BusinessBusinessLocation" Association="DataModel.Store.BusinessBusinessLocation">
-      <End Role="Business" EntitySet="Businesses" />
-      <End Role="BusinessLocation" EntitySet="BusinessLocations" />
-    </AssociationSet>
-    <AssociationSet Name="BusinessTypeBusiness" Association="DataModel.Store.BusinessTypeBusiness">
-      <End Role="BusinessType" EntitySet="BusinessTypes" />
-      <End Role="Business" EntitySet="Businesses" />
-    </AssociationSet>
-    <AssociationSet Name="BusinessRole" Association="DataModel.Store.BusinessRole">
-      <End Role="Business" EntitySet="Businesses" />
-      <End Role="Role" EntitySet="Roles" />
-    </AssociationSet>
-    <AssociationSet Name="BusinessLocationEmployerRequest" Association="DataModel.Store.BusinessLocationEmployerRequest">
-      <End Role="BusinessLocation" EntitySet="BusinessLocations" />
-      <End Role="EmployerRequest" EntitySet="EmployerRequests" />
-    </AssociationSet>
-    <AssociationSet Name="BusinessLocationEmployee" Association="DataModel.Store.BusinessLocationEmployee">
-      <End Role="BusinessLocation" EntitySet="BusinessLocations" />
-      <End Role="Employee" EntitySet="Employees" />
-    </AssociationSet>
-    <AssociationSet Name="BusinessLocationEmployeeRequest" Association="DataModel.Store.BusinessLocationEmployeeRequest">
-      <End Role="BusinessLocation" EntitySet="BusinessLocations" />
-      <End Role="EmployeeRequest" EntitySet="EmployeeRequests" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ManagerBusinessLocations_Manager" Association="DataModel.Store.FK_ManagerBusinessLocation_Manager">
-      <End Role="Manager" EntitySet="Employees" />
-      <End Role="ManagerBusinessLocation" EntitySet="ManagerBusinessLocations" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ManagerBusinessLocations_BusinessLocation" Association="DataModel.Store.FK_ManagerBusinessLocation_BusinessLocation">
-      <End Role="BusinessLocation" EntitySet="BusinessLocations" />
-      <End Role="ManagerBusinessLocation" EntitySet="ManagerBusinessLocations" />
-    </AssociationSet>
-    <AssociationSet Name="BusinessLocationRoster" Association="DataModel.Store.BusinessLocationRoster">
-      <End Role="BusinessLocation" EntitySet="BusinessLocations" />
-      <End Role="Roster" EntitySet="Rosters" />
-    </AssociationSet>
-    <AssociationSet Name="ShiftTemplateRecurringShiftChangeRequest" Association="DataModel.Store.ShiftTemplateRecurringShiftChangeRequest">
-      <End Role="ShiftTemplate" EntitySet="ShiftTemplates" />
-      <End Role="RecurringShiftChangeRequest" EntitySet="RecurringShiftChangeRequests" />
-    </AssociationSet>
-    <AssociationSet Name="EmployeeRecurringShiftChangeRequest" Association="DataModel.Store.EmployeeRecurringShiftChangeRequest">
-      <End Role="Employee" EntitySet="Employees" />
-      <End Role="RecurringShiftChangeRequest" EntitySet="RecurringShiftChangeRequests" />
-    </AssociationSet>
-    <AssociationSet Name="ShiftChangeRequestEmployee1" Association="DataModel.Store.ShiftChangeRequestEmployee1">
-      <End Role="ShiftChangeRequest" EntitySet="ShiftChangeRequests" />
-      <End Role="Employee" EntitySet="Employees" />
-    </AssociationSet>
-    <AssociationSet Name="ShiftShiftTemplate" Association="DataModel.Store.ShiftShiftTemplate">
-      <End Role="Shift" EntitySet="Shifts" />
-      <End Role="ShiftTemplate" EntitySet="ShiftTemplates" />
-    </AssociationSet>
-    <AssociationSet Name="UserProfilewebpages_OAuthMembership" Association="DataModel.Store.UserProfilewebpages_OAuthMembership">
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-      <End Role="webpages_OAuthMembership" EntitySet="security_OAuthMembership" />
-    </AssociationSet>
-    <AssociationSet Name="EmployeePaymentDetails" Association="DataModel.Store.EmployeePaymentDetails">
-      <End Role="Employee" EntitySet="Employees" />
-      <End Role="PaymentDetails" EntitySet="PaymentDetails" />
-    </AssociationSet>
-    <AssociationSet Name="BusinessLocationPaymentDetails" Association="DataModel.Store.BusinessLocationPaymentDetails">
-      <End Role="BusinessLocation" EntitySet="BusinessLocations" />
-      <End Role="PaymentDetails" EntitySet="PaymentDetails" />
-    </AssociationSet>
-    <AssociationSet Name="EmployeeTimeCard" Association="DataModel.Store.EmployeeTimeCard">
-      <End Role="Employee" EntitySet="Employees" />
-      <End Role="TimeCard" EntitySet="TimeCards" />
-    </AssociationSet>
-    <AssociationSet Name="BusinessLocationTimeCard" Association="DataModel.Store.BusinessLocationTimeCard">
-      <End Role="BusinessLocation" EntitySet="BusinessLocations" />
-      <End Role="TimeCard" EntitySet="TimeCards" />
-    </AssociationSet>
-    <AssociationSet Name="EmployeeTimeCard1" Association="DataModel.Store.EmployeeTimeCard1">
-      <End Role="Employee" EntitySet="Employees" />
-      <End Role="TimeCard" EntitySet="TimeCards" />
-    </AssociationSet>
-    <AssociationSet Name="ShiftTimeCard" Association="DataModel.Store.ShiftTimeCard">
-      <End Role="Shift" EntitySet="Shifts" />
-      <End Role="TimeCard" EntitySet="TimeCards" />
-    </AssociationSet>
-    <AssociationSet Name="TimesheetUserProfile" Association="DataModel.Store.TimesheetUserProfile">
-      <End Role="Timesheet" EntitySet="Timesheets" />
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-    </AssociationSet>
-    <AssociationSet Name="TimesheetRoster" Association="DataModel.Store.TimesheetRoster">
-      <End Role="Timesheet" EntitySet="Timesheets" />
-      <End Role="Roster" EntitySet="Rosters" />
-    </AssociationSet>
-    <AssociationSet Name="TimesheetEntryUserProfile" Association="DataModel.Store.TimesheetEntryUserProfile">
-      <End Role="TimesheetEntry" EntitySet="TimesheetEntries" />
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-    </AssociationSet>
-    <AssociationSet Name="TimesheetEntryTimeCard" Association="DataModel.Store.TimesheetEntryTimeCard">
-      <End Role="TimesheetEntry" EntitySet="TimesheetEntries" />
-      <End Role="TimeCard" EntitySet="TimeCards" />
-    </AssociationSet>
-    <AssociationSet Name="RosterTimeCard" Association="DataModel.Store.RosterTimeCard">
-      <End Role="Roster" EntitySet="Rosters" />
-      <End Role="TimeCard" EntitySet="TimeCards" />
-    </AssociationSet>
-    <AssociationSet Name="IndustryTypesUserProfile" Association="DataModel.Store.IndustryTypesUserProfile">
-      <End Role="IndustryTypes" EntitySet="IndustryTypes" />
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-    </AssociationSet>
-    <AssociationSet Name="UserProfileWorkHistory" Association="DataModel.Store.UserProfileWorkHistory">
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-      <End Role="WorkHistory" EntitySet="WorkHistories" />
-    </AssociationSet>
-    <AssociationSet Name="IndustryTypestblQualificationslookup" Association="DataModel.Store.IndustryTypestblQualificationslookup">
-      <End Role="IndustryTypes" EntitySet="IndustryTypes" />
-      <End Role="tblQualificationslookup" EntitySet="Qualificationslookups" />
-    </AssociationSet>
-    <AssociationSet Name="tblQualificationslookuptblUserQualification" Association="DataModel.Store.tblQualificationslookuptblUserQualification">
-      <End Role="tblQualificationslookup" EntitySet="Qualificationslookups" />
-      <End Role="tblUserQualification" EntitySet="UserQualifications" />
-    </AssociationSet>
-    <AssociationSet Name="UserProfiletblUserQualification" Association="DataModel.Store.UserProfiletblUserQualification">
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-      <End Role="tblUserQualification" EntitySet="UserQualifications" />
-    </AssociationSet>
-    <AssociationSet Name="UserProfileOtherQualification" Association="DataModel.Store.UserProfileOtherQualification">
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-      <End Role="OtherQualification" EntitySet="OtherQualifications" />
-    </AssociationSet>
-    <AssociationSet Name="IndustryTypesIndustrialSkills" Association="DataModel.Store.IndustryTypesIndustrialSkills">
-      <End Role="IndustryTypes" EntitySet="IndustryTypes" />
-      <End Role="IndustrialSkills" EntitySet="IndustrySkills" />
-    </AssociationSet>
-    <AssociationSet Name="UserProfileUserSkills" Association="DataModel.Store.UserProfileUserSkills">
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-      <End Role="UserSkills" EntitySet="UserSkills" />
-    </AssociationSet>
-    <AssociationSet Name="IndustrySkillsUserSkills" Association="DataModel.Store.IndustrySkillsUserSkills">
-      <End Role="IndustrySkills" EntitySet="IndustrySkills" />
-      <End Role="UserSkills" EntitySet="UserSkills" />
-    </AssociationSet>
-    <AssociationSet Name="QualificationslookupShiftQualification" Association="DataModel.Store.QualificationslookupShiftQualification">
-      <End Role="Qualificationslookup" EntitySet="Qualificationslookups" />
-      <End Role="ShiftQualification" EntitySet="ExternalShiftQualifications" />
-    </AssociationSet>
-    <AssociationSet Name="ExternalShiftBroadcastShift" Association="DataModel.Store.ExternalShiftBroadcastShift">
-      <End Role="ExternalShiftBroadcast" EntitySet="ExternalShiftBroadcasts" />
-      <End Role="Shift" EntitySet="Shifts" />
-    </AssociationSet>
-    <AssociationSet Name="ExternalShiftBroadcastShiftQualification" Association="DataModel.Store.ExternalShiftBroadcastShiftQualification">
-      <End Role="ExternalShiftBroadcast" EntitySet="ExternalShiftBroadcasts" />
-      <End Role="ShiftQualification" EntitySet="ExternalShiftQualifications" />
-    </AssociationSet>
-    <AssociationSet Name="ExternalShiftBroadcastShiftSkills" Association="DataModel.Store.ExternalShiftBroadcastShiftSkills">
-      <End Role="ExternalShiftBroadcast" EntitySet="ExternalShiftBroadcasts" />
-      <End Role="ShiftSkills" EntitySet="ExternalShiftSkills" />
-    </AssociationSet>
-    <AssociationSet Name="IndustrySkillsShiftSkills" Association="DataModel.Store.IndustrySkillsShiftSkills">
-      <End Role="IndustrySkills" EntitySet="IndustrySkills" />
-      <End Role="ShiftSkills" EntitySet="ExternalShiftSkills" />
-    </AssociationSet>
-    <AssociationSet Name="ExternalShiftRequestEmployee1" Association="DataModel.Store.ExternalShiftRequestEmployee1">
-      <End Role="ExternalShiftRequest" EntitySet="ExternalShiftRequests" />
-      <End Role="Employee" EntitySet="Employees" />
-    </AssociationSet>
-    <AssociationSet Name="ExternalShiftRequestExternalShiftBroadcast" Association="DataModel.Store.ExternalShiftRequestExternalShiftBroadcast">
-      <End Role="ExternalShiftRequest" EntitySet="ExternalShiftRequests" />
-      <End Role="ExternalShiftBroadcast" EntitySet="ExternalShiftBroadcasts" />
-    </AssociationSet>
-    <AssociationSet Name="UserProfileExternalShiftRequest" Association="DataModel.Store.UserProfileExternalShiftRequest">
-      <End Role="ExternalShiftRequest" EntitySet="ExternalShiftRequests" />
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-    </AssociationSet>
-    <AssociationSet Name="IndustryTypesBusinessType" Association="DataModel.Store.IndustryTypesBusinessType">
-      <End Role="IndustryTypes" EntitySet="IndustryTypes" />
-      <End Role="BusinessType" EntitySet="BusinessTypes" />
-    </AssociationSet>
-    <AssociationSet Name="UserRecommendationsUserProfile_UserRecommendedBy" Association="DataModel.Store.UserRecommendationsUserProfile_UserRecommendedBy">
-      <End Role="UserRecommendations" EntitySet="UserRecommendations" />
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-    </AssociationSet>
-    <AssociationSet Name="UserRecommendationsUserProfile_UserRecommended" Association="DataModel.Store.UserRecommendationsUserProfile_UserRecommended">
-      <End Role="UserRecommendations" EntitySet="UserRecommendations" />
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-    </AssociationSet>
-    <AssociationSet Name="UserSkillEndorsementsUserSkills" Association="DataModel.Store.UserSkillEndorsementsUserSkills">
-      <End Role="UserSkillEndorsements" EntitySet="UserSkillEndorsements" />
-      <End Role="UserSkills" EntitySet="UserSkills" />
-    </AssociationSet>
-    <AssociationSet Name="UserSkillEndorsementsUserProfile_UserRecommendedBY" Association="DataModel.Store.UserSkillEndorsementsUserProfile_UserRecommendedBY">
-      <End Role="UserSkillEndorsements" EntitySet="UserSkillEndorsements" />
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-    </AssociationSet>
-    <AssociationSet Name="UserSkillEndorsementsUserProfile_UserBeingRecommended" Association="DataModel.Store.UserSkillEndorsementsUserProfile_UserBeingRecommended">
-      <End Role="UserSkillEndorsements" EntitySet="UserSkillEndorsements" />
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-    </AssociationSet>
-    <AssociationSet Name="MessagesUserProfile_MessagesFrom" Association="DataModel.Store.MessagesUserProfile_MessagesFrom">
-      <End Role="Messages" EntitySet="Messages" />
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-    </AssociationSet>
-    <AssociationSet Name="MessagesUserProfile_MessagesTo" Association="DataModel.Store.MessagesUserProfile_MessagesTo">
-      <End Role="Messages" EntitySet="Messages" />
-      <End Role="UserProfile" EntitySet="UserProfiles" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="BusinessLocations">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Address_Line1" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Address_Suburb" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Address_State" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Address_Postcode" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Address_Line2" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Address_PlaceId" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Address_PlaceLatitude" Type="float" Nullable="true" />
-    <Property Name="Address_PlaceLongitude" Type="float" Nullable="true" />
-    <Property Name="Enabled" Type="bit" Nullable="false" DefaultValue="true" />
-    <Property Name="Business_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="BusinessTypes">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="IndustryType_ID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Employees">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="20" />
-    <Property Name="LastName" Type="nvarchar" Nullable="true" MaxLength="20" />
-    <Property Name="MobilePhone" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="DateOfBirth" Type="datetime" Nullable="true" />
-    <Property Name="Email" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Type" Type="int" Nullable="false" />
-    <Property Name="IsAdmin" Type="bit" Nullable="false" DefaultValue="false" />
-    <Property Name="IsActive" Type="bit" Nullable="false" DefaultValue="true" />
-    <Property Name="QRCode" Type="varbinary(max)" Nullable="true" />
-    <Property Name="PayRate" Type="decimal" Nullable="true" Precision="5" Scale="2" />
-    <Property Name="UserProfile_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Roles">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Enabled" Type="bit" Nullable="false" DefaultValue="true" />
-    <Property Name="Business_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="UserProfiles">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="20" />
-    <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="20" />
-    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Address_Line1" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Address_Suburb" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Address_State" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Address_Postcode" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Address_Line2" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Address_PlaceId" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Address_PlaceLatitude" Type="float" Nullable="true" />
-    <Property Name="Address_PlaceLongitude" Type="float" Nullable="true" />
-    <Property Name="MobilePhone" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="HasViewedWizard" Type="bit" Nullable="false" />
-    <Property Name="QRCode" Type="varbinary(max)" Nullable="true" />
-    <Property Name="CurrentAddress_Line1" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CurrentAddress_Suburb" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CurrentAddress_State" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CurrentAddress_Postcode" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CurrentAddress_Line2" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="CurrentAddress_PlaceId" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="CurrentAddress_PlaceLatitude" Type="float" Nullable="true" />
-    <Property Name="CurrentAddress_PlaceLongitude" Type="float" Nullable="true" />
-    <Property Name="Distance" Type="int" Nullable="true" />
-    <Property Name="IndustryTypesID" Type="int" Nullable="true" />
-    <Property Name="AboutMe" Type="nvarchar" Nullable="true" MaxLength="400" />
-    <Property Name="DateofBirth" Type="datetime" Nullable="true" />
-    <Property Name="IsRegisteredExternal" Type="bit" Nullable="true" />
-  </EntityType>
-  <EntityType Name="security_Membership">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="CreateDate" Type="datetime" Nullable="true" />
-    <Property Name="ConfirmationToken" Type="nvarchar" Nullable="true" MaxLength="128" />
-    <Property Name="IsConfirmed" Type="bit" Nullable="true" />
-    <Property Name="LastPasswordFailureDate" Type="datetime" Nullable="true" />
-    <Property Name="PasswordFailuresSinceLastSuccess" Type="smallint" Nullable="false" />
-    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="128" />
-    <Property Name="PasswordChangedDate" Type="datetime" Nullable="true" />
-    <Property Name="PasswordVerificationToken" Type="nvarchar" Nullable="true" MaxLength="128" />
-    <Property Name="PasswordVerificationTokenExpirationDate" Type="datetime" Nullable="true" />
-    <Property Name="IsLockedOut" Type="bit" Nullable="false" DefaultValue="false" />
-    <Property Name="LastLockoutDate" Type="datetime" Nullable="true" />
-    <Property Name="LastLoginDate" Type="datetime" Nullable="true" />
-  </EntityType>
-  <EntityType Name="security_Role">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
-  </EntityType>
-  <EntityType Name="EmployerRequests">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Status" Type="int" Nullable="false" />
-    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-    <Property Name="ActionedDate" Type="datetime" Nullable="true" />
-    <Property Name="UserProfile_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Employee_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="ActionedBy_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="InternalLocations">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="40" />
-    <Property Name="Enabled" Type="bit" Nullable="false" DefaultValue="true" />
-    <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ShiftTemplates">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="StartTime" Type="time" Nullable="false" Precision="7" />
-    <Property Name="FinishTime" Type="time" Nullable="false" Precision="7" />
-    <Property Name="FinishNextDay" Type="bit" Nullable="false" />
-    <Property Name="Monday" Type="bit" Nullable="false" />
-    <Property Name="Tuesday" Type="bit" Nullable="false" />
-    <Property Name="Wednesday" Type="bit" Nullable="false" />
-    <Property Name="Thursday" Type="bit" Nullable="false" />
-    <Property Name="Friday" Type="bit" Nullable="false" />
-    <Property Name="Saturday" Type="bit" Nullable="false" />
-    <Property Name="Sunday" Type="bit" Nullable="false" />
-    <Property Name="Frequency" Type="int" Nullable="false" />
-    <Property Name="WeekStarting" Type="datetime" Nullable="true" />
-    <Property Name="Enabled" Type="bit" Nullable="false" DefaultValue="true" />
-    <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Role_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="InternalLocation_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="Employee_Id" Type="uniqueidentifier" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Rosters">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="WeekStartDate" Type="datetime" Nullable="false" />
-    <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Shifts">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="StartTime" Type="datetime" Nullable="false" />
-    <Property Name="FinishTime" Type="datetime" Nullable="false" />
-    <Property Name="IsPublished" Type="bit" Nullable="false" />
-    <Property Name="ExternalShiftBroadcastId" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="Roster_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Employee_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="Role_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="InternalLocation_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="ShiftTemplate_Id" Type="uniqueidentifier" Nullable="true" />
-  </EntityType>
-  <EntityType Name="BusinessPreferences">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="CancelShiftAllowed" Type="bit" Nullable="false" />
-    <Property Name="CancelShiftTimeframe" Type="smallint" Nullable="true" />
-  </EntityType>
-  <EntityType Name="ShiftChangeRequests">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Type" Type="int" Nullable="false" />
-    <Property Name="Reason" Type="nvarchar" Nullable="false" MaxLength="400" />
-    <Property Name="Status" Type="int" Nullable="false" />
-    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-    <Property Name="ActionedDate" Type="datetime" Nullable="true" />
-    <Property Name="ActionedComment" Type="nvarchar" Nullable="true" MaxLength="400" />
-    <Property Name="Shift_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ActionedBy_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="CreatedBy_Id" Type="uniqueidentifier" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Schedules">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Location" Type="nvarchar" Nullable="true" MaxLength="50" />
-    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="1000" />
-    <Property Name="StartDate" Type="datetime" Nullable="false" />
-    <Property Name="StartTime" Type="time" Nullable="false" Precision="7" />
-    <Property Name="EndDate" Type="datetime" Nullable="true" />
-    <Property Name="EndTime" Type="time" Nullable="false" Precision="7" />
-    <Property Name="Frequency" Type="smallint" Nullable="false" />
-    <Property Name="ScheduleRecurrence" Type="int" Nullable="false" />
-    <Property Name="NumberOfOccurrences" Type="smallint" Nullable="true" />
-    <Property Name="MonthlyInterval" Type="smallint" Nullable="false" />
-    <Property Name="DaysOfWeek" Type="smallint" Nullable="false" />
-    <Property Name="WeeklyInterval" Type="smallint" Nullable="false" />
-    <Property Name="UserProfile_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="EmployeeRequests">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Status" Type="int" Nullable="false" />
-    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-    <Property Name="ActionedDate" Type="datetime" Nullable="true" />
-    <Property Name="Employee_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ActionedBy_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ShiftBlocks">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="StartTime" Type="time" Nullable="false" Precision="7" />
-    <Property Name="FinishTime" Type="time" Nullable="false" Precision="7" />
-    <Property Name="FinishNextDay" Type="bit" Nullable="false" DefaultValue="false" />
-    <Property Name="Role_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="UserPreferences">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="InternalAvailableShifts" Type="bit" Nullable="false" />
-    <Property Name="ExternalShiftInfo" Type="bit" Nullable="false" />
-    <Property Name="ExternalAvailableShifts" Type="bit" Nullable="false" />
-    <Property Name="DistanceTravel" Type="int" Nullable="false" />
-    <Property Name="ShiftReminderLength" Type="int" Nullable="false" />
-    <Property Name="NotifyByApp" Type="bit" Nullable="false" />
-    <Property Name="NotifyBySMS" Type="bit" Nullable="false" />
-    <Property Name="NotifyByEmail" Type="bit" Nullable="false" />
-    <Property Name="TimeFormat24Hr" Type="bit" Nullable="false" />
-    <Property Name="MonthCalView" Type="bit" Nullable="false" />
-    <Property Name="ImageData" Type="varbinary(max)" Nullable="false" />
-    <Property Name="ImageType" Type="nvarchar(max)" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Businesses">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="40" />
-    <Property Name="HasMultiBusLocations" Type="bit" Nullable="false" />
-    <Property Name="HasMultiInternalLocations" Type="bit" Nullable="false" />
-    <Property Name="Type_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="RecurringShiftChangeRequests">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Type" Type="int" Nullable="false" />
-    <Property Name="Reason" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Status" Type="int" Nullable="false" />
-    <Property Name="OccurenceDate" Type="datetime" Nullable="false" />
-    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-    <Property Name="ActionedDate" Type="datetime" Nullable="true" />
-    <Property Name="ActionedComment" Type="nvarchar" Nullable="true" MaxLength="400" />
-    <Property Name="ShiftTemplate_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ActionedBy_Id" Type="uniqueidentifier" Nullable="true" />
-  </EntityType>
-  <EntityType Name="security_OAuthMembership">
-    <Key>
-      <PropertyRef Name="Provider" />
-      <PropertyRef Name="ProviderUserId" />
-    </Key>
-    <Property Name="Provider" Type="nvarchar" Nullable="false" MaxLength="30" />
-    <Property Name="ProviderUserId" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="UserProfile_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="PaymentDetails">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="TokenCustomerID" Type="bigint" Nullable="false" />
-    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-    <Property Name="Employee_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="TimeCards">
-    <Key>
-      <PropertyRef Name="Id" />
-      <PropertyRef Name="ClockIn" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ClockIn" Type="datetime" Nullable="false" />
-    <Property Name="ClockInComment" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="ClockOut" Type="datetime" Nullable="true" />
-    <Property Name="ClockOutComment" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="LastUpdatedDate" Type="datetime" Nullable="false" />
-    <Property Name="Employee_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="LastUpdatedBy_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Shift_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="Roster_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Timesheets">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Approved" Type="bit" Nullable="false" />
-    <Property Name="ApprovedDateTime" Type="datetime" Nullable="true" />
-    <Property Name="ApprovedBy_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="Roster_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="TimesheetEntries">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="StartDateTime" Type="datetime" Nullable="false" />
-    <Property Name="FinishDateTime" Type="datetime" Nullable="true" />
-    <Property Name="Approved" Type="bit" Nullable="false" />
-    <Property Name="ApprovedDateTime" Type="datetime" Nullable="true" />
-    <Property Name="ApprovedBy_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="TimeCard_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="TimeCard_ClockIn" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="IndustryTypes">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="WorkHistories">
-    <Key>
-      <PropertyRef Name="workId" />
-    </Key>
-    <Property Name="workId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="workCompanyName" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="workStartDate" Type="datetime" Nullable="false" />
-    <Property Name="workEndDate" Type="datetime" Nullable="false" />
-    <Property Name="UserProfileId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="UserRole" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Qualificationslookups">
-    <Key>
-      <PropertyRef Name="QualificationId" />
-    </Key>
-    <Property Name="QualificationId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="QualificationName" Type="nvarchar" Nullable="false" MaxLength="200" />
-    <Property Name="IndustryTypesID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="UserQualifications">
-    <Key>
-      <PropertyRef Name="UserQualificationId" />
-    </Key>
-    <Property Name="UserQualificationId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="QualificationslookupQualificationId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="UserProfileId" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="OtherQualifications">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="300" />
-    <Property Name="UserProfileId" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="IndustrySkills">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="200" />
-    <Property Name="IndustryTypesID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="UserSkills">
-    <Key>
-      <PropertyRef Name="UserSkillId" />
-    </Key>
-    <Property Name="UserSkillId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="UserProfileId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="IndustrySkillsId" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ExternalShiftBroadcasts">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Wage" Type="decimal" Nullable="false" />
-    <Property Name="Status" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ExternalShiftQualifications">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="QualificationslookupQualificationId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ExternalShiftBroadcastId" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ExternalShiftSkills">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ExternalShiftBroadcastId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="IndustrySkillsId" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ExternalShiftRequests">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Type" Type="int" Nullable="true" />
-    <Property Name="Reason" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Status" Type="int" Nullable="true" />
-    <Property Name="CreatedDate" Type="datetime" Nullable="true" />
-    <Property Name="ActionedDate" Type="datetime" Nullable="true" />
-    <Property Name="ActionedComment" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="ExternalShiftMessage" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="ActionedBy_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="ExternalShiftBroadcast_Id" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="CreatedBy_Id" Type="uniqueidentifier" Nullable="true" />
-  </EntityType>
-  <EntityType Name="UserRecommendations">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="UserProfileUserRecommendedBy_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="UserProfileUserRecommended_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="UserSkillEndorsements">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="UserSkill_UserSkillId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="UserProfileUserRecommendedBY_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="UserProfileUserBeingRecommended_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Messages">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Message" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="DateSent" Type="datetime" Nullable="true" />
-    <Property Name="UserProfilesMessageFrom_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="UserProfileMessageTo_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="EmployeeRole">
-    <Key>
-      <PropertyRef Name="Employee_Id" />
-      <PropertyRef Name="Roles_Id" />
-    </Key>
-    <Property Name="Employee_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Roles_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="security_UsersInRole">
-    <Key>
-      <PropertyRef Name="UserProfile_Id" />
-      <PropertyRef Name="security_Roles_Id" />
-    </Key>
-    <Property Name="UserProfile_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="security_Roles_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ManagerBusinessLocation">
-    <Key>
-      <PropertyRef Name="Managers_Id" />
-      <PropertyRef Name="ManagerBusinessLocations_Id" />
-    </Key>
-    <Property Name="Managers_Id" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ManagerBusinessLocations_Id" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <Association Name="MembershipUserProfile">
-    <End Role="Membership" Type="DataModel.Store.security_Membership" Multiplicity="0..1" />
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Membership">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserProfileEmployee">
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="0..1" />
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Employee">
-        <PropertyRef Name="UserProfile_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserProfileEmployerRequest">
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <End Role="EmployerRequest" Type="DataModel.Store.EmployerRequests" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="EmployerRequest">
-        <PropertyRef Name="UserProfile_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="EmployeeEmployerRequest">
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="0..1" />
-    <End Role="EmployerRequest" Type="DataModel.Store.EmployerRequests" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="EmployerRequest">
-        <PropertyRef Name="Employee_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ManagerEmployerRequest">
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="0..1" />
-    <End Role="EmployerRequest" Type="DataModel.Store.EmployerRequests" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="EmployerRequest">
-        <PropertyRef Name="ActionedBy_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BusinessLocationInternalLocation">
-    <End Role="BusinessLocation" Type="DataModel.Store.BusinessLocations" Multiplicity="1" />
-    <End Role="InternalLocation" Type="DataModel.Store.InternalLocations" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="BusinessLocation">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="InternalLocation">
-        <PropertyRef Name="BusinessLocation_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BusinessLocationShiftTemplate">
-    <End Role="BusinessLocation" Type="DataModel.Store.BusinessLocations" Multiplicity="1" />
-    <End Role="ShiftTemplate" Type="DataModel.Store.ShiftTemplates" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="BusinessLocation">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ShiftTemplate">
-        <PropertyRef Name="BusinessLocation_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ShiftTemplateRole">
-    <End Role="ShiftTemplate" Type="DataModel.Store.ShiftTemplates" Multiplicity="*" />
-    <End Role="Role" Type="DataModel.Store.Roles" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Role">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ShiftTemplate">
-        <PropertyRef Name="Role_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ShiftTemplateInternalLocation">
-    <End Role="ShiftTemplate" Type="DataModel.Store.ShiftTemplates" Multiplicity="*" />
-    <End Role="InternalLocation" Type="DataModel.Store.InternalLocations" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="InternalLocation">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ShiftTemplate">
-        <PropertyRef Name="InternalLocation_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ShiftTemplateEmployee">
-    <End Role="ShiftTemplate" Type="DataModel.Store.ShiftTemplates" Multiplicity="*" />
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ShiftTemplate">
-        <PropertyRef Name="Employee_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="RosterShift">
-    <End Role="Roster" Type="DataModel.Store.Rosters" Multiplicity="1" />
-    <End Role="Shift" Type="DataModel.Store.Shifts" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Roster">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Shift">
-        <PropertyRef Name="Roster_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="EmployeeShift">
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="0..1" />
-    <End Role="Shift" Type="DataModel.Store.Shifts" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Shift">
-        <PropertyRef Name="Employee_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="RoleShift">
-    <End Role="Role" Type="DataModel.Store.Roles" Multiplicity="0..1" />
-    <End Role="Shift" Type="DataModel.Store.Shifts" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Role">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Shift">
-        <PropertyRef Name="Role_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="InternalLocationShift">
-    <End Role="InternalLocation" Type="DataModel.Store.InternalLocations" Multiplicity="0..1" />
-    <End Role="Shift" Type="DataModel.Store.Shifts" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="InternalLocation">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Shift">
-        <PropertyRef Name="InternalLocation_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BusinessBusinessPreferences">
-    <End Role="BusinessLocation" Type="DataModel.Store.BusinessLocations" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="BusinessPreferences" Type="DataModel.Store.BusinessPreferences" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="BusinessLocation">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="BusinessPreferences">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ShiftShiftChangeRequest">
-    <End Role="Shift" Type="DataModel.Store.Shifts" Multiplicity="1" />
-    <End Role="ShiftChangeRequest" Type="DataModel.Store.ShiftChangeRequests" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Shift">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ShiftChangeRequest">
-        <PropertyRef Name="Shift_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ShiftChangeRequestEmployee">
-    <End Role="ShiftChangeRequest" Type="DataModel.Store.ShiftChangeRequests" Multiplicity="*" />
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ShiftChangeRequest">
-        <PropertyRef Name="ActionedBy_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserProfileRecurringCalendarEvent">
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <End Role="RecurringCalendarEvent" Type="DataModel.Store.Schedules" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="RecurringCalendarEvent">
-        <PropertyRef Name="UserProfile_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="EmployeeEmployeeRequest">
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="1" />
-    <End Role="EmployeeRequest" Type="DataModel.Store.EmployeeRequests" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="EmployeeRequest">
-        <PropertyRef Name="Employee_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="EmployeeRequestUserProfile">
-    <End Role="EmployeeRequest" Type="DataModel.Store.EmployeeRequests" Multiplicity="*" />
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="EmployeeRequest">
-        <PropertyRef Name="ActionedBy_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ShiftBlockRole">
-    <End Role="ShiftBlock" Type="DataModel.Store.ShiftBlocks" Multiplicity="*" />
-    <End Role="Role" Type="DataModel.Store.Roles" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Role">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ShiftBlock">
-        <PropertyRef Name="Role_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BusinessShiftBlock">
-    <End Role="Business" Type="DataModel.Store.BusinessLocations" Multiplicity="1" />
-    <End Role="ShiftBlock" Type="DataModel.Store.ShiftBlocks" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Business">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ShiftBlock">
-        <PropertyRef Name="BusinessLocation_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserProfileUserPreferences">
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <End Role="UserPreferences" Type="DataModel.Store.UserPreferences" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="UserPreferences">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BusinessBusinessLocation">
-    <End Role="Business" Type="DataModel.Store.Businesses" Multiplicity="1" />
-    <End Role="BusinessLocation" Type="DataModel.Store.BusinessLocations" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Business">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="BusinessLocation">
-        <PropertyRef Name="Business_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BusinessTypeBusiness">
-    <End Role="BusinessType" Type="DataModel.Store.BusinessTypes" Multiplicity="1" />
-    <End Role="Business" Type="DataModel.Store.Businesses" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="BusinessType">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Business">
-        <PropertyRef Name="Type_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BusinessRole">
-    <End Role="Business" Type="DataModel.Store.Businesses" Multiplicity="1" />
-    <End Role="Role" Type="DataModel.Store.Roles" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Business">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Role">
-        <PropertyRef Name="Business_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BusinessLocationEmployerRequest">
-    <End Role="BusinessLocation" Type="DataModel.Store.BusinessLocations" Multiplicity="1" />
-    <End Role="EmployerRequest" Type="DataModel.Store.EmployerRequests" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="BusinessLocation">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="EmployerRequest">
-        <PropertyRef Name="BusinessLocation_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BusinessLocationEmployee">
-    <End Role="BusinessLocation" Type="DataModel.Store.BusinessLocations" Multiplicity="1" />
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="BusinessLocation">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Employee">
-        <PropertyRef Name="BusinessLocation_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BusinessLocationEmployeeRequest">
-    <End Role="BusinessLocation" Type="DataModel.Store.BusinessLocations" Multiplicity="1" />
-    <End Role="EmployeeRequest" Type="DataModel.Store.EmployeeRequests" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="BusinessLocation">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="EmployeeRequest">
-        <PropertyRef Name="BusinessLocation_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BusinessLocationRoster">
-    <End Role="BusinessLocation" Type="DataModel.Store.BusinessLocations" Multiplicity="1" />
-    <End Role="Roster" Type="DataModel.Store.Rosters" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="BusinessLocation">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Roster">
-        <PropertyRef Name="BusinessLocation_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ShiftTemplateRecurringShiftChangeRequest">
-    <End Role="ShiftTemplate" Type="DataModel.Store.ShiftTemplates" Multiplicity="1" />
-    <End Role="RecurringShiftChangeRequest" Type="DataModel.Store.RecurringShiftChangeRequests" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ShiftTemplate">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="RecurringShiftChangeRequest">
-        <PropertyRef Name="ShiftTemplate_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="EmployeeRecurringShiftChangeRequest">
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="0..1" />
-    <End Role="RecurringShiftChangeRequest" Type="DataModel.Store.RecurringShiftChangeRequests" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="RecurringShiftChangeRequest">
-        <PropertyRef Name="ActionedBy_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ShiftChangeRequestEmployee1">
-    <End Role="ShiftChangeRequest" Type="DataModel.Store.ShiftChangeRequests" Multiplicity="*" />
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ShiftChangeRequest">
-        <PropertyRef Name="CreatedBy_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ShiftShiftTemplate">
-    <End Role="Shift" Type="DataModel.Store.Shifts" Multiplicity="*" />
-    <End Role="ShiftTemplate" Type="DataModel.Store.ShiftTemplates" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="ShiftTemplate">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Shift">
-        <PropertyRef Name="ShiftTemplate_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserProfilewebpages_OAuthMembership">
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <End Role="webpages_OAuthMembership" Type="DataModel.Store.security_OAuthMembership" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="webpages_OAuthMembership">
-        <PropertyRef Name="UserProfile_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="EmployeePaymentDetails">
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="1" />
-    <End Role="PaymentDetails" Type="DataModel.Store.PaymentDetails" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="PaymentDetails">
-        <PropertyRef Name="Employee_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BusinessLocationPaymentDetails">
-    <End Role="BusinessLocation" Type="DataModel.Store.BusinessLocations" Multiplicity="1" />
-    <End Role="PaymentDetails" Type="DataModel.Store.PaymentDetails" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="BusinessLocation">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="PaymentDetails">
-        <PropertyRef Name="BusinessLocation_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="EmployeeTimeCard">
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="1" />
-    <End Role="TimeCard" Type="DataModel.Store.TimeCards" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TimeCard">
-        <PropertyRef Name="Employee_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BusinessLocationTimeCard">
-    <End Role="BusinessLocation" Type="DataModel.Store.BusinessLocations" Multiplicity="1" />
-    <End Role="TimeCard" Type="DataModel.Store.TimeCards" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="BusinessLocation">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TimeCard">
-        <PropertyRef Name="BusinessLocation_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="EmployeeTimeCard1">
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="1" />
-    <End Role="TimeCard" Type="DataModel.Store.TimeCards" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TimeCard">
-        <PropertyRef Name="LastUpdatedBy_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ShiftTimeCard">
-    <End Role="Shift" Type="DataModel.Store.Shifts" Multiplicity="0..1" />
-    <End Role="TimeCard" Type="DataModel.Store.TimeCards" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Shift">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TimeCard">
-        <PropertyRef Name="Shift_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="TimesheetUserProfile">
-    <End Role="Timesheet" Type="DataModel.Store.Timesheets" Multiplicity="*" />
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Timesheet">
-        <PropertyRef Name="ApprovedBy_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="TimesheetRoster">
-    <End Role="Timesheet" Type="DataModel.Store.Timesheets" Multiplicity="*" />
-    <End Role="Roster" Type="DataModel.Store.Rosters" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Roster">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Timesheet">
-        <PropertyRef Name="Roster_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="TimesheetEntryUserProfile">
-    <End Role="TimesheetEntry" Type="DataModel.Store.TimesheetEntries" Multiplicity="*" />
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TimesheetEntry">
-        <PropertyRef Name="ApprovedBy_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="TimesheetEntryTimeCard">
-    <End Role="TimesheetEntry" Type="DataModel.Store.TimesheetEntries" Multiplicity="*" />
-    <End Role="TimeCard" Type="DataModel.Store.TimeCards" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="TimeCard">
-        <PropertyRef Name="Id" />
-        <PropertyRef Name="ClockIn" />
-      </Principal>
-      <Dependent Role="TimesheetEntry">
-        <PropertyRef Name="TimeCard_Id" />
-        <PropertyRef Name="TimeCard_ClockIn" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="RosterTimeCard">
-    <End Role="Roster" Type="DataModel.Store.Rosters" Multiplicity="1" />
-    <End Role="TimeCard" Type="DataModel.Store.TimeCards" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Roster">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TimeCard">
-        <PropertyRef Name="Roster_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="IndustryTypesUserProfile">
-    <End Role="IndustryTypes" Type="DataModel.Store.IndustryTypes" Multiplicity="0..1" />
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndustryTypes">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="UserProfile">
-        <PropertyRef Name="IndustryTypesID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserProfileWorkHistory">
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <End Role="WorkHistory" Type="DataModel.Store.WorkHistories" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="WorkHistory">
-        <PropertyRef Name="UserProfileId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="IndustryTypestblQualificationslookup">
-    <End Role="IndustryTypes" Type="DataModel.Store.IndustryTypes" Multiplicity="1" />
-    <End Role="tblQualificationslookup" Type="DataModel.Store.Qualificationslookups" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndustryTypes">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="tblQualificationslookup">
-        <PropertyRef Name="IndustryTypesID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="tblQualificationslookuptblUserQualification">
-    <End Role="tblQualificationslookup" Type="DataModel.Store.Qualificationslookups" Multiplicity="1" />
-    <End Role="tblUserQualification" Type="DataModel.Store.UserQualifications" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tblQualificationslookup">
-        <PropertyRef Name="QualificationId" />
-      </Principal>
-      <Dependent Role="tblUserQualification">
-        <PropertyRef Name="QualificationslookupQualificationId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserProfiletblUserQualification">
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <End Role="tblUserQualification" Type="DataModel.Store.UserQualifications" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="tblUserQualification">
-        <PropertyRef Name="UserProfileId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserProfileOtherQualification">
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <End Role="OtherQualification" Type="DataModel.Store.OtherQualifications" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="OtherQualification">
-        <PropertyRef Name="UserProfileId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="IndustryTypesIndustrialSkills">
-    <End Role="IndustryTypes" Type="DataModel.Store.IndustryTypes" Multiplicity="1" />
-    <End Role="IndustrialSkills" Type="DataModel.Store.IndustrySkills" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndustryTypes">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="IndustrialSkills">
-        <PropertyRef Name="IndustryTypesID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserProfileUserSkills">
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <End Role="UserSkills" Type="DataModel.Store.UserSkills" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="UserSkills">
-        <PropertyRef Name="UserProfileId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="IndustrySkillsUserSkills">
-    <End Role="IndustrySkills" Type="DataModel.Store.IndustrySkills" Multiplicity="1" />
-    <End Role="UserSkills" Type="DataModel.Store.UserSkills" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndustrySkills">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="UserSkills">
-        <PropertyRef Name="IndustrySkillsId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="QualificationslookupShiftQualification">
-    <End Role="Qualificationslookup" Type="DataModel.Store.Qualificationslookups" Multiplicity="1" />
-    <End Role="ShiftQualification" Type="DataModel.Store.ExternalShiftQualifications" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Qualificationslookup">
-        <PropertyRef Name="QualificationId" />
-      </Principal>
-      <Dependent Role="ShiftQualification">
-        <PropertyRef Name="QualificationslookupQualificationId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ExternalShiftBroadcastShift">
-    <End Role="ExternalShiftBroadcast" Type="DataModel.Store.ExternalShiftBroadcasts" Multiplicity="0..1" />
-    <End Role="Shift" Type="DataModel.Store.Shifts" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ExternalShiftBroadcast">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Shift">
-        <PropertyRef Name="ExternalShiftBroadcastId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ExternalShiftBroadcastShiftQualification">
-    <End Role="ExternalShiftBroadcast" Type="DataModel.Store.ExternalShiftBroadcasts" Multiplicity="1" />
-    <End Role="ShiftQualification" Type="DataModel.Store.ExternalShiftQualifications" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ExternalShiftBroadcast">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ShiftQualification">
-        <PropertyRef Name="ExternalShiftBroadcastId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ExternalShiftBroadcastShiftSkills">
-    <End Role="ExternalShiftBroadcast" Type="DataModel.Store.ExternalShiftBroadcasts" Multiplicity="1" />
-    <End Role="ShiftSkills" Type="DataModel.Store.ExternalShiftSkills" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ExternalShiftBroadcast">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ShiftSkills">
-        <PropertyRef Name="ExternalShiftBroadcastId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="IndustrySkillsShiftSkills">
-    <End Role="IndustrySkills" Type="DataModel.Store.IndustrySkills" Multiplicity="1" />
-    <End Role="ShiftSkills" Type="DataModel.Store.ExternalShiftSkills" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndustrySkills">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ShiftSkills">
-        <PropertyRef Name="IndustrySkillsId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ExternalShiftRequestEmployee1">
-    <End Role="ExternalShiftRequest" Type="DataModel.Store.ExternalShiftRequests" Multiplicity="*" />
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ExternalShiftRequest">
-        <PropertyRef Name="ActionedBy_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ExternalShiftRequestExternalShiftBroadcast">
-    <End Role="ExternalShiftRequest" Type="DataModel.Store.ExternalShiftRequests" Multiplicity="*" />
-    <End Role="ExternalShiftBroadcast" Type="DataModel.Store.ExternalShiftBroadcasts" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="ExternalShiftBroadcast">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ExternalShiftRequest">
-        <PropertyRef Name="ExternalShiftBroadcast_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserProfileExternalShiftRequest">
-    <End Role="ExternalShiftRequest" Type="DataModel.Store.ExternalShiftRequests" Multiplicity="*" />
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ExternalShiftRequest">
-        <PropertyRef Name="CreatedBy_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="IndustryTypesBusinessType">
-    <End Role="IndustryTypes" Type="DataModel.Store.IndustryTypes" Multiplicity="1" />
-    <End Role="BusinessType" Type="DataModel.Store.BusinessTypes" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IndustryTypes">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="BusinessType">
-        <PropertyRef Name="IndustryType_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserRecommendationsUserProfile_UserRecommendedBy">
-    <End Role="UserRecommendations" Type="DataModel.Store.UserRecommendations" Multiplicity="*" />
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="UserRecommendations">
-        <PropertyRef Name="UserProfileUserRecommendedBy_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserRecommendationsUserProfile_UserRecommended">
-    <End Role="UserRecommendations" Type="DataModel.Store.UserRecommendations" Multiplicity="*" />
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="UserRecommendations">
-        <PropertyRef Name="UserProfileUserRecommended_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserSkillEndorsementsUserSkills">
-    <End Role="UserSkillEndorsements" Type="DataModel.Store.UserSkillEndorsements" Multiplicity="*" />
-    <End Role="UserSkills" Type="DataModel.Store.UserSkills" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="UserSkills">
-        <PropertyRef Name="UserSkillId" />
-      </Principal>
-      <Dependent Role="UserSkillEndorsements">
-        <PropertyRef Name="UserSkill_UserSkillId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserSkillEndorsementsUserProfile_UserRecommendedBY">
-    <End Role="UserSkillEndorsements" Type="DataModel.Store.UserSkillEndorsements" Multiplicity="*" />
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="UserSkillEndorsements">
-        <PropertyRef Name="UserProfileUserRecommendedBY_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserSkillEndorsementsUserProfile_UserBeingRecommended">
-    <End Role="UserSkillEndorsements" Type="DataModel.Store.UserSkillEndorsements" Multiplicity="*" />
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="UserSkillEndorsements">
-        <PropertyRef Name="UserProfileUserBeingRecommended_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="MessagesUserProfile_MessagesFrom">
-    <End Role="Messages" Type="DataModel.Store.Messages" Multiplicity="*" />
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Messages">
-        <PropertyRef Name="UserProfilesMessageFrom_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="MessagesUserProfile_MessagesTo">
-    <End Role="Messages" Type="DataModel.Store.Messages" Multiplicity="*" />
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Messages">
-        <PropertyRef Name="UserProfileMessageTo_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_EmployeeRole_Employee">
-    <End Role="Employee" Type="DataModel.Store.Employees" Multiplicity="1" />
-    <End Role="EmployeeRole" Type="DataModel.Store.EmployeeRole" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="EmployeeRole">
-        <PropertyRef Name="Employee_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_EmployeeRole_Role">
-    <End Role="EmployeeRole" Type="DataModel.Store.EmployeeRole" Multiplicity="*" />
-    <End Role="Role" Type="DataModel.Store.Roles" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Role">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="EmployeeRole">
-        <PropertyRef Name="Roles_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_security_UsersInRole_UserProfile">
-    <End Role="UserProfile" Type="DataModel.Store.UserProfiles" Multiplicity="1" />
-    <End Role="security_UsersInRole" Type="DataModel.Store.security_UsersInRole" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="UserProfile">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="security_UsersInRole">
-        <PropertyRef Name="UserProfile_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_security_UsersInRole_security_Role">
-    <End Role="security_UsersInRole" Type="DataModel.Store.security_UsersInRole" Multiplicity="*" />
-    <End Role="security_Role" Type="DataModel.Store.security_Role" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="security_Role">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="security_UsersInRole">
-        <PropertyRef Name="security_Roles_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ManagerBusinessLocation_Manager">
-    <End Role="Manager" Type="DataModel.Store.Employees" Multiplicity="1" />
-    <End Role="ManagerBusinessLocation" Type="DataModel.Store.ManagerBusinessLocation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Manager">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ManagerBusinessLocation">
-        <PropertyRef Name="Managers_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ManagerBusinessLocation_BusinessLocation">
-    <End Role="ManagerBusinessLocation" Type="DataModel.Store.ManagerBusinessLocation" Multiplicity="*" />
-    <End Role="BusinessLocation" Type="DataModel.Store.BusinessLocations" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="BusinessLocation">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ManagerBusinessLocation">
-        <PropertyRef Name="ManagerBusinessLocations_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+    <Schema Namespace="DataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Businesses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="HasMultiBusLocations" Type="bit" Nullable="false" />
+          <Property Name="HasMultiInternalLocations" Type="bit" Nullable="false" />
+          <Property Name="Type_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BusinessLocations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address_Line1" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address_Suburb" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address_State" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address_Postcode" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address_Line2" Type="nvarchar(max)" />
+          <Property Name="Address_PlaceId" Type="nvarchar(max)" />
+          <Property Name="Address_PlaceLatitude" Type="float" />
+          <Property Name="Address_PlaceLongitude" Type="float" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="Business_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BusinessPreferences">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CancelShiftAllowed" Type="bit" Nullable="false" />
+          <Property Name="CancelShiftTimeframe" Type="smallint" />
+        </EntityType>
+        <EntityType Name="BusinessTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IndustryType_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeRequests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ActionedDate" Type="datetime" />
+          <Property Name="Employee_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ActionedBy_Id" Type="uniqueidentifier" />
+          <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeRole">
+          <Key>
+            <PropertyRef Name="Employee_Id" />
+            <PropertyRef Name="Roles_Id" />
+          </Key>
+          <Property Name="Employee_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Roles_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="20" />
+          <Property Name="MobilePhone" Type="nvarchar(max)" />
+          <Property Name="DateOfBirth" Type="datetime" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="QRCode" Type="varbinary(max)" />
+          <Property Name="PayRate" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="UserProfile_Id" Type="uniqueidentifier" />
+          <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployerRequests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ActionedDate" Type="datetime" />
+          <Property Name="UserProfile_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Employee_Id" Type="uniqueidentifier" />
+          <Property Name="ActionedBy_Id" Type="uniqueidentifier" />
+          <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExternalShiftBroadcasts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Wage" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExternalShiftQualifications">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="QualificationslookupQualificationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ExternalShiftBroadcastId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExternalShiftRequests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Type" Type="int" />
+          <Property Name="Reason" Type="nvarchar(max)" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ActionedDate" Type="datetime" />
+          <Property Name="ActionedComment" Type="nvarchar(max)" />
+          <Property Name="ExternalShiftMessage" Type="nvarchar(max)" />
+          <Property Name="ActionedBy_Id" Type="uniqueidentifier" />
+          <Property Name="ExternalShiftBroadcast_Id" Type="uniqueidentifier" />
+          <Property Name="CreatedBy_Id" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="ExternalShiftSkills">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ExternalShiftBroadcastId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IndustrySkillsId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IndustrySkills">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="IndustryTypesID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IndustryTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InternalLocations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ManagerBusinessLocations">
+          <Key>
+            <PropertyRef Name="Managers_Id" />
+            <PropertyRef Name="ManagerBusinessLocations_Id" />
+          </Key>
+          <Property Name="Managers_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ManagerBusinessLocations_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Messages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="DateSent" Type="datetime" />
+          <Property Name="UserProfilesMessageFrom_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserProfileMessageTo_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OtherQualifications">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="UserProfileId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TokenCustomerID" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Employee_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Qualificationslookups">
+          <Key>
+            <PropertyRef Name="QualificationId" />
+          </Key>
+          <Property Name="QualificationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="QualificationName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="IndustryTypesID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecurringShiftChangeRequests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="OccurenceDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ActionedDate" Type="datetime" />
+          <Property Name="ActionedComment" Type="nvarchar" MaxLength="400" />
+          <Property Name="ShiftTemplate_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ActionedBy_Id" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="Business_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rosters">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WeekStartDate" Type="datetime" Nullable="false" />
+          <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Schedules">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Frequency" Type="smallint" Nullable="false" />
+          <Property Name="ScheduleRecurrence" Type="int" Nullable="false" />
+          <Property Name="NumberOfOccurrences" Type="smallint" />
+          <Property Name="MonthlyInterval" Type="smallint" Nullable="false" />
+          <Property Name="DaysOfWeek" Type="smallint" Nullable="false" />
+          <Property Name="WeeklyInterval" Type="smallint" Nullable="false" />
+          <Property Name="UserProfile_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="security_Membership">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ConfirmationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsConfirmed" Type="bit" />
+          <Property Name="LastPasswordFailureDate" Type="datetime" />
+          <Property Name="PasswordFailuresSinceLastSuccess" Type="smallint" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PasswordChangedDate" Type="datetime" />
+          <Property Name="PasswordVerificationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="PasswordVerificationTokenExpirationDate" Type="datetime" />
+          <Property Name="IsLockedOut" Type="bit" Nullable="false" />
+          <Property Name="LastLockoutDate" Type="datetime" />
+          <Property Name="LastLoginDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="security_OAuthMembership">
+          <Key>
+            <PropertyRef Name="Provider" />
+            <PropertyRef Name="ProviderUserId" />
+          </Key>
+          <Property Name="Provider" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="ProviderUserId" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserProfile_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="security_Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="security_UsersInRoles">
+          <Key>
+            <PropertyRef Name="UserProfile_Id" />
+            <PropertyRef Name="security_Roles_Id" />
+          </Key>
+          <Property Name="UserProfile_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="security_Roles_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShiftBlocks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="FinishTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="FinishNextDay" Type="bit" Nullable="false" />
+          <Property Name="Role_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShiftChangeRequests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="400" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ActionedDate" Type="datetime" />
+          <Property Name="ActionedComment" Type="nvarchar" MaxLength="400" />
+          <Property Name="Shift_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ActionedBy_Id" Type="uniqueidentifier" />
+          <Property Name="CreatedBy_Id" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Shifts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="FinishTime" Type="datetime" Nullable="false" />
+          <Property Name="IsPublished" Type="bit" Nullable="false" />
+          <Property Name="ExternalShiftBroadcastId" Type="uniqueidentifier" />
+          <Property Name="Roster_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Employee_Id" Type="uniqueidentifier" />
+          <Property Name="Role_Id" Type="uniqueidentifier" />
+          <Property Name="InternalLocation_Id" Type="uniqueidentifier" />
+          <Property Name="ShiftTemplate_Id" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="ShiftTemplates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="FinishTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="FinishNextDay" Type="bit" Nullable="false" />
+          <Property Name="Monday" Type="bit" Nullable="false" />
+          <Property Name="Tuesday" Type="bit" Nullable="false" />
+          <Property Name="Wednesday" Type="bit" Nullable="false" />
+          <Property Name="Thursday" Type="bit" Nullable="false" />
+          <Property Name="Friday" Type="bit" Nullable="false" />
+          <Property Name="Saturday" Type="bit" Nullable="false" />
+          <Property Name="Sunday" Type="bit" Nullable="false" />
+          <Property Name="Frequency" Type="int" Nullable="false" />
+          <Property Name="WeekStarting" Type="datetime" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Role_Id" Type="uniqueidentifier" />
+          <Property Name="InternalLocation_Id" Type="uniqueidentifier" />
+          <Property Name="Employee_Id" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="TimeCards">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="ClockIn" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ClockIn" Type="datetime" Nullable="false" />
+          <Property Name="ClockInComment" Type="nvarchar(max)" />
+          <Property Name="ClockOut" Type="datetime" />
+          <Property Name="ClockOutComment" Type="nvarchar(max)" />
+          <Property Name="LastUpdatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Employee_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BusinessLocation_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastUpdatedBy_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Shift_Id" Type="uniqueidentifier" />
+          <Property Name="Roster_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TimesheetEntries">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StartDateTime" Type="datetime" Nullable="false" />
+          <Property Name="FinishDateTime" Type="datetime" />
+          <Property Name="Approved" Type="bit" Nullable="false" />
+          <Property Name="ApprovedDateTime" Type="datetime" />
+          <Property Name="ApprovedBy_Id" Type="uniqueidentifier" />
+          <Property Name="TimeCard_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TimeCard_ClockIn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Timesheets">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Approved" Type="bit" Nullable="false" />
+          <Property Name="ApprovedDateTime" Type="datetime" />
+          <Property Name="ApprovedBy_Id" Type="uniqueidentifier" />
+          <Property Name="Roster_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserPreferences">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InternalAvailableShifts" Type="bit" Nullable="false" />
+          <Property Name="ExternalShiftInfo" Type="bit" Nullable="false" />
+          <Property Name="ExternalAvailableShifts" Type="bit" Nullable="false" />
+          <Property Name="DistanceTravel" Type="int" Nullable="false" />
+          <Property Name="ShiftReminderLength" Type="int" Nullable="false" />
+          <Property Name="NotifyByApp" Type="bit" Nullable="false" />
+          <Property Name="NotifyBySMS" Type="bit" Nullable="false" />
+          <Property Name="NotifyByEmail" Type="bit" Nullable="false" />
+          <Property Name="TimeFormat24Hr" Type="bit" Nullable="false" />
+          <Property Name="MonthCalView" Type="bit" Nullable="false" />
+          <Property Name="ImageData" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ImageType" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="UserProfiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address_Line1" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address_Suburb" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address_State" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address_Postcode" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address_Line2" Type="nvarchar(max)" />
+          <Property Name="Address_PlaceId" Type="nvarchar(max)" />
+          <Property Name="Address_PlaceLatitude" Type="float" />
+          <Property Name="Address_PlaceLongitude" Type="float" />
+          <Property Name="MobilePhone" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="HasViewedWizard" Type="bit" Nullable="false" />
+          <Property Name="QRCode" Type="varbinary(max)" />
+          <Property Name="CurrentAddress_Line1" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CurrentAddress_Suburb" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CurrentAddress_State" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CurrentAddress_Postcode" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CurrentAddress_Line2" Type="nvarchar(max)" />
+          <Property Name="CurrentAddress_PlaceId" Type="nvarchar(max)" />
+          <Property Name="CurrentAddress_PlaceLatitude" Type="float" />
+          <Property Name="CurrentAddress_PlaceLongitude" Type="float" />
+          <Property Name="Distance" Type="int" />
+          <Property Name="IndustryTypesID" Type="int" />
+          <Property Name="AboutMe" Type="nvarchar" MaxLength="400" />
+          <Property Name="DateofBirth" Type="datetime" />
+          <Property Name="IsRegisteredExternal" Type="bit" />
+        </EntityType>
+        <EntityType Name="UserQualifications">
+          <Key>
+            <PropertyRef Name="UserQualificationId" />
+          </Key>
+          <Property Name="UserQualificationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="QualificationslookupQualificationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserProfileId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserRecommendations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserProfileUserRecommendedBy_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserProfileUserRecommended_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserSkillEndorsements">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserSkill_UserSkillId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserProfileUserRecommendedBY_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserProfileUserBeingRecommended_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserSkills">
+          <Key>
+            <PropertyRef Name="UserSkillId" />
+          </Key>
+          <Property Name="UserSkillId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserProfileId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IndustrySkillsId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkHistories">
+          <Key>
+            <PropertyRef Name="workId" />
+          </Key>
+          <Property Name="workId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="workCompanyName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="workStartDate" Type="datetime" Nullable="false" />
+          <Property Name="workEndDate" Type="datetime" Nullable="false" />
+          <Property Name="UserProfileId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserRole" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BusinessBusinessLocation">
+          <End Role="Businesses" Type="Self.Businesses" Multiplicity="1" />
+          <End Role="BusinessLocations" Type="Self.BusinessLocations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Businesses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BusinessLocations">
+              <PropertyRef Name="Business_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BusinessBusinessPreferences">
+          <End Role="BusinessLocations" Type="Self.BusinessLocations" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BusinessPreferences" Type="Self.BusinessPreferences" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessLocations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BusinessPreferences">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BusinessLocationEmployee">
+          <End Role="BusinessLocations" Type="Self.BusinessLocations" Multiplicity="1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessLocations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="BusinessLocation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BusinessLocationEmployeeRequest">
+          <End Role="BusinessLocations" Type="Self.BusinessLocations" Multiplicity="1" />
+          <End Role="EmployeeRequests" Type="Self.EmployeeRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessLocations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeRequests">
+              <PropertyRef Name="BusinessLocation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BusinessLocationEmployerRequest">
+          <End Role="BusinessLocations" Type="Self.BusinessLocations" Multiplicity="1" />
+          <End Role="EmployerRequests" Type="Self.EmployerRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessLocations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployerRequests">
+              <PropertyRef Name="BusinessLocation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BusinessLocationInternalLocation">
+          <End Role="BusinessLocations" Type="Self.BusinessLocations" Multiplicity="1" />
+          <End Role="InternalLocations" Type="Self.InternalLocations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessLocations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InternalLocations">
+              <PropertyRef Name="BusinessLocation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BusinessLocationPaymentDetails">
+          <End Role="BusinessLocations" Type="Self.BusinessLocations" Multiplicity="1" />
+          <End Role="PaymentDetails" Type="Self.PaymentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessLocations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentDetails">
+              <PropertyRef Name="BusinessLocation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BusinessLocationRoster">
+          <End Role="BusinessLocations" Type="Self.BusinessLocations" Multiplicity="1" />
+          <End Role="Rosters" Type="Self.Rosters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessLocations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rosters">
+              <PropertyRef Name="BusinessLocation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BusinessLocationShiftTemplate">
+          <End Role="BusinessLocations" Type="Self.BusinessLocations" Multiplicity="1" />
+          <End Role="ShiftTemplates" Type="Self.ShiftTemplates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessLocations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShiftTemplates">
+              <PropertyRef Name="BusinessLocation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BusinessLocationTimeCard">
+          <End Role="BusinessLocations" Type="Self.BusinessLocations" Multiplicity="1" />
+          <End Role="TimeCards" Type="Self.TimeCards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessLocations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeCards">
+              <PropertyRef Name="BusinessLocation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BusinessRole">
+          <End Role="Businesses" Type="Self.Businesses" Multiplicity="1" />
+          <End Role="Roles" Type="Self.Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Businesses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Roles">
+              <PropertyRef Name="Business_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BusinessShiftBlock">
+          <End Role="BusinessLocations" Type="Self.BusinessLocations" Multiplicity="1" />
+          <End Role="ShiftBlocks" Type="Self.ShiftBlocks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessLocations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShiftBlocks">
+              <PropertyRef Name="BusinessLocation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BusinessTypeBusiness">
+          <End Role="BusinessTypes" Type="Self.BusinessTypes" Multiplicity="1" />
+          <End Role="Businesses" Type="Self.Businesses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Businesses">
+              <PropertyRef Name="Type_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeEmployeeRequest">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="EmployeeRequests" Type="Self.EmployeeRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeRequests">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeEmployerRequest">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="EmployerRequests" Type="Self.EmployerRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployerRequests">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeePaymentDetails">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="PaymentDetails" Type="Self.PaymentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentDetails">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeRecurringShiftChangeRequest">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="RecurringShiftChangeRequests" Type="Self.RecurringShiftChangeRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecurringShiftChangeRequests">
+              <PropertyRef Name="ActionedBy_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeRequestUserProfile">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="0..1" />
+          <End Role="EmployeeRequests" Type="Self.EmployeeRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeRequests">
+              <PropertyRef Name="ActionedBy_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeRole_Employee">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="EmployeeRole" Type="Self.EmployeeRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeRole">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeRole_Role">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="EmployeeRole" Type="Self.EmployeeRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeRole">
+              <PropertyRef Name="Roles_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeShift">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Shifts" Type="Self.Shifts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Shifts">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeTimeCard">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="TimeCards" Type="Self.TimeCards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeCards">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeTimeCard1">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="TimeCards" Type="Self.TimeCards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeCards">
+              <PropertyRef Name="LastUpdatedBy_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExternalShiftBroadcastShift">
+          <End Role="ExternalShiftBroadcasts" Type="Self.ExternalShiftBroadcasts" Multiplicity="0..1" />
+          <End Role="Shifts" Type="Self.Shifts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExternalShiftBroadcasts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Shifts">
+              <PropertyRef Name="ExternalShiftBroadcastId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExternalShiftBroadcastShiftQualification">
+          <End Role="ExternalShiftBroadcasts" Type="Self.ExternalShiftBroadcasts" Multiplicity="1" />
+          <End Role="ExternalShiftQualifications" Type="Self.ExternalShiftQualifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExternalShiftBroadcasts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExternalShiftQualifications">
+              <PropertyRef Name="ExternalShiftBroadcastId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExternalShiftBroadcastShiftSkills">
+          <End Role="ExternalShiftBroadcasts" Type="Self.ExternalShiftBroadcasts" Multiplicity="1" />
+          <End Role="ExternalShiftSkills" Type="Self.ExternalShiftSkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExternalShiftBroadcasts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExternalShiftSkills">
+              <PropertyRef Name="ExternalShiftBroadcastId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExternalShiftRequestEmployee1">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="ExternalShiftRequests" Type="Self.ExternalShiftRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExternalShiftRequests">
+              <PropertyRef Name="ActionedBy_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExternalShiftRequestExternalShiftBroadcast">
+          <End Role="ExternalShiftBroadcasts" Type="Self.ExternalShiftBroadcasts" Multiplicity="0..1" />
+          <End Role="ExternalShiftRequests" Type="Self.ExternalShiftRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExternalShiftBroadcasts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExternalShiftRequests">
+              <PropertyRef Name="ExternalShiftBroadcast_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IndustrySkillsShiftSkills">
+          <End Role="IndustrySkills" Type="Self.IndustrySkills" Multiplicity="1" />
+          <End Role="ExternalShiftSkills" Type="Self.ExternalShiftSkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IndustrySkills">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExternalShiftSkills">
+              <PropertyRef Name="IndustrySkillsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IndustrySkillsUserSkills">
+          <End Role="IndustrySkills" Type="Self.IndustrySkills" Multiplicity="1" />
+          <End Role="UserSkills" Type="Self.UserSkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IndustrySkills">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSkills">
+              <PropertyRef Name="IndustrySkillsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IndustryTypesBusinessType">
+          <End Role="IndustryTypes" Type="Self.IndustryTypes" Multiplicity="1" />
+          <End Role="BusinessTypes" Type="Self.BusinessTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IndustryTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BusinessTypes">
+              <PropertyRef Name="IndustryType_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IndustryTypesIndustrialSkills">
+          <End Role="IndustryTypes" Type="Self.IndustryTypes" Multiplicity="1" />
+          <End Role="IndustrySkills" Type="Self.IndustrySkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IndustryTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IndustrySkills">
+              <PropertyRef Name="IndustryTypesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IndustryTypestblQualificationslookup">
+          <End Role="IndustryTypes" Type="Self.IndustryTypes" Multiplicity="1" />
+          <End Role="Qualificationslookups" Type="Self.Qualificationslookups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IndustryTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Qualificationslookups">
+              <PropertyRef Name="IndustryTypesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IndustryTypesUserProfile">
+          <End Role="IndustryTypes" Type="Self.IndustryTypes" Multiplicity="0..1" />
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IndustryTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserProfiles">
+              <PropertyRef Name="IndustryTypesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InternalLocationShift">
+          <End Role="InternalLocations" Type="Self.InternalLocations" Multiplicity="0..1" />
+          <End Role="Shifts" Type="Self.Shifts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InternalLocations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Shifts">
+              <PropertyRef Name="InternalLocation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ManagerBusinessLocation_BusinessLocation">
+          <End Role="BusinessLocations" Type="Self.BusinessLocations" Multiplicity="1" />
+          <End Role="ManagerBusinessLocations" Type="Self.ManagerBusinessLocations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessLocations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ManagerBusinessLocations">
+              <PropertyRef Name="ManagerBusinessLocations_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ManagerBusinessLocation_Manager">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="ManagerBusinessLocations" Type="Self.ManagerBusinessLocations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ManagerBusinessLocations">
+              <PropertyRef Name="Managers_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ManagerEmployerRequest">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="EmployerRequests" Type="Self.EmployerRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployerRequests">
+              <PropertyRef Name="ActionedBy_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MembershipUserProfile">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="security_Membership" Type="Self.security_Membership" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="security_Membership">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MessagesUserProfile_MessagesFrom">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Messages">
+              <PropertyRef Name="UserProfilesMessageFrom_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MessagesUserProfile_MessagesTo">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Messages">
+              <PropertyRef Name="UserProfileMessageTo_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QualificationslookupShiftQualification">
+          <End Role="Qualificationslookups" Type="Self.Qualificationslookups" Multiplicity="1" />
+          <End Role="ExternalShiftQualifications" Type="Self.ExternalShiftQualifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Qualificationslookups">
+              <PropertyRef Name="QualificationId" />
+            </Principal>
+            <Dependent Role="ExternalShiftQualifications">
+              <PropertyRef Name="QualificationslookupQualificationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleShift">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="Shifts" Type="Self.Shifts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Shifts">
+              <PropertyRef Name="Role_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RosterShift">
+          <End Role="Rosters" Type="Self.Rosters" Multiplicity="1" />
+          <End Role="Shifts" Type="Self.Shifts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rosters">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Shifts">
+              <PropertyRef Name="Roster_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RosterTimeCard">
+          <End Role="Rosters" Type="Self.Rosters" Multiplicity="1" />
+          <End Role="TimeCards" Type="Self.TimeCards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rosters">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeCards">
+              <PropertyRef Name="Roster_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_security_UsersInRole_security_Role">
+          <End Role="security_Role" Type="Self.security_Role" Multiplicity="1" />
+          <End Role="security_UsersInRoles" Type="Self.security_UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="security_Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="security_UsersInRoles">
+              <PropertyRef Name="security_Roles_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_security_UsersInRole_UserProfile">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="security_UsersInRoles" Type="Self.security_UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="security_UsersInRoles">
+              <PropertyRef Name="UserProfile_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShiftBlockRole">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="ShiftBlocks" Type="Self.ShiftBlocks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShiftBlocks">
+              <PropertyRef Name="Role_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShiftChangeRequestEmployee">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="ShiftChangeRequests" Type="Self.ShiftChangeRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShiftChangeRequests">
+              <PropertyRef Name="ActionedBy_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShiftChangeRequestEmployee1">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="ShiftChangeRequests" Type="Self.ShiftChangeRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShiftChangeRequests">
+              <PropertyRef Name="CreatedBy_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShiftShiftChangeRequest">
+          <End Role="Shifts" Type="Self.Shifts" Multiplicity="1" />
+          <End Role="ShiftChangeRequests" Type="Self.ShiftChangeRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shifts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShiftChangeRequests">
+              <PropertyRef Name="Shift_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShiftShiftTemplate">
+          <End Role="ShiftTemplates" Type="Self.ShiftTemplates" Multiplicity="0..1" />
+          <End Role="Shifts" Type="Self.Shifts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShiftTemplates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Shifts">
+              <PropertyRef Name="ShiftTemplate_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShiftTemplateEmployee">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="ShiftTemplates" Type="Self.ShiftTemplates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShiftTemplates">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShiftTemplateInternalLocation">
+          <End Role="InternalLocations" Type="Self.InternalLocations" Multiplicity="0..1" />
+          <End Role="ShiftTemplates" Type="Self.ShiftTemplates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InternalLocations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShiftTemplates">
+              <PropertyRef Name="InternalLocation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShiftTemplateRecurringShiftChangeRequest">
+          <End Role="ShiftTemplates" Type="Self.ShiftTemplates" Multiplicity="1" />
+          <End Role="RecurringShiftChangeRequests" Type="Self.RecurringShiftChangeRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShiftTemplates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecurringShiftChangeRequests">
+              <PropertyRef Name="ShiftTemplate_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShiftTemplateRole">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="ShiftTemplates" Type="Self.ShiftTemplates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShiftTemplates">
+              <PropertyRef Name="Role_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShiftTimeCard">
+          <End Role="Shifts" Type="Self.Shifts" Multiplicity="0..1" />
+          <End Role="TimeCards" Type="Self.TimeCards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shifts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeCards">
+              <PropertyRef Name="Shift_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblQualificationslookuptblUserQualification">
+          <End Role="Qualificationslookups" Type="Self.Qualificationslookups" Multiplicity="1" />
+          <End Role="UserQualifications" Type="Self.UserQualifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Qualificationslookups">
+              <PropertyRef Name="QualificationId" />
+            </Principal>
+            <Dependent Role="UserQualifications">
+              <PropertyRef Name="QualificationslookupQualificationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimesheetEntryTimeCard">
+          <End Role="TimeCards" Type="Self.TimeCards" Multiplicity="1" />
+          <End Role="TimesheetEntries" Type="Self.TimesheetEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TimeCards">
+              <PropertyRef Name="Id" />
+              <PropertyRef Name="ClockIn" />
+            </Principal>
+            <Dependent Role="TimesheetEntries">
+              <PropertyRef Name="TimeCard_Id" />
+              <PropertyRef Name="TimeCard_ClockIn" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimesheetEntryUserProfile">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="0..1" />
+          <End Role="TimesheetEntries" Type="Self.TimesheetEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimesheetEntries">
+              <PropertyRef Name="ApprovedBy_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimesheetRoster">
+          <End Role="Rosters" Type="Self.Rosters" Multiplicity="1" />
+          <End Role="Timesheets" Type="Self.Timesheets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rosters">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Timesheets">
+              <PropertyRef Name="Roster_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimesheetUserProfile">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="0..1" />
+          <End Role="Timesheets" Type="Self.Timesheets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Timesheets">
+              <PropertyRef Name="ApprovedBy_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfileEmployee">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="0..1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="UserProfile_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfileEmployerRequest">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="EmployerRequests" Type="Self.EmployerRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployerRequests">
+              <PropertyRef Name="UserProfile_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfileExternalShiftRequest">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="0..1" />
+          <End Role="ExternalShiftRequests" Type="Self.ExternalShiftRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExternalShiftRequests">
+              <PropertyRef Name="CreatedBy_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfileOtherQualification">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="OtherQualifications" Type="Self.OtherQualifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OtherQualifications">
+              <PropertyRef Name="UserProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfileRecurringCalendarEvent">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="Schedules" Type="Self.Schedules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schedules">
+              <PropertyRef Name="UserProfile_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfiletblUserQualification">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="UserQualifications" Type="Self.UserQualifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserQualifications">
+              <PropertyRef Name="UserProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfileUserPreferences">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="UserPreferences" Type="Self.UserPreferences" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserPreferences">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfileUserSkills">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="UserSkills" Type="Self.UserSkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSkills">
+              <PropertyRef Name="UserProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfilewebpages_OAuthMembership">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="security_OAuthMembership" Type="Self.security_OAuthMembership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="security_OAuthMembership">
+              <PropertyRef Name="UserProfile_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfileWorkHistory">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="WorkHistories" Type="Self.WorkHistories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkHistories">
+              <PropertyRef Name="UserProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRecommendationsUserProfile_UserRecommended">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="UserRecommendations" Type="Self.UserRecommendations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRecommendations">
+              <PropertyRef Name="UserProfileUserRecommended_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRecommendationsUserProfile_UserRecommendedBy">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="UserRecommendations" Type="Self.UserRecommendations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRecommendations">
+              <PropertyRef Name="UserProfileUserRecommendedBy_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSkillEndorsementsUserProfile_UserBeingRecommended">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="UserSkillEndorsements" Type="Self.UserSkillEndorsements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSkillEndorsements">
+              <PropertyRef Name="UserProfileUserBeingRecommended_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSkillEndorsementsUserProfile_UserRecommendedBY">
+          <End Role="UserProfiles" Type="Self.UserProfiles" Multiplicity="1" />
+          <End Role="UserSkillEndorsements" Type="Self.UserSkillEndorsements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSkillEndorsements">
+              <PropertyRef Name="UserProfileUserRecommendedBY_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSkillEndorsementsUserSkills">
+          <End Role="UserSkills" Type="Self.UserSkills" Multiplicity="1" />
+          <End Role="UserSkillEndorsements" Type="Self.UserSkillEndorsements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSkills">
+              <PropertyRef Name="UserSkillId" />
+            </Principal>
+            <Dependent Role="UserSkillEndorsements">
+              <PropertyRef Name="UserSkill_UserSkillId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DataModelStoreContainer">
+          <EntitySet Name="Businesses" EntityType="Self.Businesses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BusinessLocations" EntityType="Self.BusinessLocations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BusinessPreferences" EntityType="Self.BusinessPreferences" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BusinessTypes" EntityType="Self.BusinessTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeRequests" EntityType="Self.EmployeeRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeRole" EntityType="Self.EmployeeRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployerRequests" EntityType="Self.EmployerRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExternalShiftBroadcasts" EntityType="Self.ExternalShiftBroadcasts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExternalShiftQualifications" EntityType="Self.ExternalShiftQualifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExternalShiftRequests" EntityType="Self.ExternalShiftRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExternalShiftSkills" EntityType="Self.ExternalShiftSkills" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IndustrySkills" EntityType="Self.IndustrySkills" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IndustryTypes" EntityType="Self.IndustryTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InternalLocations" EntityType="Self.InternalLocations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ManagerBusinessLocations" EntityType="Self.ManagerBusinessLocations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OtherQualifications" EntityType="Self.OtherQualifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentDetails" EntityType="Self.PaymentDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Qualificationslookups" EntityType="Self.Qualificationslookups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecurringShiftChangeRequests" EntityType="Self.RecurringShiftChangeRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rosters" EntityType="Self.Rosters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schedules" EntityType="Self.Schedules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="security_Membership" EntityType="Self.security_Membership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="security_OAuthMembership" EntityType="Self.security_OAuthMembership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="security_Role" EntityType="Self.security_Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="security_UsersInRoles" EntityType="Self.security_UsersInRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShiftBlocks" EntityType="Self.ShiftBlocks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShiftChangeRequests" EntityType="Self.ShiftChangeRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Shifts" EntityType="Self.Shifts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShiftTemplates" EntityType="Self.ShiftTemplates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimeCards" EntityType="Self.TimeCards" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimesheetEntries" EntityType="Self.TimesheetEntries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Timesheets" EntityType="Self.Timesheets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPreferences" EntityType="Self.UserPreferences" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserProfiles" EntityType="Self.UserProfiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserQualifications" EntityType="Self.UserQualifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRecommendations" EntityType="Self.UserRecommendations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSkillEndorsements" EntityType="Self.UserSkillEndorsements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSkills" EntityType="Self.UserSkills" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkHistories" EntityType="Self.WorkHistories" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BusinessBusinessLocation" Association="Self.FK_BusinessBusinessLocation">
+            <End Role="Businesses" EntitySet="Businesses" />
+            <End Role="BusinessLocations" EntitySet="BusinessLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BusinessBusinessPreferences" Association="Self.FK_BusinessBusinessPreferences">
+            <End Role="BusinessLocations" EntitySet="BusinessLocations" />
+            <End Role="BusinessPreferences" EntitySet="BusinessPreferences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BusinessLocationEmployee" Association="Self.FK_BusinessLocationEmployee">
+            <End Role="BusinessLocations" EntitySet="BusinessLocations" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BusinessLocationEmployeeRequest" Association="Self.FK_BusinessLocationEmployeeRequest">
+            <End Role="BusinessLocations" EntitySet="BusinessLocations" />
+            <End Role="EmployeeRequests" EntitySet="EmployeeRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BusinessLocationEmployerRequest" Association="Self.FK_BusinessLocationEmployerRequest">
+            <End Role="BusinessLocations" EntitySet="BusinessLocations" />
+            <End Role="EmployerRequests" EntitySet="EmployerRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BusinessLocationInternalLocation" Association="Self.FK_BusinessLocationInternalLocation">
+            <End Role="BusinessLocations" EntitySet="BusinessLocations" />
+            <End Role="InternalLocations" EntitySet="InternalLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BusinessLocationPaymentDetails" Association="Self.FK_BusinessLocationPaymentDetails">
+            <End Role="BusinessLocations" EntitySet="BusinessLocations" />
+            <End Role="PaymentDetails" EntitySet="PaymentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BusinessLocationRoster" Association="Self.FK_BusinessLocationRoster">
+            <End Role="BusinessLocations" EntitySet="BusinessLocations" />
+            <End Role="Rosters" EntitySet="Rosters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BusinessLocationShiftTemplate" Association="Self.FK_BusinessLocationShiftTemplate">
+            <End Role="BusinessLocations" EntitySet="BusinessLocations" />
+            <End Role="ShiftTemplates" EntitySet="ShiftTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BusinessLocationTimeCard" Association="Self.FK_BusinessLocationTimeCard">
+            <End Role="BusinessLocations" EntitySet="BusinessLocations" />
+            <End Role="TimeCards" EntitySet="TimeCards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BusinessRole" Association="Self.FK_BusinessRole">
+            <End Role="Businesses" EntitySet="Businesses" />
+            <End Role="Roles" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BusinessShiftBlock" Association="Self.FK_BusinessShiftBlock">
+            <End Role="BusinessLocations" EntitySet="BusinessLocations" />
+            <End Role="ShiftBlocks" EntitySet="ShiftBlocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BusinessTypeBusiness" Association="Self.FK_BusinessTypeBusiness">
+            <End Role="BusinessTypes" EntitySet="BusinessTypes" />
+            <End Role="Businesses" EntitySet="Businesses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeEmployeeRequest" Association="Self.FK_EmployeeEmployeeRequest">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="EmployeeRequests" EntitySet="EmployeeRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeEmployerRequest" Association="Self.FK_EmployeeEmployerRequest">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="EmployerRequests" EntitySet="EmployerRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeePaymentDetails" Association="Self.FK_EmployeePaymentDetails">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="PaymentDetails" EntitySet="PaymentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeRecurringShiftChangeRequest" Association="Self.FK_EmployeeRecurringShiftChangeRequest">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="RecurringShiftChangeRequests" EntitySet="RecurringShiftChangeRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeRequestUserProfile" Association="Self.FK_EmployeeRequestUserProfile">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="EmployeeRequests" EntitySet="EmployeeRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeRole_Employee" Association="Self.FK_EmployeeRole_Employee">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="EmployeeRole" EntitySet="EmployeeRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeRole_Role" Association="Self.FK_EmployeeRole_Role">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="EmployeeRole" EntitySet="EmployeeRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeShift" Association="Self.FK_EmployeeShift">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Shifts" EntitySet="Shifts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeTimeCard" Association="Self.FK_EmployeeTimeCard">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="TimeCards" EntitySet="TimeCards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeTimeCard1" Association="Self.FK_EmployeeTimeCard1">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="TimeCards" EntitySet="TimeCards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExternalShiftBroadcastShift" Association="Self.FK_ExternalShiftBroadcastShift">
+            <End Role="ExternalShiftBroadcasts" EntitySet="ExternalShiftBroadcasts" />
+            <End Role="Shifts" EntitySet="Shifts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExternalShiftBroadcastShiftQualification" Association="Self.FK_ExternalShiftBroadcastShiftQualification">
+            <End Role="ExternalShiftBroadcasts" EntitySet="ExternalShiftBroadcasts" />
+            <End Role="ExternalShiftQualifications" EntitySet="ExternalShiftQualifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExternalShiftBroadcastShiftSkills" Association="Self.FK_ExternalShiftBroadcastShiftSkills">
+            <End Role="ExternalShiftBroadcasts" EntitySet="ExternalShiftBroadcasts" />
+            <End Role="ExternalShiftSkills" EntitySet="ExternalShiftSkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExternalShiftRequestEmployee1" Association="Self.FK_ExternalShiftRequestEmployee1">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="ExternalShiftRequests" EntitySet="ExternalShiftRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExternalShiftRequestExternalShiftBroadcast" Association="Self.FK_ExternalShiftRequestExternalShiftBroadcast">
+            <End Role="ExternalShiftBroadcasts" EntitySet="ExternalShiftBroadcasts" />
+            <End Role="ExternalShiftRequests" EntitySet="ExternalShiftRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IndustrySkillsShiftSkills" Association="Self.FK_IndustrySkillsShiftSkills">
+            <End Role="IndustrySkills" EntitySet="IndustrySkills" />
+            <End Role="ExternalShiftSkills" EntitySet="ExternalShiftSkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IndustrySkillsUserSkills" Association="Self.FK_IndustrySkillsUserSkills">
+            <End Role="IndustrySkills" EntitySet="IndustrySkills" />
+            <End Role="UserSkills" EntitySet="UserSkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IndustryTypesBusinessType" Association="Self.FK_IndustryTypesBusinessType">
+            <End Role="IndustryTypes" EntitySet="IndustryTypes" />
+            <End Role="BusinessTypes" EntitySet="BusinessTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IndustryTypesIndustrialSkills" Association="Self.FK_IndustryTypesIndustrialSkills">
+            <End Role="IndustryTypes" EntitySet="IndustryTypes" />
+            <End Role="IndustrySkills" EntitySet="IndustrySkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IndustryTypestblQualificationslookup" Association="Self.FK_IndustryTypestblQualificationslookup">
+            <End Role="IndustryTypes" EntitySet="IndustryTypes" />
+            <End Role="Qualificationslookups" EntitySet="Qualificationslookups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IndustryTypesUserProfile" Association="Self.FK_IndustryTypesUserProfile">
+            <End Role="IndustryTypes" EntitySet="IndustryTypes" />
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InternalLocationShift" Association="Self.FK_InternalLocationShift">
+            <End Role="InternalLocations" EntitySet="InternalLocations" />
+            <End Role="Shifts" EntitySet="Shifts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ManagerBusinessLocation_BusinessLocation" Association="Self.FK_ManagerBusinessLocation_BusinessLocation">
+            <End Role="BusinessLocations" EntitySet="BusinessLocations" />
+            <End Role="ManagerBusinessLocations" EntitySet="ManagerBusinessLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ManagerBusinessLocation_Manager" Association="Self.FK_ManagerBusinessLocation_Manager">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="ManagerBusinessLocations" EntitySet="ManagerBusinessLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ManagerEmployerRequest" Association="Self.FK_ManagerEmployerRequest">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="EmployerRequests" EntitySet="EmployerRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MembershipUserProfile" Association="Self.FK_MembershipUserProfile">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="security_Membership" EntitySet="security_Membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MessagesUserProfile_MessagesFrom" Association="Self.FK_MessagesUserProfile_MessagesFrom">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="Messages" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MessagesUserProfile_MessagesTo" Association="Self.FK_MessagesUserProfile_MessagesTo">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="Messages" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QualificationslookupShiftQualification" Association="Self.FK_QualificationslookupShiftQualification">
+            <End Role="Qualificationslookups" EntitySet="Qualificationslookups" />
+            <End Role="ExternalShiftQualifications" EntitySet="ExternalShiftQualifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleShift" Association="Self.FK_RoleShift">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Shifts" EntitySet="Shifts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RosterShift" Association="Self.FK_RosterShift">
+            <End Role="Rosters" EntitySet="Rosters" />
+            <End Role="Shifts" EntitySet="Shifts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RosterTimeCard" Association="Self.FK_RosterTimeCard">
+            <End Role="Rosters" EntitySet="Rosters" />
+            <End Role="TimeCards" EntitySet="TimeCards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_security_UsersInRole_security_Role" Association="Self.FK_security_UsersInRole_security_Role">
+            <End Role="security_Role" EntitySet="security_Role" />
+            <End Role="security_UsersInRoles" EntitySet="security_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_security_UsersInRole_UserProfile" Association="Self.FK_security_UsersInRole_UserProfile">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="security_UsersInRoles" EntitySet="security_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShiftBlockRole" Association="Self.FK_ShiftBlockRole">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="ShiftBlocks" EntitySet="ShiftBlocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShiftChangeRequestEmployee" Association="Self.FK_ShiftChangeRequestEmployee">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="ShiftChangeRequests" EntitySet="ShiftChangeRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShiftChangeRequestEmployee1" Association="Self.FK_ShiftChangeRequestEmployee1">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="ShiftChangeRequests" EntitySet="ShiftChangeRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShiftShiftChangeRequest" Association="Self.FK_ShiftShiftChangeRequest">
+            <End Role="Shifts" EntitySet="Shifts" />
+            <End Role="ShiftChangeRequests" EntitySet="ShiftChangeRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShiftShiftTemplate" Association="Self.FK_ShiftShiftTemplate">
+            <End Role="ShiftTemplates" EntitySet="ShiftTemplates" />
+            <End Role="Shifts" EntitySet="Shifts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShiftTemplateEmployee" Association="Self.FK_ShiftTemplateEmployee">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="ShiftTemplates" EntitySet="ShiftTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShiftTemplateInternalLocation" Association="Self.FK_ShiftTemplateInternalLocation">
+            <End Role="InternalLocations" EntitySet="InternalLocations" />
+            <End Role="ShiftTemplates" EntitySet="ShiftTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShiftTemplateRecurringShiftChangeRequest" Association="Self.FK_ShiftTemplateRecurringShiftChangeRequest">
+            <End Role="ShiftTemplates" EntitySet="ShiftTemplates" />
+            <End Role="RecurringShiftChangeRequests" EntitySet="RecurringShiftChangeRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShiftTemplateRole" Association="Self.FK_ShiftTemplateRole">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="ShiftTemplates" EntitySet="ShiftTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShiftTimeCard" Association="Self.FK_ShiftTimeCard">
+            <End Role="Shifts" EntitySet="Shifts" />
+            <End Role="TimeCards" EntitySet="TimeCards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblQualificationslookuptblUserQualification" Association="Self.FK_tblQualificationslookuptblUserQualification">
+            <End Role="Qualificationslookups" EntitySet="Qualificationslookups" />
+            <End Role="UserQualifications" EntitySet="UserQualifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimesheetEntryTimeCard" Association="Self.FK_TimesheetEntryTimeCard">
+            <End Role="TimeCards" EntitySet="TimeCards" />
+            <End Role="TimesheetEntries" EntitySet="TimesheetEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimesheetEntryUserProfile" Association="Self.FK_TimesheetEntryUserProfile">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="TimesheetEntries" EntitySet="TimesheetEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimesheetRoster" Association="Self.FK_TimesheetRoster">
+            <End Role="Rosters" EntitySet="Rosters" />
+            <End Role="Timesheets" EntitySet="Timesheets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimesheetUserProfile" Association="Self.FK_TimesheetUserProfile">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="Timesheets" EntitySet="Timesheets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfileEmployee" Association="Self.FK_UserProfileEmployee">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfileEmployerRequest" Association="Self.FK_UserProfileEmployerRequest">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="EmployerRequests" EntitySet="EmployerRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfileExternalShiftRequest" Association="Self.FK_UserProfileExternalShiftRequest">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="ExternalShiftRequests" EntitySet="ExternalShiftRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfileOtherQualification" Association="Self.FK_UserProfileOtherQualification">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="OtherQualifications" EntitySet="OtherQualifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfileRecurringCalendarEvent" Association="Self.FK_UserProfileRecurringCalendarEvent">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="Schedules" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfiletblUserQualification" Association="Self.FK_UserProfiletblUserQualification">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="UserQualifications" EntitySet="UserQualifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfileUserPreferences" Association="Self.FK_UserProfileUserPreferences">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="UserPreferences" EntitySet="UserPreferences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfileUserSkills" Association="Self.FK_UserProfileUserSkills">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="UserSkills" EntitySet="UserSkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfilewebpages_OAuthMembership" Association="Self.FK_UserProfilewebpages_OAuthMembership">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="security_OAuthMembership" EntitySet="security_OAuthMembership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfileWorkHistory" Association="Self.FK_UserProfileWorkHistory">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="WorkHistories" EntitySet="WorkHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRecommendationsUserProfile_UserRecommended" Association="Self.FK_UserRecommendationsUserProfile_UserRecommended">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="UserRecommendations" EntitySet="UserRecommendations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRecommendationsUserProfile_UserRecommendedBy" Association="Self.FK_UserRecommendationsUserProfile_UserRecommendedBy">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="UserRecommendations" EntitySet="UserRecommendations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSkillEndorsementsUserProfile_UserBeingRecommended" Association="Self.FK_UserSkillEndorsementsUserProfile_UserBeingRecommended">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="UserSkillEndorsements" EntitySet="UserSkillEndorsements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSkillEndorsementsUserProfile_UserRecommendedBY" Association="Self.FK_UserSkillEndorsementsUserProfile_UserRecommendedBY">
+            <End Role="UserProfiles" EntitySet="UserProfiles" />
+            <End Role="UserSkillEndorsements" EntitySet="UserSkillEndorsements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSkillEndorsementsUserSkills" Association="Self.FK_UserSkillEndorsementsUserSkills">
+            <End Role="UserSkills" EntitySet="UserSkills" />
+            <End Role="UserSkillEndorsements" EntitySet="UserSkillEndorsements" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -2249,7 +2249,7 @@
           <NavigationProperty Name="UserQualifications" Relationship="DataModel.UserProfiletblUserQualification" FromRole="UserProfile" ToRole="tblUserQualification" />
           <NavigationProperty Name="OtherQualifications" Relationship="DataModel.UserProfileOtherQualification" FromRole="UserProfile" ToRole="OtherQualification" />
           <NavigationProperty Name="UserSkills" Relationship="DataModel.UserProfileUserSkills" FromRole="UserProfile" ToRole="UserSkills" />
-          <Property Name="DateofBirth" Type="DateTime" Nullable="true" />
+          <Property Name="DateofBirth" Type="DateTime" Nullable="true" Precision="3" />
           <Property Name="IsRegisteredExternal" Type="Boolean" Nullable="true" />
           <NavigationProperty Name="ExternalShiftRequestsCreatedBy" Relationship="DataModel.UserProfileExternalShiftRequest" FromRole="UserProfile" ToRole="ExternalShiftRequest" />
           <NavigationProperty Name="UserRecommendationUserRecommendedBy" Relationship="DataModel.UserRecommendationsUserProfile_UserRecommendedBy" FromRole="UserProfile" ToRole="UserRecommendations" />
@@ -2814,7 +2814,7 @@
           <Property Name="workEndDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="UserProfile" Relationship="DataModel.UserProfileWorkHistory" FromRole="WorkHistory" ToRole="UserProfile" />
           <Property Name="UserProfileId" Type="Guid" Nullable="false" />
-          <Property Name="UserRole" Type="String" Nullable="false" />
+          <Property Name="UserRole" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
         </EntityType>
         <Association Name="UserProfileWorkHistory">
           <End Type="DataModel.UserProfile" Role="UserProfile" Multiplicity="1" />
@@ -2833,7 +2833,7 @@
             <PropertyRef Name="QualificationId" />
           </Key>
           <Property Name="QualificationId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Name="QualificationName" Type="String" Nullable="false" MaxLength="200" />
+          <Property Name="QualificationName" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="IndustryType" Relationship="DataModel.IndustryTypestblQualificationslookup" FromRole="tblQualificationslookup" ToRole="IndustryTypes" />
           <Property Name="IndustryTypesID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="UserQualifications" Relationship="DataModel.tblQualificationslookuptblUserQualification" FromRole="tblQualificationslookup" ToRole="tblUserQualification" />
@@ -2890,7 +2890,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="UserProfile" Relationship="DataModel.UserProfileOtherQualification" FromRole="OtherQualification" ToRole="UserProfile" />
           <Property Name="UserProfileId" Type="Guid" Nullable="false" />
         </EntityType>
@@ -2911,7 +2911,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="IndustryType" Relationship="DataModel.IndustryTypesIndustrialSkills" FromRole="IndustrialSkills" ToRole="IndustryTypes" />
           <Property Name="IndustryTypesID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="UserSkills" Relationship="DataModel.IndustrySkillsUserSkills" FromRole="IndustrySkills" ToRole="UserSkills" />
@@ -2969,8 +2969,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Name="Description" Type="String" Nullable="false" />
-          <Property Name="Wage" Type="Decimal" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Wage" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <NavigationProperty Name="Shifts" Relationship="DataModel.ExternalShiftBroadcastShift" FromRole="ExternalShiftBroadcast" ToRole="Shift" />
           <NavigationProperty Name="ShiftQualifications" Relationship="DataModel.ExternalShiftBroadcastShiftQualification" FromRole="ExternalShiftBroadcast" ToRole="ShiftQualification" />
           <NavigationProperty Name="ShiftSkills" Relationship="DataModel.ExternalShiftBroadcastShiftSkills" FromRole="ExternalShiftBroadcast" ToRole="ShiftSkills" />
@@ -3063,12 +3063,12 @@
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Type" Type="DataModel.ExternalShiftRequestType" Nullable="true" />
-          <Property Name="Reason" Type="String" Nullable="true" />
+          <Property Name="Reason" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Status" Type="DataModel.RequestStatus" Nullable="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="true" />
-          <Property Name="ActionedDate" Type="DateTime" Nullable="true" />
-          <Property Name="ActionedComment" Type="String" Nullable="true" />
-          <Property Name="ExternalShiftMessage" Type="String" Nullable="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="true" Precision="3" />
+          <Property Name="ActionedDate" Type="DateTime" Nullable="true" Precision="3" />
+          <Property Name="ActionedComment" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ExternalShiftMessage" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="ActionedBy" Relationship="DataModel.ExternalShiftRequestEmployee1" FromRole="ExternalShiftRequest" ToRole="Employee" />
           <NavigationProperty Name="ExternalShiftBroadcast" Relationship="DataModel.ExternalShiftRequestExternalShiftBroadcast" FromRole="ExternalShiftRequest" ToRole="ExternalShiftBroadcast" />
           <NavigationProperty Name="CreatedBy" Relationship="DataModel.UserProfileExternalShiftRequest" FromRole="ExternalShiftRequest" ToRole="UserProfile" />
@@ -3141,8 +3141,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Name="Message" Type="String" Nullable="true" />
-          <Property Name="DateSent" Type="DateTime" Nullable="true" />
+          <Property Name="Message" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="DateSent" Type="DateTime" Nullable="true" Precision="3" />
           <NavigationProperty Name="UserProfilesMessageFrom" Relationship="DataModel.MessagesUserProfile_MessagesFrom" FromRole="Messages" ToRole="UserProfile" />
           <NavigationProperty Name="UserProfileMessageTo" Relationship="DataModel.MessagesUserProfile_MessagesTo" FromRole="Messages" ToRole="UserProfile" />
         </EntityType>
@@ -4119,7 +4119,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
-        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
       </DesignerInfoPropertySet>
     </edmx:Options>
