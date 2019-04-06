@@ -8,7 +8,7 @@ The Project Rooster application is intended to enhance the efficiency of small t
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
 
-###Database
+### Database
 
 Rooster has been designed to leverage a SQL Server Azure database, however the Open Source codebase 
 has been written to leverage an inbuilt SQL Server Express instance in order to enable rapid startup and debugging of the application direct from a prebuilt Rooster.mdf file containing test data.
