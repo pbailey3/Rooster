@@ -12,7 +12,7 @@ namespace WebUI.Tests.Common
         {
             try
             {
-                MailHelper.SendConfirmationMail("paulbaileyoz@gmail.com", "firstName", "http://ConfirmatoinURL");
+                MailHelper.SendConfirmationMail("youremail@gmail.com", "firstName", "http://ConfirmatoinURL");
             }
             catch
             {
